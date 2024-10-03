@@ -6,7 +6,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/strider3039/Algorithm-Visualizer/build/Algorithm-Visualizer",
+            "program": "${workspaceFolder}/build/Algorithm-Visualizer",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
