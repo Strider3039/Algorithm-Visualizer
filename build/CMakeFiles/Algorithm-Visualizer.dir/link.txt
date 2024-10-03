@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -g CMakeFiles/Algorithm-Visualizer.dir/main.cpp.o -o Algorithm-Visualizer 
