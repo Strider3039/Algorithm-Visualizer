@@ -1,0 +1,3 @@
+/home/strider3039/Algorithm-Visualizer/build/CMakeFiles/Algorithm-Visualizer.dir
+/home/strider3039/Algorithm-Visualizer/build/CMakeFiles/edit_cache.dir
+/home/strider3039/Algorithm-Visualizer/build/CMakeFiles/rebuild_cache.dir
