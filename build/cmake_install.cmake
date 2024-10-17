@@ -1,4 +1,4 @@
-# Install script for directory: /home/strider3039/Algorithm-Visualizer
+# Install script for directory: /mnt/c/Users/cchas/OneDrive/Desktop/CS_SideProjects/Algorithm-Visualizer
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/strider3039/Algorithm-Visualizer/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/c/Users/cchas/OneDrive/Desktop/CS_SideProjects/Algorithm-Visualizer/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
