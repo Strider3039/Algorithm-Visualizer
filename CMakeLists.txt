@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall")
 set(CMAKE_BUILD_TYPE Debug)
 
-add_executable(Algorithm-Visualizer main.cpp listContainerBase.hpp linkedList.hpp)
+add_executable(Algorithm-Visualizer main.cpp linkedList.hpp Queue.hpp)

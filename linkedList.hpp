@@ -7,54 +7,47 @@ template <typename T>
 class LinkedList
 {
 public:
-    // constructor
-    LinkedList() : pFront(nullptr){}
-
-    // destructor
+    LinkedList() : pFront(nullptr), pBack(nullptr){}
     ~LinkedList()
     {
         removeAll(pFront);
     }
 
-    // inserts at front of list. 
-    void insert(T elementToInsert){
-        if (pFront == nullptr)
+    virtual void insert(T elementToInsert){
+        if (pFront == nullptr)  // list is empty
         {
-            // list is empty
             node* newNode = new node{elementToInsert, nullptr};
 
-            pFront = newNode;        
+            pFront = newNode;   
+            pBack = newNode;
+                
             std:: cout << "inserting " << elementToInsert << std::endl;
         }
         else
         {
-            // newNode.pNext = pFront.
             node* newNode = new node{elementToInsert, pFront};
-
-            // set pFront to newNode (the new front of the list)
             pFront = newNode;
         }
     } 
+
+    // remove selected
     virtual void remove(T elementToRemove){
-        //  check for empty list
         if (pFront == nullptr)
         {
             std::cout << "empty" << std::endl;
             return;
         }
+
         node* pCur = pFront;
         
-        //  check edge case: first node in list is target element
         if (pCur->element == elementToRemove)
         {
             pFront = pCur->pNext;
             std::cout << "deleting " << elementToRemove << std::endl;
             return delete pCur;
         }
-        //  iterate throug list 
         while (pCur->pNext != nullptr)
         {
-            //  element found
             if (pCur->pNext->element == elementToRemove)
             {
                 node* pTemp = pCur->pNext;
@@ -67,7 +60,16 @@ public:
         return;
     }
 
-private:
+    // remove from back
+    T remove()
+    {
+        if (pBack == nullptr)
+        {
+            // TODO - remove function that removes from and updates pBack
+        }
+    }
+
+protected:
 
     struct node
     {
@@ -79,6 +81,7 @@ private:
     }; 
 
     node* pFront; 
+    node* pBack;
 
     virtual void removeAll(node*& pCur){
         if (pCur == nullptr)
