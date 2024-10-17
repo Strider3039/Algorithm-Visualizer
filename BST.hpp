@@ -38,6 +38,10 @@ public:
         return treeSize(root);
     }
 
+    inline int treeHeight() {
+        return treeHeight(root);
+    }
+
     inline void printInOrder() {
         printInOrder(root);
     }
@@ -49,7 +53,7 @@ public:
         printPreOrder(root);
     }
 
-private:
+protected:
 
     struct BSTNode 
     {
@@ -71,7 +75,8 @@ private:
     void remove(T removeData, BSTNode*& pNode);
     bool contains(T data, BSTNode* pNode);
     bool isEmpty(BSTNode* pNode);
-    
+    int treeSize(BSTNode* pNode);
+    int treeHeight(BSTNode* pNode);
     void printInOrder(BSTNode* pNode);
     void printPostOrder(BSTNode* pNode);
     void printPreOrder(BSTNode* pNode);
@@ -141,7 +146,7 @@ void BST<T>::remove(T removeData, BSTNode*& pNode)
             pNode->element = findMin(pNode->pRight);
             remove(pNode->element, pNode->pRight);
         }
-        else 
+        else // one child
         {
             BSTNode* deleteNode = pNode;
 
@@ -174,7 +179,28 @@ bool BST<T>::contains(T data, BSTNode* pNode)
 template <class T>
 bool BST<T>::isEmpty(BSTNode* pNode)
 {
-    return (root == nullptr);
+    return (pNode == nullptr);
+}
+
+template <class T>
+int BST<T>::treeSize(BSTNode* pNode)
+{
+    if (isEmpty(pNode)) return 0;
+
+    int size = treeSize(pNode->pLeft) + treeSize(pNode->pRight);
+
+    return 1 + size;
+
+}
+
+template <class T>
+int BST<T>::treeHeight(BSTNode* pNode)
+{
+    if (isEmpty(pNode)) return -1;
+
+    int maxHeight = std::max(treeHeight(pNode->pLeft), treeHeight(pNode->pRight));
+
+    return 1 + maxHeight;
 }
 
 
