@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/mnt/c/Users/cchas/OneDrive/Desktop/CS_SideProjects/Algorithm-Visualizer/main.cpp" "CMakeFiles/Algorithm-Visualizer.dir/main.cpp.o" "gcc" "CMakeFiles/Algorithm-Visualizer.dir/main.cpp.o.d"
+  "/home/strider3039/Algorithm-Visualizer/main.cpp" "CMakeFiles/Algorithm-Visualizer.dir/main.cpp.o" "gcc" "CMakeFiles/Algorithm-Visualizer.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links.

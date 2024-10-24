@@ -11,10 +11,19 @@ public:
     BST() : root(nullptr) {};
 
     inline T findMin() {
+        if (root == NULL) {
+            throw std::underflow_error("Tree is empty");
+        }
+
         return findMin(root)->element;
     }
 
     inline T findMax(){
+
+        if (root == NULL) {
+            throw std::underflow_error("Tree is empty");
+        }
+
         return findMax(root)->element;
     }
 
@@ -55,37 +64,37 @@ public:
 
 protected:
 
-    struct BSTNode 
+    struct treeNode 
     {
         T element;
-        BSTNode* pLeft;
-        BSTNode* pRight;
+        treeNode* pLeft;
+        treeNode* pRight;
         
-        BSTNode(const T& element, BSTNode* left, BSTNode* right) : element(element), pLeft(left), pRight(right) {};
+        treeNode(const T& element, treeNode* pLeft, treeNode* pRight) : element(element), pLeft(pLeft), pRight(pRight) {};
 
-        BSTNode(const T&& element, BSTNode* left, BSTNode* right) : element(std::move(element)), pLeft(left), pRight(right) {};
+        treeNode(const T&& element, treeNode* pLeft, treeNode* pRight) : element(std::move(element)), pLeft(pLeft), pRight(pRight) {};
 
 
     };
 
-    BSTNode* root;
-    typename BST<T>::BSTNode* findMin(BSTNode* pNode);
-    typename BST<T>::BSTNode* findMax(BSTNode* pNode);
-    void insert(T insertData, BSTNode*& pNode);
-    void remove(T removeData, BSTNode*& pNode);
-    bool contains(T data, BSTNode* pNode);
-    bool isEmpty(BSTNode* pNode);
-    int treeSize(BSTNode* pNode);
-    int treeHeight(BSTNode* pNode);
-    void printInOrder(BSTNode* pNode);
-    void printPostOrder(BSTNode* pNode);
-    void printPreOrder(BSTNode* pNode);
+    treeNode* root;
+    typename BST<T>::treeNode* findMin(treeNode* pNode);
+    typename BST<T>::treeNode* findMax(treeNode* pNode);
+    void insert(T insertData, treeNode*& pNode);
+    void remove(T removeData, treeNode*& pNode);
+    bool contains(T data, treeNode* pNode);
+    bool isEmpty(treeNode* pNode);
+    int treeSize(treeNode* pNode);
+    int treeHeight(treeNode* pNode);
+    void printInOrder(treeNode* pNode);
+    void printPostOrder(treeNode* pNode);
+    void printPreOrder(treeNode* pNode);
 
 
 };
 
 template <class T>
-typename BST<T>::BSTNode* BST<T>::findMin(BSTNode* pNode)
+typename BST<T>::treeNode* BST<T>::findMin(treeNode* pNode)
 {
     if (pNode == nullptr) return nullptr;
     
@@ -96,7 +105,7 @@ typename BST<T>::BSTNode* BST<T>::findMin(BSTNode* pNode)
 }
 
 template <class T>
-typename BST<T>::BSTNode* BST<T>::findMax(BSTNode* pNode)
+typename BST<T>::treeNode* BST<T>::findMax(treeNode* pNode)
 {
     if (pNode == nullptr) return nullptr;
 
@@ -106,18 +115,18 @@ typename BST<T>::BSTNode* BST<T>::findMax(BSTNode* pNode)
 }
 
 template <class T>
-void BST<T>::insert(T insertData, BSTNode*& pNode)
+void BST<T>::insert(T insertData, treeNode*& pNode)
 {
     if (pNode == nullptr) 
     {
-        pNode = new BSTNode(insertData, nullptr, nullptr);
+        pNode = new treeNode(insertData, nullptr, nullptr);
     }
 
     if (insertData < pNode->element) 
     {
         insert(insertData, pNode->pLeft);
     }
-    else 
+    else if (insertData > pNode->element)
     {
         insert(insertData, pNode->pRight);
     }
@@ -125,7 +134,7 @@ void BST<T>::insert(T insertData, BSTNode*& pNode)
 }
 
 template <class T>
-void BST<T>::remove(T removeData, BSTNode*& pNode)
+void BST<T>::remove(T removeData, treeNode*& pNode)
 {
     if (pNode == nullptr) return;
 
@@ -143,14 +152,14 @@ void BST<T>::remove(T removeData, BSTNode*& pNode)
         if (pNode->pLeft != nullptr && pNode->pRight != nullptr) // two children
         {
             
-            pNode->element = findMin(pNode->pRight);
+            pNode->element = findMin(pNode->pRight)->element;
             remove(pNode->element, pNode->pRight);
         }
         else // one child
         {
-            BSTNode* deleteNode = pNode;
+            treeNode* deleteNode = pNode;
 
-            pNode = (pNode->right == nullptr) ? pNode->pLeft : pNode->pRight;
+            pNode = (pNode->pRight == nullptr) ? pNode->pLeft : pNode->pRight;
             delete deleteNode;
 
         }
@@ -160,7 +169,7 @@ void BST<T>::remove(T removeData, BSTNode*& pNode)
 }
 
 template <class T>
-bool BST<T>::contains(T data, BSTNode* pNode)
+bool BST<T>::contains(T data, treeNode* pNode)
 {
     if (pNode == nullptr) return false;
 
@@ -177,13 +186,13 @@ bool BST<T>::contains(T data, BSTNode* pNode)
 }
 
 template <class T>
-bool BST<T>::isEmpty(BSTNode* pNode)
+bool BST<T>::isEmpty(treeNode* pNode)
 {
     return (pNode == nullptr);
 }
 
 template <class T>
-int BST<T>::treeSize(BSTNode* pNode)
+int BST<T>::treeSize(treeNode* pNode)
 {
     if (isEmpty(pNode)) return 0;
 
@@ -194,7 +203,7 @@ int BST<T>::treeSize(BSTNode* pNode)
 }
 
 template <class T>
-int BST<T>::treeHeight(BSTNode* pNode)
+int BST<T>::treeHeight(treeNode* pNode)
 {
     if (isEmpty(pNode)) return -1;
 
@@ -205,9 +214,9 @@ int BST<T>::treeHeight(BSTNode* pNode)
 
 
 template <class T>
-void BST<T>::printInOrder(BSTNode* pNode)
+void BST<T>::printInOrder(treeNode* pNode)
 {
-    if (isEmpty()) return;
+    if (pNode == nullptr) return;
 
     printInOrder(pNode->pLeft);
     cout << pNode->element << " ";
@@ -215,9 +224,9 @@ void BST<T>::printInOrder(BSTNode* pNode)
 }
 
 template <class T>
-void BST<T>::printPreOrder(BSTNode* pNode)
+void BST<T>::printPreOrder(treeNode* pNode)
 {
-    if (isEmpty()) return;
+    if (pNode == nullptr) return;
 
     cout << pNode->element << " ";
     printInOrder(pNode->pLeft);
@@ -225,9 +234,9 @@ void BST<T>::printPreOrder(BSTNode* pNode)
 }
 
 template <class T>
-void BST<T>::printPostOrder(BSTNode* pNode)
+void BST<T>::printPostOrder(treeNode* pNode)
 {
-    if (isEmpty()) return;
+    if (pNode == nullptr) return;
 
     printInOrder(pNode->pLeft);
     printInOrder(pNode->pRight);
