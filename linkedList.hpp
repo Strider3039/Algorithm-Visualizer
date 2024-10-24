@@ -13,6 +13,7 @@ public:
         removeAll(pFront);
     }
 
+    // insert at front
     virtual void insert(T elementToInsert){
         if (pFront == nullptr)  // list is empty
         {
@@ -30,8 +31,11 @@ public:
         }
     } 
 
+    // insert at back
+    
+
     // remove selected
-    virtual void remove(T elementToRemove){
+    virtual void remove(T elementToRemove) {
         if (pFront == nullptr)
         {
             std::cout << "empty" << std::endl;
@@ -60,14 +64,7 @@ public:
         return;
     }
 
-    // remove from back
-    T remove()
-    {
-        if (pBack == nullptr)
-        {
-            // TODO - remove function that removes from and updates pBack
-        }
-    }
+
 
 protected:
 
@@ -108,6 +105,18 @@ protected:
     bool isEmpty()
     {
         return pFront == nullptr;
+    }
+
+
+    // remove from back -- used for queue implementation
+    T remove()
+    {
+        if (pBack == nullptr)
+        {
+            // TODO - remove function that removes from and updates pBack
+
+
+        }
     }
 };
 #endif
