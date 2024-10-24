@@ -14,7 +14,7 @@ public:
     }
 
     // insert at front
-    virtual void insert(T elementToInsert){
+    void insertFront(T elementToInsert){
         if (pFront == nullptr)  // list is empty
         {
             node* newNode = new node{elementToInsert, nullptr};
@@ -31,11 +31,27 @@ public:
         }
     } 
 
-    // insert at back
-    
+    // insert at back -- for queue implementation
+    void insertBack(T elementToInsert){
+        if (pBack == nullptr)  // list is empty
+        {
+            node* newNode = new node{elementToInsert, nullptr};
+
+            pFront = newNode;   
+            pBack = newNode;
+                    
+            std:: cout << "inserting " << elementToInsert << std::endl;
+        }
+        else
+        {
+            node* newNode = new node{elementToInsert, nullptr};
+            pBack->pNext = newNode;
+            pBack = newNode;
+        }
+    } 
 
     // remove selected
-    virtual void remove(T elementToRemove) {
+    void removeSelected(T elementToRemove) {
         if (pFront == nullptr)
         {
             std::cout << "empty" << std::endl;
@@ -107,16 +123,20 @@ protected:
         return pFront == nullptr;
     }
 
-
-    // remove from back -- used for queue implementation
-    T remove()
+    // remove from front -- used for queue implementation
+    T removeFront()
     {
-        if (pBack == nullptr)
+        if (pFront == nullptr)
         {
-            // TODO - remove function that removes from and updates pBack
-
-
+            std::cout << "list empty" << std::endl;
+            return T();
         }
+        T temp = pFront->element;
+        node* pTemp = pFront;
+        pFront = pFront->pNext;
+        delete pTemp;
+        return temp;
     }
+ 
 };
 #endif
