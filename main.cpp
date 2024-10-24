@@ -4,14 +4,19 @@
 
 int main(void)
 {
-    Queue<int> queueOBJ;
 
-    queueOBJ.enqueue(5);
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Algorithm Visualizer");
+    
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
 
-    std::cout << queueOBJ.isEmpty() << std::endl;
-    std::cout << queueOBJ.contains(5) << std::endl;
-    std::cout << queueOBJ.contains(7) << std::endl;
-    std::cout << queueOBJ.dequeue() << std::endl;
+        window.clear();
+        window.display();
+    }
 
     return 0;
 }
