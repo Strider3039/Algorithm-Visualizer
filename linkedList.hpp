@@ -80,7 +80,10 @@ public:
         return;
     }
 
-
+    bool isEmpty()
+    {
+        return pFront == nullptr;
+    }
 
 protected:
 
@@ -114,13 +117,9 @@ protected:
             {
                 return true;
             }
+            pCur = pCur->pNext;
         }
         return false;
-    }
-
-    bool isEmpty()
-    {
-        return pFront == nullptr;
     }
 
     // remove from front -- used for queue implementation

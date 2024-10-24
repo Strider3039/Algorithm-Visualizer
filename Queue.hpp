@@ -15,6 +15,11 @@ public:
     {
         return this->removeFront();
     }
+
+    bool contains(T elementToFind)
+    {
+        return this->search(elementToFind);
+    }
     
 private:
     
