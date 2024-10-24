@@ -26,6 +26,7 @@ public:
         }
         else
         {
+            std:: cout << "inserting " << elementToInsert << std::endl;
             node* newNode = new node{elementToInsert, pFront};
             pFront = newNode;
         }
@@ -44,6 +45,7 @@ public:
         }
         else
         {
+            std:: cout << "inserting " << elementToInsert << std::endl;
             node* newNode = new node{elementToInsert, nullptr};
             pBack->pNext = newNode;
             pBack = newNode;
