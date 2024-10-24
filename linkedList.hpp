@@ -1,7 +1,7 @@
 // implementation of template class linked list
 #ifndef LINKEDLIST_HPP 
 #define LINKEDLIST_HPP 
-#include <iostream>
+#include "Header.hpp"
 
 template <typename T>
 class LinkedList
