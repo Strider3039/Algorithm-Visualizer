@@ -1,11 +1,14 @@
 #include "Avl.hpp"
 #include "Stack.hpp"
 #include <SFML/Graphics.hpp>
+#include <X11/Xlib.h>
 
 int main(void)
 {
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Algorithm Visualizer");
+    
+
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Algorithm Visualizer");
     
     while (window.isOpen()) {
         sf::Event event;
