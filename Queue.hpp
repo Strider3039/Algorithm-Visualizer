@@ -16,7 +16,7 @@ public:
         return this->removeFront();
     }
 
-    bool (T elementToFind)
+    bool contains(T elementToFind)
     {
         return this->search(elementToFind);
     }
