@@ -16,3 +16,9 @@ find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
 
 # Link SFML libraries to the executable
 target_link_libraries(Algorithm-Visualizer sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
+
+# Find X11 package
+find_package(X11 REQUIRED)
+
+# Link X11 library
+target_link_libraries(Algorithm-Visualizer ${X11_LIBRARIES})

@@ -6,9 +6,20 @@
 int main(void)
 {
 
+    Display* display = XOpenDisplay(nullptr);
+    if (display == nullptr) {
+        std::cerr << "Cannot open display!" << std::endl;
+        return -1;
+    }
     
+    Screen* screen = DefaultScreenOfDisplay(display);
+    int width = screen->width;
+    int height = screen->height;
 
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Algorithm Visualizer");
+    std::cout << "Screen width: " << width << std::endl;
+    std::cout << "Screen height: " << height << std::endl;
+
+    sf::RenderWindow window(sf::VideoMode(width, height), "Algorithm Visualizer");
     
     while (window.isOpen()) {
         sf::Event event;
