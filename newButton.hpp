@@ -21,7 +21,7 @@ Button()
     box = sf::RectangleShape();
     text = sf::Text();
 }
-Button(std::string _text, sf::Font _font)
+Button(std::string _text, sf::Font& _font)
 {
     // text.setString(_text);
     // text.setFont(_font);
@@ -29,7 +29,7 @@ Button(std::string _text, sf::Font _font)
 
     text = sf::Text(_text, _font, 40);
     text.setFillColor(sf::Color::Red);
-    text.setPosition(sf::Vector2f(500, 500));
+    //text.setPosition(sf::Vector2f(500, 500));
 
     box.setFillColor(sf::Color::Cyan);
     this->centerBoxPos();
@@ -48,8 +48,10 @@ private:
 
 void centerBoxPos()
 {
-    box.setPosition(sf::Vector2f(text.getPosition().x + 10, text.getPosition().y + 10));
+    box.setPosition(sf::Vector2f(500, 500));
     box.setSize(sf::Vector2f(text.getLocalBounds().width + 10, text.getLocalBounds().height + 10));
+
+    
 }
 
 sf::RectangleShape box;
