@@ -1,4 +1,3 @@
-// implementation of template class linked list
 #ifndef LINKEDLIST_HPP 
 #define LINKEDLIST_HPP 
 #include "Header.hpp"

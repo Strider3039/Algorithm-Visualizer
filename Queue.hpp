@@ -1,4 +1,3 @@
-// implementation of queue template class using linkedList members and methods
 #include "linkedList.hpp"
 
 template <typename T>

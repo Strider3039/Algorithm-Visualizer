@@ -1,6 +1,4 @@
 # include "Queue.hpp"
-
-// implementation of stack template class using linkedList members and methods
 #include "linkedList.hpp"
 
 template <typename T>
