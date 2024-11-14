@@ -1,6 +1,7 @@
 // implementation of template class linked list
 #ifndef LINKEDLIST_HPP 
 #define LINKEDLIST_HPP 
+#include <SFML/Graphics.hpp>
 #include "Header.hpp"
 
 template <typename T>
