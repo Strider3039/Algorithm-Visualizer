@@ -1,11 +1,5 @@
 #include "Avl.hpp"
 #include "Stack.hpp"
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window/WindowStyle.hpp>
-#include <X11/Xlib.h>
 #include "newButton.hpp"
 
 int main(void)
@@ -34,7 +28,7 @@ int main(void)
         std::cout << "Failed to load font" << std::endl;
     }
     
-    Button obj("Default string", font);
+    Button obj("Linked List", font);
 
     while (window.isOpen()) {
         sf::Event event;

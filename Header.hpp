@@ -8,6 +8,11 @@
 #include <sstream>
 #include <fstream>
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
+#include <SFML/System.hpp>
+#include <X11/Xlib.h>
+
 
 using std::cin;
 using std::cout;
