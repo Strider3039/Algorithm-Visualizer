@@ -30,7 +30,15 @@ int main(void)
     }
     
     // implement attempt to input object close to center of screen
-    Button obj("Linked List", font, sf::Vector2f(width / 2, height / 2));
+    Button list_button("Linked List", font, sf::Vector2f(width / 2, 3*height / 10));
+    Button queue_button("Queue", font, sf::Vector2f(width / 2, 4*height / 10));
+    Button stack_button("Stack", font, sf::Vector2f(width / 2, 5*height / 10));
+    Button bst_button("Binary Tree", font, sf::Vector2f(width / 2, 6*height / 10));
+    Button avl_button("AVL Tree", font, sf::Vector2f(width / 2, 7*height / 10));
+
+
+
+
     
 
     while (window.isOpen()) {
@@ -42,7 +50,12 @@ int main(void)
                 window.close();
         }
 
-        window.draw(obj); 
+        window.draw(list_button); 
+        window.draw(queue_button); 
+        window.draw(stack_button); 
+        window.draw(bst_button); 
+        window.draw(avl_button); 
+
         window.display();
         window.clear();
 
