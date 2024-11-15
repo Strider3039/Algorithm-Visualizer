@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Header.hpp"
+#include <SFML/System/Vector2.hpp>
 
 
 
@@ -17,7 +18,7 @@ Button()
     text = sf::Text();
 }
 // custom constructor for text and font input
-Button(std::string _text, sf::Font& _font)
+Button(std::string _text, sf::Font& _font, sf::Vector2f position)
 {
 
     text = sf::Text(_text, _font, 30);
@@ -25,7 +26,11 @@ Button(std::string _text, sf::Font& _font)
     box.setFillColor(sf::Color::Black);
     box.setOutlineColor(sf::Color::White);
     box.setOutlineThickness(5);
+    positionVector = position;
+
     this->centerBoxPos();
+
+    
 }
 
 // overwrite the draw function to to draw properly
@@ -42,9 +47,10 @@ private:
 
 void centerBoxPos()
 {
-    // set start position for box and size based on string size (experimental)
-    box.setPosition(sf::Vector2f(500, 500));
+    // set start position to middle of screen for box and size based on string size (experimental)
+    // position is center of screen - half the box size to truely center
     box.setSize(sf::Vector2f(text.getLocalBounds().width + 20, text.getLocalBounds().height + 20));
+    box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
 
     // set the text inside the box relative to size and position (experimental)
     text.setPosition(
@@ -56,5 +62,6 @@ void centerBoxPos()
 
 sf::RectangleShape box;
 sf::Text text;
+sf::Vector2f positionVector;
 
 };

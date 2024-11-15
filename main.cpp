@@ -1,6 +1,7 @@
 #include "Avl.hpp"
 #include "Stack.hpp"
 #include "newButton.hpp"
+#include <SFML/System/Vector2.hpp>
 
 int main(void)
 {
@@ -28,7 +29,9 @@ int main(void)
         std::cout << "Failed to load font" << std::endl;
     }
     
-    Button obj("Linked List", font);
+    // implement attempt to input object close to center of screen
+    Button obj("Linked List", font, sf::Vector2f(width / 2, height / 2));
+    
 
     while (window.isOpen()) {
         sf::Event event;
