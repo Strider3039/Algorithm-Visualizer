@@ -1,6 +1,11 @@
 #pragma once
 
 #include "Header.hpp"
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Cursor.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 class Button : public sf::Drawable
 {
@@ -20,6 +25,7 @@ Button(std::string _text, sf::Font& _font, sf::Vector2f position)
 
     text = sf::Text(_text, _font, 30);
     text.setFillColor(sf::Color::White);
+
     box.setFillColor(sf::Color::Black);
     box.setOutlineColor(sf::Color::White);
     box.setOutlineThickness(5);
@@ -29,6 +35,35 @@ Button(std::string _text, sf::Font& _font, sf::Vector2f position)
 
     
 }
+
+
+/*
+return the global bounds of the button
+*/
+sf::FloatRect _getBounds()
+{
+    return box.getGlobalBounds();
+}
+
+/*
+set the position of the button. updates position vector and centers button.
+*/
+void _setPosititon(sf::Vector2f position)
+{
+    positionVector = position;
+    this->centerBoxPos();
+}
+
+/*
+set color of button/text.
+Application: highlight button when selected
+*/
+void _setColor(sf::Color color)
+{
+    box.setOutlineColor(color);
+    text.setFillColor(color);
+}
+
 
 // overwrite the draw function to to draw properly
 protected:

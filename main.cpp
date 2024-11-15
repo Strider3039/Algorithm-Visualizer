@@ -32,6 +32,7 @@ int main(void)
     
     vector<Button> buttons;
     mainMenuItems(buttons, font, width, height);
+
     
 
     while (window.isOpen()) {
