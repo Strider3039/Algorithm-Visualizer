@@ -1,7 +1,8 @@
 #include "Avl.hpp"
 #include "Stack.hpp"
-#include "newButton.hpp"
+#include "menuItems.hpp"
 #include <SFML/System/Vector2.hpp>
+#include <utility>
 
 int main(void)
 {
@@ -13,8 +14,8 @@ int main(void)
     }
     
     Screen* screen = DefaultScreenOfDisplay(display);
-    int width = screen->width;
-    int height = screen->height;
+    double width = screen->width;
+    double height = screen->height;
 
     std::cout << "Screen width: " << width << std::endl;
     std::cout << "Screen height: " << height << std::endl;
@@ -29,16 +30,8 @@ int main(void)
         std::cout << "Failed to load font" << std::endl;
     }
     
-    // implement attempt to input object close to center of screen
-    Button list_button("Linked List", font, sf::Vector2f(width / 2, 3*height / 10));
-    Button queue_button("Queue", font, sf::Vector2f(width / 2, 4*height / 10));
-    Button stack_button("Stack", font, sf::Vector2f(width / 2, 5*height / 10));
-    Button bst_button("Binary Tree", font, sf::Vector2f(width / 2, 6*height / 10));
-    Button avl_button("AVL Tree", font, sf::Vector2f(width / 2, 7*height / 10));
-
-
-
-
+    vector<Button> buttons;
+    mainMenuItems(buttons, font, width, height);
     
 
     while (window.isOpen()) {
@@ -50,11 +43,10 @@ int main(void)
                 window.close();
         }
 
-        window.draw(list_button); 
-        window.draw(queue_button); 
-        window.draw(stack_button); 
-        window.draw(bst_button); 
-        window.draw(avl_button); 
+        for (auto buttonItr : buttons)
+        {
+            window.draw(buttonItr);
+        }
 
         window.display();
         window.clear();
