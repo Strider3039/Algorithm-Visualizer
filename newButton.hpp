@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Header.hpp"
-#include <SFML/System/Vector2.hpp>
-
-
 
 class Button : public sf::Drawable
 {
