@@ -1,7 +1,6 @@
 #include "Avl.hpp"
 #include "Stack.hpp"
 #include "menuItems.hpp"
-#include <SFML/System/Vector2.hpp>
 #include <utility>
 
 int main(void)

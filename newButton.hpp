@@ -1,11 +1,6 @@
 #pragma once
 
 #include "Header.hpp"
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window/Cursor.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
 
 class Button : public sf::Drawable
 {

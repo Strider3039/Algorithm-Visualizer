@@ -7,10 +7,12 @@
 #include <cmath>
 #include <sstream>
 #include <fstream>
+#include <utility>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 #include <X11/Xlib.h>
 
 
