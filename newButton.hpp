@@ -1,6 +1,11 @@
 #pragma once
 
 #include "Header.hpp"
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Window.hpp>
 
 class Button : public sf::Drawable
 {
@@ -27,8 +32,30 @@ Button(std::string _text, sf::Font& _font, sf::Vector2f position)
     positionVector = position;
 
     this->centerBoxPos();
-
     
+}
+
+// create the scroll and click actions for button
+void scrollAndClick(sf::Event event, sf::Window& window)
+{
+
+    // get the postition of the mouse
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+    // check for intersection of mouse point and box global bounds
+    if (box.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    {
+        
+        box.setOutlineColor(sf::Color::Cyan);
+
+        // check for mouse left click while within box global bounds
+        if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+        {
+            box.setOutlineColor(sf::Color::Green);
+        }
+    }
+
+
 }
 
 
@@ -76,7 +103,7 @@ void centerBoxPos()
 {
     // set start position to middle of screen for box and size based on string size (experimental)
     // position is center of screen - half the box size to truely center
-    box.setSize(sf::Vector2f(text.getLocalBounds().width + 20, text.getLocalBounds().height + 20));
+    box.setSize(sf::Vector2f(250, text.getLocalBounds().height + 20));
     box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
 
     // set the text inside the box relative to size and position (experimental)
