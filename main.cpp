@@ -31,7 +31,7 @@ int main(void)
 
     // Load PNG background
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("Algorithm Background.png")) {
+    if (!backgroundTexture.loadFromFile("AV Background.png")) {
         std::cerr << "Failed to load background image" << std::endl;
         return -1;
     }
