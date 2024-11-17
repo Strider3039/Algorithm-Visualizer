@@ -13,13 +13,13 @@ int main(void)
     }
     
     Screen* screen = DefaultScreenOfDisplay(display);
-    double width = screen->width;
-    double height = screen->height;
+    double screenWidth = screen->width;
+    double screenHeight = screen->height;
 
-    std::cout << "Screen width: " << width << std::endl;
-    std::cout << "Screen height: " << height << std::endl;
+    std::cout << "Screen width: " << screenWidth << std::endl;
+    std::cout << "Screen screenHeight: " << screenHeight << std::endl;
 
-    sf::RenderWindow window(sf::VideoMode(width, height), "Algorithm Visualizer", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Algorithm Visualizer", sf::Style::Fullscreen);
 
 
     sf::Font font;
@@ -28,9 +28,27 @@ int main(void)
     {
         std::cout << "Failed to load font" << std::endl;
     }
+
+    // Load PNG background
+    sf::Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile("Algorithm Background.png")) {
+        std::cerr << "Failed to load background image" << std::endl;
+        return -1;
+    }
+
+    sf::Sprite backgroundSprite;
+    backgroundSprite.setTexture(backgroundTexture);
+
+    // Scale background to fit the window
+    sf::Vector2u textureSize = backgroundTexture.getSize();
+    sf::Vector2u windowSize = window.getSize();
+    // backgroundSprite.setScale(
+    //     screenWidth / textureSize.x,
+    //     screenHeight / textureSize.y
+    // );
     
     vector<Button> buttons;
-    mainMenuItems(buttons, font, width, height);
+    mainMenuItems(buttons, font, screenWidth, screenHeight);
 
     
 
@@ -47,6 +65,8 @@ int main(void)
                 buttonItr.scrollAndClick(event, window);
             }
         }
+
+        window.draw(backgroundSprite);
 
         for (auto& buttonItr : buttons)
         {
