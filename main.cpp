@@ -42,13 +42,13 @@ int main(void)
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                 window.close();
 
-            for (auto buttonItr : buttons)
+            for (auto& buttonItr : buttons)
             {
                 buttonItr.scrollAndClick(event, window);
             }
         }
 
-        for (auto buttonItr : buttons)
+        for (auto& buttonItr : buttons)
         {
             window.draw(buttonItr);
         }

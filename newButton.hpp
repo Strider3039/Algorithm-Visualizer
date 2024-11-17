@@ -47,12 +47,20 @@ void scrollAndClick(sf::Event event, sf::Window& window)
     {
         
         box.setOutlineColor(sf::Color::Cyan);
+        box.setOutlineThickness(7);
 
         // check for mouse left click while within box global bounds
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
         {
             box.setOutlineColor(sf::Color::Green);
         }
+    }
+
+    // reset box colors after scrolling away
+    if (!box.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    {
+        box.setOutlineColor(sf::Color::White);
+        box.setOutlineThickness(5);
     }
 
 
@@ -78,7 +86,6 @@ void _setPosititon(sf::Vector2f position)
 
 /*
 set color of button/text.
-Application: highlight button when selected
 */
 void _setColor(sf::Color color)
 {
@@ -101,8 +108,9 @@ private:
 
 void centerBoxPos()
 {
-    // set start position to middle of screen for box and size based on string size (experimental)
+    // set start position to middle of screen for box and height based on string height (experimental)
     // position is center of screen - half the box size to truely center
+    // NOTE: set constant box width
     box.setSize(sf::Vector2f(250, text.getLocalBounds().height + 20));
     box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
 
