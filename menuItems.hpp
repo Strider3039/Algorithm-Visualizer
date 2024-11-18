@@ -21,10 +21,10 @@ inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& background
         5*windowSize.y / 20.f // Place it near the top
     );
 
+    // load and initialize background file
     if (!backgroundTexture.loadFromFile("AV Background.png")) {
         std::cerr << "Failed to load background image" << std::endl;
     }
-
     backgroundSprite.setTexture(backgroundTexture);
 
     // Scale background to fit the window
