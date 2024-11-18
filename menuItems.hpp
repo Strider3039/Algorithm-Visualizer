@@ -22,7 +22,7 @@ inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& background
     );
 
     // load and initialize background file
-    if (!backgroundTexture.loadFromFile("AV Background (1).png")) {
+    if (!backgroundTexture.loadFromFile("AV Background (2).png")) {
         std::cerr << "Failed to load background image" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
