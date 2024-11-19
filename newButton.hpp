@@ -35,8 +35,12 @@ Button(std::string _text, sf::Font& _font, sf::Vector2f position)
     
 }
 
+
+/*
+added bool return value. returns true when button is clicked
+*/
 // create the scroll and click actions for button
-void scrollAndClick(sf::Event event, sf::Window& window)
+bool scrollAndClick(sf::Event event, sf::Window& window)
 {
 
     // get the postition of the mouse
@@ -53,6 +57,7 @@ void scrollAndClick(sf::Event event, sf::Window& window)
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
         {
             box.setOutlineColor(sf::Color::Green);
+            return true;
         }
     }
 
@@ -91,6 +96,11 @@ void _setColor(sf::Color color)
 {
     box.setOutlineColor(color);
     text.setFillColor(color);
+}
+
+std::string _getText()
+{
+    return text.getString();
 }
 
 

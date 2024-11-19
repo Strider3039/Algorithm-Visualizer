@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <utility>
+#include "graphicLinkedList.hpp"
 
 int main(void)
 {
@@ -33,6 +34,12 @@ int main(void)
     sf::Sprite background;
     sf::Texture backgroundTexture;
     sf::Text title;
+
+    /*
+    graphic linked list object
+    */
+    GraphicLinkedList graphicListObj(screenWidth, screenHeight);
+
     mainMenuScreen(background, backgroundTexture, title, font, window);
     
     vector<Button> buttons;
@@ -44,13 +51,32 @@ int main(void)
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
+            {
                 window.close();
+            }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+            {
                 window.close();
+            }
 
             for (auto& buttonItr : buttons)
             {
-                buttonItr.scrollAndClick(event, window);
+
+                /*
+                detects when and which button is pressed. flippin cool.
+                */
+                if (buttonItr.scrollAndClick(event, window))
+                {
+                    cout << buttonItr._getText() << " button pressed" << endl;
+
+                    /*
+                    linked list button pressed
+                    */
+                    if (buttonItr._getText() == "Linked List")
+                    {
+                        graphicListObj.runVisual(window);
+                    }
+                }
             }
         }
 

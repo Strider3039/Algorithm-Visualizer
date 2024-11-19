@@ -1,13 +1,18 @@
 #ifndef LINKEDLIST_HPP 
 #define LINKEDLIST_HPP 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <vector>
 #include "Header.hpp"
+#include "newButton.hpp"
 
 template <typename T>
 class LinkedList
 {
 public:
     LinkedList() : pFront(nullptr), pBack(nullptr){}
+
     ~LinkedList()
     {
         removeAll(pFront);
@@ -15,6 +20,7 @@ public:
 
     // insert at front
     void insertFront(T elementToInsert){
+
         if (pFront == nullptr)  // list is empty
         {
             node* newNode = new node{elementToInsert, nullptr};
@@ -23,6 +29,7 @@ public:
             pBack = newNode;
                 
             std:: cout << "inserting " << elementToInsert << std::endl;
+
         }
         else
         {
@@ -30,10 +37,12 @@ public:
             node* newNode = new node{elementToInsert, pFront};
             pFront = newNode;
         }
+        
     } 
 
     // insert at back -- for queue implementation
     void insertBack(T elementToInsert){
+
         if (pBack == nullptr)  // list is empty
         {
             node* newNode = new node{elementToInsert, nullptr};
@@ -50,7 +59,10 @@ public:
             pBack->pNext = newNode;
             pBack = newNode;
         }
+
     } 
+
+
 
     // remove selected
     void removeSelected(T elementToRemove) {
