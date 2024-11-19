@@ -51,6 +51,8 @@ inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width,
 
 /*
 user interface items for list
+
+more items to be added
 */
 inline void listUI(vector<Button>& buttons, sf::Font& font, double screenWidth, double screenHeight)
 {

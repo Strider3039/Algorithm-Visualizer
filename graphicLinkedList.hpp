@@ -14,11 +14,7 @@
 class GraphicLinkedList
 {
 public:
-GraphicLinkedList() 
-{
-    screenHeight = double();
-    screenWidth = double();
-}
+GraphicLinkedList() {}
 GraphicLinkedList(double width, double height) 
 {
     screenWidth = width;
@@ -74,7 +70,7 @@ void runVisual(sf::RenderWindow& window)
             }
 
 /*
-testing trying to figure out text events
+testing trying to figure out text
 */
 
         sf::Text input;
