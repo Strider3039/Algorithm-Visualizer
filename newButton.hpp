@@ -137,3 +137,4 @@ sf::Text text;
 sf::Vector2f positionVector;
 
 };
+

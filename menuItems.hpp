@@ -1,3 +1,4 @@
+#pragma once
 #include "newButton.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
@@ -46,4 +47,16 @@ inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width,
     buttons.push_back(bst_button);
     buttons.push_back(avl_button);
 
+}
+
+/*
+user interface items for list
+*/
+inline void listUI(vector<Button>& buttons, sf::Font& font, double screenWidth, double screenHeight)
+{
+    Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02));
+    Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02));
+
+    buttons.push_back(back);
+    buttons.push_back(insert);
 }

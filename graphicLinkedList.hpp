@@ -1,12 +1,15 @@
 #pragma once
 #include "linkedList.hpp"
-#include "newButton.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/System/InputStream.hpp>
 #include <SFML/System/Vector2.hpp>
-
+#include <SFML/Window/Event.hpp>
+#include "nodeGraphic.hpp"
+#include "newButton.hpp"
+#include "menuItems.hpp"
 
 class GraphicLinkedList
 {
@@ -22,6 +25,7 @@ GraphicLinkedList(double width, double height)
     screenHeight = height;
 }
 
+
 void runVisual(sf::RenderWindow& window)
 {
     /*
@@ -33,14 +37,10 @@ void runVisual(sf::RenderWindow& window)
         std::cout << "Failed to load font" << std::endl;
     }
 
-    LinkedList<Button> list;
+    LinkedList<GNode> list;
 
-    Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02));
-    Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02));
-
-    std::vector<Button> UIButtons;
-    UIButtons.push_back(back);
-    UIButtons.push_back(insert);
+    vector<Button> UIButtons;
+    listUI(UIButtons, font, screenWidth, screenHeight);
 
 
 
@@ -71,11 +71,35 @@ void runVisual(sf::RenderWindow& window)
                         return;
                     }
                 }
-
-
             }
 
-            
+/*
+testing trying to figure out text events
+*/
+
+        sf::Text input;
+        input.setFont(font);
+        input.setFillColor(sf::Color::White);
+
+
+        if(event.TextEntered && event.text.unicode < 128)
+        {
+            input.setString(event.text.unicode);
+            window.draw(input);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
