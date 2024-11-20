@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/InputStream.hpp>
+#include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include "nodeGraphic.hpp"
@@ -39,7 +40,15 @@ void runVisual(sf::RenderWindow& window)
     listUI(UIButtons, font, screenWidth, screenHeight);
 
 
-
+        /*
+        variables for basic text input logic
+        */
+        sf::Text input;
+        input.setFont(font);
+        input.setFillColor(sf::Color::White);
+        input.setPosition((sf::Vector2f(500, 500)));
+        sf::String str;
+        std::string stdStr;
 
 
     while (window.isOpen()) 
@@ -69,22 +78,31 @@ void runVisual(sf::RenderWindow& window)
                 }
             }
 
+
 /*
-testing trying to figure out text
+basic text input logic -- definitely needs to be moved, its here just for testing purposes
 */
 
-        sf::Text input;
-        input.setFont(font);
-        input.setFillColor(sf::Color::White);
+                if (event.type == sf::Event::TextEntered)
+                {
+                    if (event.text.unicode == 8)
+                    {
+                        str.erase(str.getSize()-1);
+                        stdStr = str;
+                        cout << stdStr << endl;
+                        input.setString(str);
+                    }
+                    else 
+                    {               
+                        str += event.text.unicode;
+                        stdStr = str;
+                        cout << stdStr << endl;
+                        input.setString(str);
+                    }
+                }
+            
 
-
-        if(event.TextEntered && event.text.unicode < 128)
-        {
-            input.setString(event.text.unicode);
             window.draw(input);
-        }
-
-
 
 
 
