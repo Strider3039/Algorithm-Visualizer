@@ -1,9 +1,5 @@
 #ifndef LINKEDLIST_HPP 
 #define LINKEDLIST_HPP 
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <vector>
 #include "Header.hpp"
 #include "newButton.hpp"
 

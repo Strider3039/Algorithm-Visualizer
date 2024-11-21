@@ -1,9 +1,6 @@
 #include "Avl.hpp"
 #include "Stack.hpp"
 #include "menuItems.hpp"
-#include <SFML/Graphics/Text.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <utility>
 #include "graphicLinkedList.hpp"
 
 int main(void)
