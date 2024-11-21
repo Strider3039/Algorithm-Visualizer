@@ -11,7 +11,7 @@ default constructor
 */
 Button() {}
 // custom constructor for text and font input
-Button(std::string _text, sf::Font& _font, sf::Vector2f position)
+Button(std::string _text, sf::Font& _font, sf::Vector2f position, double width)
 {
 
     text = sf::Text(_text, _font, 30);
@@ -21,6 +21,7 @@ Button(std::string _text, sf::Font& _font, sf::Vector2f position)
     box.setOutlineColor(sf::Color::White);
     box.setOutlineThickness(5);
     positionVector = position;
+    boxWidth = width;
 
     this->centerBoxPos();
     
@@ -112,7 +113,7 @@ void centerBoxPos()
     // set start position to middle of screen for box and height based on string height (experimental)
     // position is center of screen - half the box size to truely center
     // NOTE: set constant box width
-    box.setSize(sf::Vector2f(250, text.getLocalBounds().height + 20));
+    box.setSize(sf::Vector2f(boxWidth, text.getLocalBounds().height + 20));
     box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
 
     // set the text inside the box relative to size and position (experimental)
@@ -124,8 +125,10 @@ void centerBoxPos()
 }
 
 sf::RectangleShape box;
-sf::Text text;
 sf::Vector2f positionVector;
+double boxWidth;
+sf::Text text;
+
 
 };
 

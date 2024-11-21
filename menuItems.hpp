@@ -35,11 +35,11 @@ inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& background
 
 inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width, double height)
 {
-    Button list_button("Linked List", font, sf::Vector2f(width / 2, 7*height / 15));
-    Button queue_button("Queue", font, sf::Vector2f(width / 2, 8*height / 15));
-    Button stack_button("Stack", font, sf::Vector2f(width / 2, 9*height / 15));
-    Button bst_button("Binary Tree", font, sf::Vector2f(width / 2, 10*height / 15));
-    Button avl_button("AVL Tree", font, sf::Vector2f(width / 2, 11*height / 15));
+    Button list_button("Linked List", font, sf::Vector2f(width / 2, 7*height / 15), 250);
+    Button queue_button("Queue", font, sf::Vector2f(width / 2, 8*height / 15), 250);
+    Button stack_button("Stack", font, sf::Vector2f(width / 2, 9*height / 15), 250);
+    Button bst_button("Binary Tree", font, sf::Vector2f(width / 2, 10*height / 15), 250);
+    Button avl_button("AVL Tree", font, sf::Vector2f(width / 2, 11*height / 15), 250);
 
     buttons.push_back(list_button);
     buttons.push_back(queue_button);
@@ -56,8 +56,8 @@ more items to be added
 */
 inline void listUI(vector<Button>& buttons, sf::Font& font, double screenWidth, double screenHeight)
 {
-    Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02));
-    Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02));
+    Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
+    Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02), 250);
 
     buttons.push_back(back);
     buttons.push_back(insert);
