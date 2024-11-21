@@ -14,11 +14,7 @@ public:
 /*
 default constructor
 */
-Button()
-{
-    box = sf::RectangleShape();
-    text = sf::Text();
-}
+Button() {}
 // custom constructor for text and font input
 Button(std::string _text, sf::Font& _font, sf::Vector2f position)
 {

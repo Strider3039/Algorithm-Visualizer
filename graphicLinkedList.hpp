@@ -8,9 +8,11 @@
 #include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <atomic>
 #include "nodeGraphic.hpp"
 #include "newButton.hpp"
 #include "menuItems.hpp"
+#include "textBox.hpp"
 
 class GraphicLinkedList
 {
@@ -20,40 +22,44 @@ GraphicLinkedList(double width, double height)
 {
     screenWidth = width;
     screenHeight = height;
+
+    /*
+    initialize background
+    */
+    background.setFillColor(sf::Color::White);
+    background.setSize(sf::Vector2f(screenWidth, screenHeight));
+    /*
+    load font
+    */
+    if (!font.loadFromFile("arial.ttf"))
+    {
+        std::cout << "Failed to load font" << std::endl;
+    }
 }
 
 
 void runVisual(sf::RenderWindow& window)
 {
     /*
-    load font
+    text box for inserting function. will be replaced with vector of textBox's as more are added
     */
-    sf::Font font;
-    if (!font.loadFromFile("arial.ttf"))
-    {
-        std::cout << "Failed to load font" << std::endl;
-    }
+    TextBox textBox_insert("Insert", font, sf::Vector2f(800, 800));
 
-    LinkedList<GNode> list;
-
-    vector<Button> UIButtons;
+    /*
+    load UI buttons
+    */
     listUI(UIButtons, font, screenWidth, screenHeight);
-
-
-        /*
-        variables for basic text input logic
-        */
-        sf::Text input;
-        input.setFont(font);
-        input.setFillColor(sf::Color::White);
-        input.setPosition((sf::Vector2f(500, 500)));
-        sf::String str;
-        std::string stdStr;
 
 
     while (window.isOpen()) 
     {
+        /*
+        draw background before anything
+        */
+        window.draw(background);
+        
         sf::Event event;
+        sf::Event emptyEvent;
         while (window.pollEvent(event)) 
         {
             if (event.type == sf::Event::Closed)
@@ -65,6 +71,36 @@ void runVisual(sf::RenderWindow& window)
                 return;
             }
 
+
+            if (textBox_insert.scrollAndClick(event,window))
+            {
+                std::cout << "insert_textBox interaction" << std::endl;
+
+                /*
+                while cursor intersects box, pollevents to chack for text entered.
+                draw and display window to reflect updates to text box
+                */
+                while (textBox_insert.cursorIntersect(window))
+                {
+                    window.pollEvent(event);
+                    if (event.type == sf::Event::TextEntered)
+                    {
+
+                        cout << "character was entered" << endl;
+                        textBox_insert.write(event.text.unicode, window);
+
+                        event = emptyEvent; /*need to reset event type. otherwise will read as TextEntered event for ages*/
+                    }
+                    window.clear();
+                    window.draw(background);
+                    window.draw(textBox_insert);
+                    for (auto& buttonItr : UIButtons)
+                    {
+                        window.draw(buttonItr);
+                    }
+                    window.display();
+                }
+            }
             for (auto& buttonItr : UIButtons)
             {
                 if (buttonItr.scrollAndClick(event, window))
@@ -78,45 +114,25 @@ void runVisual(sf::RenderWindow& window)
                 }
             }
 
-
-/*
-basic text input logic -- definitely needs to be moved, its here just for testing purposes
-*/
-
-                if (event.type == sf::Event::TextEntered)
-                {
-                    if (event.text.unicode == 8)
-                    {
-                        str.erase(str.getSize()-1);
-                        stdStr = str;
-                        cout << stdStr << endl;
-                        input.setString(str);
-                    }
-                    else 
-                    {               
-                        str += event.text.unicode;
-                        stdStr = str;
-                        cout << stdStr << endl;
-                        input.setString(str);
-                    }
-                }
+            /*THIS AREA IS FOR VISUALIZING LINKED LIST
             
+            area above and below this is used for the userinterface / functionality and will change as more functions are added
+            */
 
-            window.draw(input);
-
-
-
-
-
-
-
+            /*
+            THINGS TO NOTE
+            the "insert" button and the "textBox_insert" will be used together to call 
+            the insert operation from the linked list class. 
 
 
-
+            */
 
 
 
 
+
+         
+        }
         /*
         draw buttons
         */
@@ -125,9 +141,15 @@ basic text input logic -- definitely needs to be moved, its here just for testin
             window.draw(buttonItr);
         }
 
+            /*
+            draw text inputed by user
+            */       
+            //window.draw(input);
+            window.draw(textBox_insert);
+
+
             window.display();
-            window.clear();           
-        }
+            window.clear();  
     }
 }
 
@@ -135,4 +157,8 @@ private:
 
 double screenWidth;
 double screenHeight;
+LinkedList<GNode> list; /* list of GNode's (same thing as button, different name for clarity)*/
+sf::RectangleShape background;
+sf::Font font;
+vector<Button> UIButtons;
 };
