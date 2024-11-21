@@ -1,5 +1,6 @@
 #pragma once
 #include "linkedList.hpp"
+#include <SFML/Window/Event.hpp>
 #include <atomic>
 #include "nodeGraphic.hpp"
 #include "Button.hpp"
@@ -70,7 +71,9 @@ void runVisual(sf::RenderWindow& window)
                 while cursor intersects box, pollevents to chack for text entered.
                 draw and display window to reflect updates to text box
                 */
-                while (textBox_insert.cursorIntersect(window))
+                //while (textBox_insert.cursorIntersect(window))
+                event = emptyEvent;
+                while (event.type != sf::Event::MouseButtonPressed) /*this condition allows the user to move mouse cursor wihtout breaking interaction*/
                 {
                     window.pollEvent(event);
                     if (event.type == sf::Event::TextEntered)
