@@ -33,7 +33,7 @@ int main(void)
     sf::Text title;
 
     /*
-    graphic linked list object
+    graphic linked list object.
     */
     GraphicLinkedList graphicListObj(screenWidth, screenHeight);
 
