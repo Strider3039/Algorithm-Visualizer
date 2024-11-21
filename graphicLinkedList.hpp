@@ -39,6 +39,7 @@ GraphicLinkedList(double width, double height)
 
 
 
+
 void runVisual(sf::RenderWindow& window)
 {
     /*
@@ -59,7 +60,7 @@ void runVisual(sf::RenderWindow& window)
         */
         window.draw(background);
 
-        
+
         while (window.pollEvent(event)) 
         {
             if (event.type == sf::Event::Closed)
