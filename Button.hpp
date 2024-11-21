@@ -1,169 +1,134 @@
 #pragma once
-//#include "source.hpp"
-#include <SFML/Graphics.hpp>
-#include <X11/X.h>
-#include <iostream>
 
+#include "Header.hpp"
 
-/// <summary>
-/// Generates border/box around text. Use inherited functions from sf::Text to change position of box, change color of text, etc..
-/// Must call window.draw(box.getBox) and window.draw(box.getText) before displaying. Text boxes are invisible and are not centered perfectly around text; ues offset functions to center box.
-/// </summary>
-class DialogBox : public sf::Text, sf::RectangleShape   
+class Button : public sf::Drawable
 {
 public:
 
-	DialogBox()
-	{
-		// font.loadFromFile("Jersey20-Regular.ttf"); // update 10/21/24 -- loading no specific file should use a default font within SFML
-		text.setFont(font);
-		text.setFillColor(sf::Color::Blue);
-		text.setString("Default String");
-		text.setCharacterSize(40);
-		text.setPosition(400, 200);
+/*
+default constructor
+*/
+Button() {}
+// custom constructor for text and font input
+Button(std::string _text, sf::Font& _font, sf::Vector2f position, double width)
+{
 
-		bounds = text.getLocalBounds();  
-		position = text.getPosition();
+    text = sf::Text(_text, _font, 30);
+    text.setFillColor(sf::Color::White);
 
-		bounds.height * text.getCharacterSize();
-		bounds.width* text.getCharacterSize();
+    box.setFillColor(sf::Color::Black);
+    box.setOutlineColor(sf::Color::White);
+    box.setOutlineThickness(5);
+    positionVector = position;
+    boxWidth = width;
 
-		box.setPosition((position.x - 9), position.y); 
-		box.setSize(sf::Vector2f((bounds.width + 20), (bounds.height + 23)));
-		box.setFillColor(sf::Color::Yellow);
-
-		std::cout << "loaded Default dialog box" << std::endl; 
-	}
-	DialogBox(sf::String stringToDisplay, sf::Vector2f position, int size) // 10/31/24 -- TODO add param string for loading font file
-	{
-		font.loadFromFile("DiaryOfAn8BitMage-lYDD.ttf");
-		text.setFont(font);
-		text.setFillColor(sf::Color::Blue);
-		text.setOutlineColor(sf::Color::Black);
-		text.setOutlineThickness(5);
-		text.setString(stringToDisplay); 
-		//text.setCharacterSize(40);
-		text.setCharacterSize(size); 
-		text.setPosition(position); 
-
-		bounds = text.getLocalBounds(); 
+    this->centerBoxPos();
+    
+}
 
 
-		//bounds.height* text.getCharacterSize();
-		//bounds.width* text.getCharacterSize();
+/*
+added bool return value. returns true when button is clicked
+*/
+// create the scroll and click actions for button
+bool scrollAndClick(sf::Event event, sf::Window& window)
+{
 
-		box.setPosition((position.x - 9), (position.y));
-		box.setSize(sf::Vector2f((bounds.width + 20), (bounds.height + 23)));
-		box.setFillColor(sf::Color::Yellow);
-		
-		std::string stringForPrintDebugging = stringToDisplay; 
-		std::cout << "loaded dialog box with \"" << stringForPrintDebugging << "\"" << std::endl;  
-	}
-	void setTextColor(sf::Color color)
-	{
-		text.setFillColor(color); 
-	}
+    // get the postition of the mouse
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
-	void setBoxColor(sf::Color color) 
-	{
-		box.setFillColor(color);
-	}
+    // check for intersection of mouse point and box global bounds
+    if (box.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    {
+        
+        box.setOutlineColor(sf::Color::Cyan);
+        box.setOutlineThickness(7);
 
-	/*void setTextSize(int num)
-	{
-		text.setCharacterSize(num);
-	}*/
+        // check for mouse left click while within box global bounds
+        if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+        {
+            box.setOutlineColor(sf::Color::Green);
+            return true;
+        }
+    }
 
-	sf::RectangleShape getBox()
-	{
-		return box;
-	}
-	sf::Text getText()
-	{
-		return text; 
-	}
+    // reset box colors after scrolling away
+    if (!box.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    {
+        box.setOutlineColor(sf::Color::White);
+        box.setOutlineThickness(5);
+    }
 
-	void LoadFontFromFile(const std::string &filePath)
-	{
-		font.loadFromFile(filePath); 
-	}
 
-	/// <summary>
-	/// distance in pixels to offset rectangle to the right
-	/// </summary>
-	void offsetRight(float distance)
-	{
-		box.setPosition((position.x - distance), position.y);
-		position.x = position.x - distance; 
-	}
-	/// <summary>
-	/// distance in pixels to offset bos to left
-	/// </summary>
-	void offsetLeft(float distance)
-	{
-		box.setPosition((position.x + distance), position.y);
-		position.x = position.x + distance;
-	}
-	/// <summary>
-	/// distance in pixels to offset upwads
-	/// </summary>
-	void offsetUp(float distance)
-	{
-		box.setPosition(position.x, (position.y + distance));
-		position.y = position.y + distance;
-	}
-	/// <summary>
-	/// distance in pixels to offset downwards
-	/// </summary>
-	void offsetDown(float distance)
-	{
-		box.setPosition(position.x, (position.y - distance));
-		position.y = position.y - distance;
-	}
-	/// <summary>
-	/// change the texture of the box
-	/// </summary>
-	/// <param name="texture"></param>
-	void changeTexture(sf::Texture* texture )
-	{
-		box.setTexture(texture);
-	}
-	/// <summary>
-	/// adjust the height of the box. +num to increase, -num to decrease size
-	/// </summary>
-	/// <param name="difference"></param>
-	void changeHeight(float difference)
-	{
-		sf::Vector2f dimensions = box.getSize(); 
-		box.setSize(sf::Vector2f(dimensions.x, (dimensions.y + difference)));
-	}
-	/// <summary>
-	/// adjust the height of the box. +num to increase, -num to decrease size
-	/// </summary>
-	/// <param name="difference"></param>
-	void changeWidth(float difference)
-	{
-		sf::Vector2f dimensions = box.getSize(); 
-		box.setSize(sf::Vector2f((dimensions.x + difference), dimensions.y)); 
-	}
-	/// <summary>
-	/// temp for making origin visible
-	/// </summary>
-	sf::CircleShape getOriginPoint()
-	{
-		return originPoint; 
-	}
+}
+
+
+/*
+return the global bounds of the button
+*/
+sf::FloatRect _getBounds()
+{
+    return box.getGlobalBounds();
+}
+
+/*
+set the position of the button. updates position vector and centers button.
+*/
+void _setPosititon(sf::Vector2f position)
+{
+    positionVector = position;
+    this->centerBoxPos();
+}
+
+/*
+set color of button/text.
+*/
+void _setColor(sf::Color color)
+{
+    box.setOutlineColor(color);
+    text.setFillColor(color);
+}
+
+std::string _getText()
+{
+    return text.getString();
+}
+
+
+// overwrite the draw function to to draw properly
+protected:
+
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override
+    {
+        target.draw(box, states);
+        target.draw(text, states);
+    }
+
+
 private:
 
+void centerBoxPos()
+{
+    // set start position to middle of screen for box and height based on string height (experimental)
+    // position is center of screen - half the box size to truely center
+    // NOTE: set constant box width
+    box.setSize(sf::Vector2f(boxWidth, text.getLocalBounds().height + 20));
+    box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
 
-	sf::RectangleShape box;
-	sf::FloatRect bounds; 
-	sf::String stringToDisplay; 
-	sf::Text text;
-	sf::Font font;
-	sf::Vector2f position;
+    // set the text inside the box relative to size and position (experimental)
+    text.setPosition(
+        box.getPosition().x + (box.getSize().x - text.getLocalBounds().width) / 2,
+        box.getPosition().y - 10/*experimental offset for y*/ + (box.getSize().y - text.getLocalBounds().height) / 2
+        );
 
-	//temp
-	sf::CircleShape originPoint;
+}
+
+sf::RectangleShape box;
+sf::Vector2f positionVector;
+double boxWidth;
+sf::Text text;
+
 
 };
+

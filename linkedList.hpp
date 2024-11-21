@@ -1,7 +1,7 @@
 #ifndef LINKEDLIST_HPP 
 #define LINKEDLIST_HPP 
 #include "Header.hpp"
-#include "newButton.hpp"
+#include "Button.hpp"
 
 template <typename T>
 class LinkedList

@@ -2,7 +2,7 @@
 #include "linkedList.hpp"
 #include <atomic>
 #include "nodeGraphic.hpp"
-#include "newButton.hpp"
+#include "Button.hpp"
 #include "menuItems.hpp"
 #include "textBox.hpp"
 

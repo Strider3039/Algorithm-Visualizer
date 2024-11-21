@@ -1,11 +1,11 @@
 #include "Avl.hpp"
 #include "Stack.hpp"
 #include "menuItems.hpp"
-#include "graphicLinkedList.hpp"
+#include "listWindow.hpp"
 
 int main(void)
-{
-
+{  
+// hehe
     Display* display = XOpenDisplay(nullptr);
     if (display == nullptr) {
         std::cerr << "Cannot open display!" << std::endl;

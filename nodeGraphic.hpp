@@ -1,5 +1,5 @@
 #pragma once
-#include "newButton.hpp"
+#include "Button.hpp"
 
 class GNode : public Button
 {

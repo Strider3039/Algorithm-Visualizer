@@ -1,5 +1,5 @@
 #pragma once
-#include "newButton.hpp"
+#include "Button.hpp"
 
 
 inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window)
