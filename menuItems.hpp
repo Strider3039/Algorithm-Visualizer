@@ -26,10 +26,15 @@ inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& background
     if (!backgroundTexture.loadFromFile("AV Background (2).png")) {
         std::cerr << "Failed to load background image" << std::endl;
     }
+
     backgroundSprite.setTexture(backgroundTexture);
 
     // Scale background to fit the window
     sf::Vector2u textureSize = backgroundTexture.getSize();
+    float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
+    float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
+    backgroundSprite.setScale(scaleX, scaleY);
+
     windowSize = window.getSize();
 }
 
