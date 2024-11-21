@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
@@ -69,16 +70,7 @@ void write(unsigned int unicode, sf::Window& window)
             
 }
 
-/*
-reposition text in box to the left. done for visual purposes
-*/
-void positionEnteredText()
-{
-    outputStr.setPosition(
-    box.getPosition().x + (box.getSize().x - outputStr.getLocalBounds().width) / 2.5,
-    box.getPosition().y //- 10/*experimental offset for y*/ + (box.getSize().y - outputStr.getLocalBounds().height) / 2
-    );
-}
+
 
 /*
 TODO
@@ -188,6 +180,17 @@ protected:
     }
 
 private:
+
+    /*
+    reposition text in box to the left. done for visual purposes
+    */
+    void positionEnteredText()
+    {
+        outputStr.setPosition(
+        box.getPosition().x + (box.getSize().x - outputStr.getLocalBounds().width) / 2.5,
+        box.getPosition().y //- 10/*experimental offset for y*/ + (box.getSize().y - outputStr.getLocalBounds().height) / 2
+        );
+    }
 
 /*
 code taken from Button class

@@ -38,6 +38,7 @@ GraphicLinkedList(double width, double height)
 }
 
 
+
 void runVisual(sf::RenderWindow& window)
 {
     /*
@@ -57,9 +58,8 @@ void runVisual(sf::RenderWindow& window)
         draw background before anything
         */
         window.draw(background);
+
         
-        sf::Event event;
-        sf::Event emptyEvent;
         while (window.pollEvent(event)) 
         {
             if (event.type == sf::Event::Closed)
@@ -70,12 +70,9 @@ void runVisual(sf::RenderWindow& window)
             {
                 return;
             }
-
-
             if (textBox_insert.scrollAndClick(event,window))
             {
-                std::cout << "insert_textBox interaction" << std::endl;
-
+                std::cout << "insert_textBox interaction!" << std::endl;
                 /*
                 while cursor intersects box, pollevents to chack for text entered.
                 draw and display window to reflect updates to text box
@@ -85,8 +82,6 @@ void runVisual(sf::RenderWindow& window)
                     window.pollEvent(event);
                     if (event.type == sf::Event::TextEntered)
                     {
-
-                        cout << "character was entered" << endl;
                         textBox_insert.write(event.text.unicode, window);
 
                         event = emptyEvent; /*need to reset event type. otherwise will read as TextEntered event for ages*/
@@ -140,16 +135,13 @@ void runVisual(sf::RenderWindow& window)
         {
             window.draw(buttonItr);
         }
-
-            /*
-            draw text inputed by user
-            */       
-            //window.draw(input);
-            window.draw(textBox_insert);
-
-
-            window.display();
-            window.clear();  
+        /*
+        draw text inputed by user
+        */       
+        //window.draw(input);
+        window.draw(textBox_insert);
+        window.display();
+        window.clear();  
     }
 }
 
@@ -161,4 +153,7 @@ LinkedList<GNode> list; /* list of GNode's (same thing as button, different name
 sf::RectangleShape background;
 sf::Font font;
 vector<Button> UIButtons;
+
+sf::Event event;
+sf::Event emptyEvent;
 };
