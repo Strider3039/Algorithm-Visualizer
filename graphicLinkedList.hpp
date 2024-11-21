@@ -1,13 +1,5 @@
 #pragma once
 #include "linkedList.hpp"
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Text.hpp>
-#include <SFML/System/InputStream.hpp>
-#include <SFML/System/String.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window/Event.hpp>
 #include <atomic>
 #include "nodeGraphic.hpp"
 #include "newButton.hpp"
