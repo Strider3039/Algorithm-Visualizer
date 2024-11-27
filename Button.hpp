@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Header.hpp"
+#include <SFML/System/Vector2.hpp>
 
 class Button : public sf::Drawable
 {
@@ -79,6 +80,11 @@ void _setPosititon(sf::Vector2f position)
 {
     positionVector = position;
     this->centerBoxPos();
+}
+
+sf::Vector2f _getPosition()
+{
+    
 }
 
 /*
