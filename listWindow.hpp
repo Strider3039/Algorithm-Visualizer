@@ -1,11 +1,13 @@
 #pragma once
 #include "linkedList.hpp"
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <atomic>
 #include "nodeGraphic.hpp"
 #include "Button.hpp"
 #include "menuItems.hpp"
 #include "textBox.hpp"
+#include "UImodule.hpp"
 
 class GraphicLinkedList
 {
@@ -44,6 +46,11 @@ void runVisual(sf::RenderWindow& window)
     load UI buttons
     */
     listUI(UIButtons, font, screenWidth, screenHeight);
+
+    /*
+    load testModule
+    */
+    UImodule testModule(sf::Vector2f(600, 600), sf::Vector2f(screenWidth, screenHeight), "test");
 
 
     while (window.isOpen()) 
@@ -136,6 +143,7 @@ void runVisual(sf::RenderWindow& window)
         */       
         //window.draw(input);
         window.draw(textBox_insert);
+        window.draw(testModule);
         window.display();
         window.clear();  
     }
@@ -152,4 +160,6 @@ vector<Button> UIButtons;
 
 sf::Event event;
 sf::Event emptyEvent;
+
+//UImodule testModule;
 };

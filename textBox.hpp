@@ -170,6 +170,11 @@ void clear()
     outputStr.setString(inputStr);
 }
 
+sf::Vector2f getPosition()
+{
+    return positionVector;
+}
+
 
 protected:
 
