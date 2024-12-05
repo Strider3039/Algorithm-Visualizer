@@ -1,5 +1,6 @@
 #pragma once
 #include "linkedList.hpp"
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <atomic>
@@ -37,20 +38,27 @@ GraphicLinkedList(double width, double height)
 
 void runVisual(sf::RenderWindow& window)
 {
+    // /*
+    // text box for inserting function. will be replaced with vector of textBox's as more are added
+    // */
+    // TextBox textBox_insert("Insert", font, sf::Vector2f(800, 800));
+
     /*
-    text box for inserting function. will be replaced with vector of textBox's as more are added
+    load UI textBox's
     */
-    TextBox textBox_insert("Insert", font, sf::Vector2f(800, 800));
+    listUITextBox(UITextBoxVec, font, screenWidth, screenHeight);
 
     /*
     load UI buttons
     */
-    listUI(UIButtons, font, screenWidth, screenHeight);
+    listUIButtons(UIButtonVec, font, screenWidth, screenHeight);
+
+
 
     /*
     load testModule
     */
-    UImodule testModule(sf::Vector2f(600, 600), sf::Vector2f(screenWidth, screenHeight), "test");
+    //UImodule testModule(sf::Vector2f(600, 600), sf::Vector2f(screenWidth, screenHeight), "test");
 
 
     while (window.isOpen()) 
@@ -71,7 +79,7 @@ void runVisual(sf::RenderWindow& window)
             {
                 return;
             }
-            if (textBox_insert.scrollAndClick(event,window))
+            if (textBox_insert.scrollAndClick(event, window))
             {
                 std::cout << "insert_textBox interaction!" << std::endl;
                 /*
@@ -92,14 +100,14 @@ void runVisual(sf::RenderWindow& window)
                     window.clear();
                     window.draw(background);
                     window.draw(textBox_insert);
-                    for (auto& buttonItr : UIButtons)
+                    for (auto& buttonItr : UIButtonVec)
                     {
                         window.draw(buttonItr);
                     }
                     window.display();
                 }
             }
-            for (auto& buttonItr : UIButtons)
+            for (auto& buttonItr : UIButtonVec)
             {
                 if (buttonItr.scrollAndClick(event, window))
                 {
@@ -111,6 +119,12 @@ void runVisual(sf::RenderWindow& window)
                     }
                 }
             }
+            for (auto& textBoxItr : UITextBoxVec)
+            {
+                if (textBoxItr)
+
+            }
+
 
             /*THIS AREA IS FOR VISUALIZING LINKED LIST
             
@@ -134,16 +148,22 @@ void runVisual(sf::RenderWindow& window)
         /*
         draw buttons
         */
-        for (auto& buttonItr : UIButtons)
+        for (auto& buttonItr : UIButtonVec)
         {
             window.draw(buttonItr);
         }
         /*
+        draw textBox's
+        */
+        for (auto& textBoxItr : UITextBoxVec)
+        {
+            window.draw(textBoxItr);
+        }
+
+        /*
         draw text inputed by user
         */       
         //window.draw(input);
-        window.draw(textBox_insert);
-        window.draw(testModule);
         window.display();
         window.clear();  
     }
@@ -156,10 +176,10 @@ double screenHeight;
 LinkedList<GNode> list; /* list of GNode's (same thing as button, different name for clarity)*/
 sf::RectangleShape background;
 sf::Font font;
-vector<Button> UIButtons;
+
+vector<Button> UIButtonVec;
+vector<TextBox> UITextBoxVec;
 
 sf::Event event;
 sf::Event emptyEvent;
-
-//UImodule testModule;
 };

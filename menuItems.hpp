@@ -1,5 +1,7 @@
 #pragma once
 #include "Button.hpp"
+#include "textBox.hpp"
+#include <SFML/System/Vector2.hpp>
 
 
 inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window)
@@ -54,11 +56,25 @@ user interface items for list
 
 more items to be added
 */
-inline void listUI(vector<Button>& buttons, sf::Font& font, double screenWidth, double screenHeight)
+inline void listUIButtons(vector<Button>& buttonVec, sf::Font& font, double screenWidth, double screenHeight)
 {
+    /*
+    buttons for UI
+    */
     Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
     Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02), 250);
 
-    buttons.push_back(back);
-    buttons.push_back(insert);
+    buttonVec.push_back(back);
+    buttonVec.push_back(insert);
+}
+
+inline void listUITextBox(vector<TextBox>& textBoxVec, sf::Font& font, double screenWidth, double screenHeight)
+{
+    /*
+    textBox's for UI
+    */
+    TextBox insert("type here", font, sf::Vector2f(400, 400));
+
+    textBoxVec.push_back(insert);
+
 }
