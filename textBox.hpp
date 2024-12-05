@@ -70,18 +70,6 @@ void write(unsigned int unicode, sf::Window& window)
             
 }
 
-
-
-/*
-TODO
-- limit character to insert to 6 or something                                   - DONE
-- funtion to position text to the left of the box during user input             - DONE
-- when string is empty, default to grayColor "insert". reposition to center     - DONE
-- little blining cursor icon for typing
-- Shorten box size                                                              - DONE
-- exit box when esc key it hit                                                  - DONE
-*/
-
 /*
 returns true if cursor intersects box
 */
@@ -175,6 +163,18 @@ sf::Vector2f getPosition()
     return positionVector;
 }
 
+/*
+sets std callback function
+*/
+void setCallback(std::function<void()> callback)
+{
+    onClick = callback;
+}
+
+void triggerCallback() 
+{
+    if (onClick) { onClick(); }
+}
 
 protected:
 
@@ -222,5 +222,8 @@ code taken from Button class
     sf::Vector2f positionVector;
     sf::Color grayColor;
     std::string logStr; /*for writing user input to terminal*/
+
+    std::function<void()> onClick;
+
 
 };

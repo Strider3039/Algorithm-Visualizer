@@ -3,12 +3,13 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window/Window.hpp>
 #include <atomic>
 #include "nodeGraphic.hpp"
 #include "Button.hpp"
 #include "menuItems.hpp"
 #include "textBox.hpp"
-#include "UImodule.hpp"
+//#include "UImodule.hpp"
 
 class GraphicLinkedList
 {
@@ -79,41 +80,44 @@ void runVisual(sf::RenderWindow& window)
             {
                 return;
             }
-            if (textBox_insert.scrollAndClick(event, window))
-            {
-                std::cout << "insert_textBox interaction!" << std::endl;
-                /*
-                while cursor intersects box, pollevents to chack for text entered.
-                draw and display window to reflect updates to text box
-                */
-                //while (textBox_insert.cursorIntersect(window))
-                event = emptyEvent;
-                while (event.type != sf::Event::MouseButtonPressed) /*this condition allows the user to move mouse cursor wihtout breaking interaction*/
-                {
-                    window.pollEvent(event);
-                    if (event.type == sf::Event::TextEntered)
-                    {
-                        textBox_insert.write(event.text.unicode, window);
 
-                        event = emptyEvent; /*need to reset event type. otherwise will read as TextEntered event for ages*/
-                    }
-                    window.clear();
-                    window.draw(background);
-                    window.draw(textBox_insert);
-                    for (auto& buttonItr : UIButtonVec)
-                    {
-                        window.draw(buttonItr);
-                    }
-                    window.display();
-                }
-            }
+            /*************************************************************************** */
+            // if (textBox_insert.scrollAndClick(event, window))
+            // {
+            //     std::cout << "insert_textBox interaction!" << std::endl;
+            //     /*
+            //     while cursor intersects box, pollevents to chack for text entered.
+            //     draw and display window to reflect updates to text box
+            //     */
+            //     //while (textBox_insert.cursorIntersect(window))
+            //     event = emptyEvent;
+            //     while (event.type != sf::Event::MouseButtonPressed) /*this condition allows the user to move mouse cursor wihtout breaking interaction*/
+            //     {
+            //         window.pollEvent(event);
+            //         if (event.type == sf::Event::TextEntered)
+            //         {
+            //             textBox_insert.write(event.text.unicode, window);
+
+            //             event = emptyEvent; /*need to reset event type. otherwise will read as TextEntered event for ages*/
+            //         }
+            //         window.clear();
+            //         window.draw(background);
+            //         window.draw(textBox_insert);
+            //         for (auto& buttonItr : UIButtonVec)
+            //         {
+            //             window.draw(buttonItr);
+            //         }
+            //         window.display();
+            //     }
+            // }
+            /******************************************************************************* */
             for (auto& buttonItr : UIButtonVec)
             {
                 if (buttonItr.scrollAndClick(event, window))
                 {
-                    std::cout << buttonItr._getText() << " button pressed" << std::endl;
-                    
-                    if (buttonItr._getText() == "back")
+                    buttonItr.triggerCallback();
+
+                    if (buttonItr._getText() == "back") /*this should be the only button i have to to this for*/
                     {
                         return;
                     }
@@ -121,7 +125,10 @@ void runVisual(sf::RenderWindow& window)
             }
             for (auto& textBoxItr : UITextBoxVec)
             {
-                if (textBoxItr)
+                if (textBoxItr.scrollAndClick(event, window))
+                {
+                    textBoxItr.triggerCallback();
+                }
 
             }
 

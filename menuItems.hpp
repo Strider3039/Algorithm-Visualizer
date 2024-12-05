@@ -64,6 +64,11 @@ inline void listUIButtons(vector<Button>& buttonVec, sf::Font& font, double scre
     Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
     Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02), 250);
 
+    back.setCallback([]() 
+    {
+        std::cout << "Back button pressed" << std::endl;
+    });
+
     buttonVec.push_back(back);
     buttonVec.push_back(insert);
 }

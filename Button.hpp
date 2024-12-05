@@ -1,5 +1,5 @@
 #pragma once
-
+#include <SFML/Window/Window.hpp>
 #include "Header.hpp"
 #include <SFML/System/Vector2.hpp>
 
@@ -102,6 +102,19 @@ std::string _getText()
 }
 
 
+/*
+sets std callback function
+*/
+void setCallback(std::function<void()> callback)
+{
+    onClick = callback;
+}
+
+void triggerCallback() 
+{
+    if (onClick) { onClick(); }
+}
+
 // overwrite the draw function to to draw properly
 protected:
 
@@ -113,6 +126,8 @@ protected:
 
 
 private:
+
+std::function<void()> onClick;
 
 void centerBoxPos()
 {
