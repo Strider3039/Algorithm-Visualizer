@@ -51,37 +51,24 @@ inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width,
 
 }
 
-/*
-user interface items for list
-
-more items to be added
-*/
-inline void listUIButtons(vector<Button>& buttonVec, sf::Font& font, double screenWidth, double screenHeight)
+inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight)
 {
-    /*
-    buttons for UI
-    */
     Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
+    TextBox backField;
+
     Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02), 250);
+    TextBox insertField("type here", font, sf::Vector2f(screenWidth * .29, screenHeight * .02));
+    
+    Button remove("Remove", font, sf::Vector2f(screenWidth * .5, screenHeight * .02), 250);
+    TextBox removeField("type here", font, sf::Vector2f(screenWidth * .59, screenHeight * .02));
 
-    back.setCallback([]() 
-    {
-        std::cout << "Back button pressed" << std::endl;
-    });
+    std::pair<Button, TextBox> UIBack(back, backField);
+    std::pair<Button, TextBox> UIInsert(insert, insertField);
+    std::pair<Button, TextBox> UIRemove(remove, removeField);
 
-    buttonVec.push_back(back);
-    buttonVec.push_back(insert);
-}
 
-inline void listUITextBox(vector<TextBox>& textBoxVec, sf::Font& font, double screenWidth, double screenHeight)
-{
-    /*
-    textBox's for UI
-    */
-    TextBox insert("type here", font, sf::Vector2f(400, 400));
-    TextBox remove("type here", font, sf::Vector2f(600, 400));
-
-    textBoxVec.push_back(insert);
-    textBoxVec.push_back(remove);
-
+    UI.push_back(UIBack);
+    UI.push_back(UIInsert);
+    UI.push_back(UIRemove);
+    
 }

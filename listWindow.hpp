@@ -36,22 +36,15 @@ GraphicLinkedList(double width, double height)
 
 void clearData()
 {
-    UIButtonVec.clear();
-    UITextBoxVec.clear();
+    // UIButtonVec.clear();
+    // UITextBoxVec.clear();
+    UI.clear();
 }
 
 
 void runVisual(sf::RenderWindow& window)
 {
-    /*
-    load UI textBox's
-    */
-    listUITextBox(UITextBoxVec, font, screenWidth, screenHeight);
-
-    /*
-    load UI buttons
-    */
-    listUIButtons(UIButtonVec, font, screenWidth, screenHeight);
+    loadListUI(UI, font, screenWidth, screenHeight);
 
     while (window.isOpen()) 
     {
@@ -72,21 +65,25 @@ void runVisual(sf::RenderWindow& window)
                 return;
             }
 
-            for (auto& buttonItr : UIButtonVec)
+            for (auto& itr : UI)
             {
-                if (buttonItr.scrollAndClick(event, window))
+                if (itr.first.scrollAndClick(event, window))
                 {
-                    buttonItr.triggerCallback();
 
-                    if (buttonItr._getText() == "back") /*this should be the only button i have to to this for*/
+                    if (itr.first._getText() == "back") 
                     {
                         return;
                     }
+                    if (itr.first._getText() == "Insert")
+                    {
+                        /*
+                        functionality of insert button
+                        */
+                        cout << itr.second._getText() << endl;
+                    }
                 }
-            }
-            for (auto& textBoxItr : UITextBoxVec)
-            {
-                if (textBoxItr.scrollAndClick(event, window))
+
+                if (itr.second.scrollAndClick(event, window))
                 {
                     event = emptyEvent;
                     while (event.type != sf::Event::MouseButtonPressed) /*this condition allows the user to move mouse cursor wihtout breaking interaction*/
@@ -94,39 +91,22 @@ void runVisual(sf::RenderWindow& window)
                         window.pollEvent(event);
                         if (event.type == sf::Event::TextEntered)
                         {
-                            textBoxItr.write(event.text.unicode, window);
+                            itr.second.write(event.text.unicode, window);
 
                             event = emptyEvent; /*need to reset event type. otherwise will read as TextEntered event for many loop iterations*/
                         }
 
                         window.clear();
                         window.draw(background);
-                        for (auto& buttonItr : UIButtonVec)
+                        for (auto& itr : UI)
                         {
-                            window.draw(buttonItr);
+                            window.draw(itr.first);
+                            window.draw(itr.second);
                         }
-                        for (auto& textBoxItr : UITextBoxVec)
-                        {
-                            window.draw(textBoxItr);
-                        }  
                         window.display();
                     }
                 }
             }
-
-
-            /*THIS AREA IS FOR VISUALIZING LINKED LIST
-            
-            area above and below this is used for the userinterface / functionality and will change as more functions are added
-            */
-
-            /*
-            THINGS TO NOTE
-            the "insert" button and the "textBox_insert" will be used together to call 
-            the insert operation from the linked list class. 
-
-
-            */
 
 
 
@@ -134,20 +114,11 @@ void runVisual(sf::RenderWindow& window)
 
          
         }
-        /*
-        draw buttons
-        */
-        for (auto& buttonItr : UIButtonVec)
-        {
-            window.draw(buttonItr);
-        }
-        /*
-        draw textBox's
-        */
-        for (auto& textBoxItr : UITextBoxVec)
-        {
-            window.draw(textBoxItr);
 
+        for (int i = 0; i < UI.size(); i++)
+        {
+            window.draw(UI[i].first);
+            window.draw(UI[i].second);
         }
 
         /*
@@ -162,12 +133,12 @@ private:
 
 double screenWidth;
 double screenHeight;
+
 LinkedList<GNode> list; /* list of GNode's (same thing as button, different name for clarity)*/
 sf::RectangleShape background;
 sf::Font font;
 
-vector<Button> UIButtonVec;
-vector<TextBox> UITextBoxVec;
+vector<std::pair<Button, TextBox>> UI;
 
 sf::Event event;
 sf::Event emptyEvent;
