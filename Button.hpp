@@ -61,7 +61,7 @@ bool scrollAndClick(sf::Event event, sf::Window& window)
         box.setOutlineThickness(5);
     }
 
-
+    return false;
 }
 
 

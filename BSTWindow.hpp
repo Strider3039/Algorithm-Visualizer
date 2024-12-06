@@ -10,7 +10,7 @@ public:
     BSTWindow(float width, float height, sf::Font& font)
         : windowWidth(width), windowHeight(height), mFont(font) {
         bst = GraphicBST<T>(windowWidth, windowHeight); // Initialize the BST
-        background.setFillColor(sf::Color::White);
+        background.setFillColor(sf::Color::Black);
         background.setSize(sf::Vector2f(windowWidth, windowHeight));
     }
 
@@ -48,6 +48,18 @@ private:
         switch (key) {
             case sf::Keyboard::Num1:
                 bst.insert(10, mFont);
+                break;
+            case sf::Keyboard::Num2:
+                bst.insert(5, mFont);
+                break;
+            case sf::Keyboard::Num3:
+                bst.insert(7, mFont);
+                break;
+            case sf::Keyboard::Num4:
+                bst.insert(13, mFont);
+                break;
+            case sf::Keyboard::Num5:
+                bst.insert(12, mFont);
                 break;
             case sf::Keyboard::R:
                 bst = GraphicBST<T>(windowWidth, windowHeight); // Reset the BST
