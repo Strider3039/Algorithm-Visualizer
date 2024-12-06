@@ -1,7 +1,9 @@
 #pragma once
 #include "GraphicBST.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Window/Window.hpp>
 #include <iostream>
 
 template <class T>
@@ -34,20 +36,28 @@ private:
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::KeyPressed) {
-                handleKeyPress(event.key.code);
+                handleKeyPress(event.key.code, window);
             }
         }
-
-        if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-            {
-                window.close();
-            }
     }
 
-    void handleKeyPress(sf::Keyboard::Key key) {
+    void handleKeyPress(sf::Keyboard::Key key, sf::RenderWindow& window) {
         switch (key) {
             case sf::Keyboard::Num1:
-                bst.insert(10, mFont);
+                bst.insert(20, mFont);
+                bst.insert(7, mFont);
+                bst.insert(16, mFont);
+                bst.insert(3, mFont);
+                bst.insert(19, mFont);
+                bst.insert(12, mFont);
+                bst.insert(5, mFont);
+                bst.insert(8, mFont);
+                bst.insert(11, mFont);
+                bst.insert(35, mFont);
+                bst.insert(14, mFont);
+                bst.insert(23, mFont);
+                bst.insert(28, mFont);
+                bst.insert(18, mFont);
                 break;
             case sf::Keyboard::Num2:
                 bst.insert(5, mFont);
@@ -59,13 +69,14 @@ private:
                 bst.insert(13, mFont);
                 break;
             case sf::Keyboard::Num5:
-                bst.insert(12, mFont);
+                
                 break;
             case sf::Keyboard::R:
                 bst = GraphicBST<T>(windowWidth, windowHeight); // Reset the BST
                 break;
             case sf::Keyboard::Escape:
                 std::cout << "Returning to menu..." << std::endl;
+                window.close();
                 
                 break;
             default:
