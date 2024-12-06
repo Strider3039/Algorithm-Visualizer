@@ -34,16 +34,15 @@ GraphicLinkedList(double width, double height)
     }
 }
 
-
+void clearData()
+{
+    UIButtonVec.clear();
+    UITextBoxVec.clear();
+}
 
 
 void runVisual(sf::RenderWindow& window)
 {
-    // /*
-    // text box for inserting function. will be replaced with vector of textBox's as more are added
-    // */
-    // TextBox textBox_insert("Insert", font, sf::Vector2f(800, 800));
-
     /*
     load UI textBox's
     */
@@ -53,14 +52,6 @@ void runVisual(sf::RenderWindow& window)
     load UI buttons
     */
     listUIButtons(UIButtonVec, font, screenWidth, screenHeight);
-
-
-
-    /*
-    load testModule
-    */
-    //UImodule testModule(sf::Vector2f(600, 600), sf::Vector2f(screenWidth, screenHeight), "test");
-
 
     while (window.isOpen()) 
     {
@@ -81,36 +72,6 @@ void runVisual(sf::RenderWindow& window)
                 return;
             }
 
-            /*************************************************************************** */
-            // if (textBox_insert.scrollAndClick(event, window))
-            // {
-            //     std::cout << "insert_textBox interaction!" << std::endl;
-            //     /*
-            //     while cursor intersects box, pollevents to chack for text entered.
-            //     draw and display window to reflect updates to text box
-            //     */
-            //     //while (textBox_insert.cursorIntersect(window))
-            //     event = emptyEvent;
-            //     while (event.type != sf::Event::MouseButtonPressed) /*this condition allows the user to move mouse cursor wihtout breaking interaction*/
-            //     {
-            //         window.pollEvent(event);
-            //         if (event.type == sf::Event::TextEntered)
-            //         {
-            //             textBox_insert.write(event.text.unicode, window);
-
-            //             event = emptyEvent; /*need to reset event type. otherwise will read as TextEntered event for ages*/
-            //         }
-            //         window.clear();
-            //         window.draw(background);
-            //         window.draw(textBox_insert);
-            //         for (auto& buttonItr : UIButtonVec)
-            //         {
-            //             window.draw(buttonItr);
-            //         }
-            //         window.display();
-            //     }
-            // }
-            /******************************************************************************* */
             for (auto& buttonItr : UIButtonVec)
             {
                 if (buttonItr.scrollAndClick(event, window))
@@ -127,9 +88,30 @@ void runVisual(sf::RenderWindow& window)
             {
                 if (textBoxItr.scrollAndClick(event, window))
                 {
-                    textBoxItr.triggerCallback();
-                }
+                    event = emptyEvent;
+                    while (event.type != sf::Event::MouseButtonPressed) /*this condition allows the user to move mouse cursor wihtout breaking interaction*/
+                    {
+                        window.pollEvent(event);
+                        if (event.type == sf::Event::TextEntered)
+                        {
+                            textBoxItr.write(event.text.unicode, window);
 
+                            event = emptyEvent; /*need to reset event type. otherwise will read as TextEntered event for many loop iterations*/
+                        }
+
+                        window.clear();
+                        window.draw(background);
+                        for (auto& buttonItr : UIButtonVec)
+                        {
+                            window.draw(buttonItr);
+                        }
+                        for (auto& textBoxItr : UITextBoxVec)
+                        {
+                            window.draw(textBoxItr);
+                        }  
+                        window.display();
+                    }
+                }
             }
 
 
@@ -165,12 +147,12 @@ void runVisual(sf::RenderWindow& window)
         for (auto& textBoxItr : UITextBoxVec)
         {
             window.draw(textBoxItr);
+
         }
 
         /*
         draw text inputed by user
         */       
-        //window.draw(input);
         window.display();
         window.clear();  
     }

@@ -74,6 +74,7 @@ int main(void)
                     if (buttonItr._getText() == "Linked List")
                     {
                         graphicListObj.runVisual(window);
+                        graphicListObj.clearData();
                     }
                 }
             }

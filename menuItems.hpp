@@ -79,7 +79,9 @@ inline void listUITextBox(vector<TextBox>& textBoxVec, sf::Font& font, double sc
     textBox's for UI
     */
     TextBox insert("type here", font, sf::Vector2f(400, 400));
+    TextBox remove("type here", font, sf::Vector2f(600, 400));
 
     textBoxVec.push_back(insert);
+    textBoxVec.push_back(remove);
 
 }
