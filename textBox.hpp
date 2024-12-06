@@ -63,7 +63,7 @@ void write(unsigned int unicode, sf::Window& window)
     }
     if (inputStr.getSize() == 0) /*empty string defaults back to "Insert" gray color*/
     {
-        outputStr.setString("Insert");
+        outputStr.setString("type here");
         outputStr.setFillColor(grayColor);
         this->centerBoxPos();
     }
