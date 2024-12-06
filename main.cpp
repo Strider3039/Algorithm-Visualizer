@@ -81,7 +81,6 @@ int main(void)
                     if (buttonItr._getText() == "Binary Tree")
                     {
                         bst.runVisual(window);
-                        window.isOpen();
                         
                     }
                 }

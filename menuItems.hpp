@@ -10,7 +10,7 @@ inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& background
     // Create Menu Title
     title = sf::Text("Algorithm Visualizer", font, 70);
     title.setStyle(sf::Text::Underlined | sf::Text::Bold);
-    title.setFillColor(sf::Color::Cyan);
+    title.setFillColor(sf::Color::White);
 
     // Center the title
     sf::Vector2u windowSize = window.getSize();
@@ -20,7 +20,7 @@ inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& background
     );
 
     // load and initialize background file
-    if (!backgroundTexture.loadFromFile("AV Background (2).png")) {
+    if (!backgroundTexture.loadFromFile("AV Background.png")) {
         std::cerr << "Failed to load background image" << std::endl;
     }
 
