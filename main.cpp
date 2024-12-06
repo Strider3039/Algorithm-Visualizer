@@ -2,6 +2,7 @@
 #include "Stack.hpp"
 #include "menuItems.hpp"
 #include "listWindow.hpp"
+#include "BSTWindow.hpp"
 
 int main(void)
 {  
@@ -36,6 +37,7 @@ int main(void)
     graphic linked list object.
     */
     GraphicLinkedList graphicListObj(screenWidth, screenHeight);
+    BSTWindow<int> bst(screenWidth, screenHeight, font);
 
     mainMenuScreen(background, backgroundTexture, title, font, window);
     
@@ -75,6 +77,13 @@ int main(void)
                     {
                         graphicListObj.runVisual(window);
                         graphicListObj.clearData();
+                    }
+
+                    if (buttonItr._getText() == "Binary Tree")
+                    {
+                        bst.runVisual(window);
+                        window.isOpen();
+                        
                     }
                 }
             }

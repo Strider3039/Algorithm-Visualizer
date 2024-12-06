@@ -39,6 +39,8 @@ public:
     */
 
 
+    GraphicBST() : root(nullptr), windowWidth(800), windowHeight(600) {}
+
     GraphicBST(float wWidth, float wHeight) : root(nullptr), windowWidth(wWidth), windowHeight(wHeight) {}
 
     void insert(T data, sf::Font& font)
@@ -49,6 +51,12 @@ public:
     void draw(sf::RenderWindow& window)
     {
         draw(window, root);
+    }
+
+    // Function to reset the tree
+    void reset()
+    {
+        root = nullptr;
     }
 
 private:
@@ -126,10 +134,9 @@ private:
         sf::Text text;
         sf::Vector2f position;
 
-        TreeNode(T data, sf::Font &font, float xPos, float yPos)
+        TreeNode(T data, sf::Font& font, float xPos, float yPos)
         : data(data), pLeft(nullptr), pRight(nullptr)
         {
-
             // node visuals
             shape.setRadius(20);
             shape.setFillColor(sf::Color::Black);
@@ -145,11 +152,9 @@ private:
             text.setFillColor(sf::Color::White);
             auto bounds = text.getLocalBounds();
             text.setPosition(xPos + shape.getRadius() - bounds.width / 2, yPos + shape.getRadius() - bounds.height);
-
         }
 
     };
-
 
     TreeNode* root;
     float windowWidth, windowHeight;
@@ -158,7 +163,7 @@ private:
     {
         if (pNode == nullptr)
         {
-            TreeNode* newNode = new TreeNode(data, font, xPos, yPos);
+            pNode = new TreeNode(data, font, xPos, yPos);  // Link the new node
             return;
         }
 
@@ -170,40 +175,35 @@ private:
         {
             insert(data, pNode->pRight, xPos + offset, yPos + 100, offset / 2, font);
         }
-
-
     }
 
     void draw(sf::RenderWindow& window, TreeNode* pNode)
     {
         if (pNode == nullptr) return;
 
-        if (pNode->left != nullptr)
+        if (pNode->pLeft != nullptr)
         {
-            drawEdge();
+            drawEdge(window, pNode->position, pNode->pLeft->position);
             draw(window, pNode->pLeft);
         }
-        else if (pNode->pRight != nullptr)
+        if (pNode->pRight != nullptr)
         {
-            drawEdge();
+            drawEdge(window, pNode->position, pNode->pRight->position);
             draw(window, pNode->pRight);
         }
 
         window.draw(pNode->shape);
         window.draw(pNode->text);
-
-
     }
 
     void drawEdge(sf::RenderWindow& window, sf::Vector2f parentPos, sf::Vector2f childPos)
     {
-        sf::Vertex line [] {
-            sf::Vertex(parentPos + sf::Vector2f(20,20), sf::Color::White),
-            sf::Vertex(childPos + sf::Vector2f(20,20), sf::Color::White)
+        sf::Vertex line[] = {
+            sf::Vertex(parentPos + sf::Vector2f(20, 20), sf::Color::White),
+            sf::Vertex(childPos + sf::Vector2f(20, 20), sf::Color::White)
         };
 
         window.draw(line, 2, sf::Lines);
-
     }
 
 
