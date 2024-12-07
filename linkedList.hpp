@@ -2,15 +2,22 @@
 #define LINKEDLIST_HPP 
 #include "Header.hpp"
 #include "Button.hpp"
+#include <SFML/Graphics/Drawable.hpp>
 
 template <typename T>
 class LinkedList
 {
+    
 public:
     LinkedList() : pFront(nullptr), pBack(nullptr) {}
 
     ~LinkedList() {
         removeAll(pFront);
+    }
+
+    /*get front*/
+    T getFront() {
+        return pFront->element;
     }
 
     // insert at front
@@ -23,12 +30,12 @@ public:
             pFront = newNode;   
             pBack = newNode;
                 
-            std:: cout << "inserting " << elementToInsert << std::endl;
+            // std:: cout << "inserting " << elementToInsert << std::endl;
 
         }
         else 
         {
-            std:: cout << "inserting " << elementToInsert << std::endl;
+           // std:: cout << "inserting " << elementToInsert << std::endl;
             node* newNode = new node{elementToInsert, pFront};
             pFront = newNode;
         }
@@ -89,6 +96,21 @@ public:
         return pFront == nullptr;
     }
 
+    void draw(sf::RenderWindow& target) {
+        auto pTemp = pFront; 
+        while (pTemp != nullptr)
+        {
+            target.draw(pTemp->element);
+            pTemp = pTemp->pNext;
+        }
+    }
+
+    void clear() {
+        removeAll(pFront);
+        pFront = nullptr;
+        pBack = nullptr;
+    }
+
 protected:
 
     struct node
@@ -139,4 +161,7 @@ protected:
     }
  
 };
+
+
+
 #endif

@@ -70,5 +70,7 @@ inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, d
     UI.push_back(UIBack);
     UI.push_back(UIInsert);
     UI.push_back(UIRemove);
+
+    
     
 }

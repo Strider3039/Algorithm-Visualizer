@@ -54,6 +54,10 @@ void write(unsigned int unicode, sf::Window& window)
     {
         return;
     }
+    else if (unicode == 13) /*enter key*/
+    {
+        return;
+    }
     else if (inputStr.getSize() != 6) /*limit character count to 6*/
     {               
         inputStr += unicode;
@@ -205,7 +209,7 @@ code taken from Button class
         // set start position to middle of screen for box and height based on string height (experimental)
         // position is center of screen - half the box size to truely center
         // NOTE: set constant box width
-        box.setSize(sf::Vector2f(150, outputStr.getLocalBounds().height + 20));
+        box.setSize(sf::Vector2f(150, outputStr.getLocalBounds().height + 14));
         box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
 
         // set the text inside the box relative to size and position (experimental)
