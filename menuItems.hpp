@@ -78,5 +78,15 @@ inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, d
 
 inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight)
 {
-    Button back("Back", font, sf::Vector2f(screenWidth * .055, screenHeight * .2), 250);
+    // make back button textbox
+    Button back("Back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
+    TextBox backField;
+
+    // make insert button and textbox
+    TextBox insertField("type here", font, sf::Vector2f(screenWidth * .2, screenHeight * .02));
+    Button insert("Insert", font, sf::Vector2f(screenWidth * .29, screenHeight * .02), 250);
+
+    Button remove("Remove", font, sf::Vector2f(screenWidth * .59, screenHeight * .02), 250);
+    TextBox removeField("type here", font, sf::Vector2f(screenWidth * .5, screenHeight * .02));
+
 }

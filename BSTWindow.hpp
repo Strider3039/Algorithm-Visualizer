@@ -14,6 +14,7 @@ public:
         bst = GraphicBST<T>(windowWidth, windowHeight); // Initialize the BST
         background.setFillColor(sf::Color::Black);
         background.setSize(sf::Vector2f(windowWidth, windowHeight));
+        isRunning = true;
     }
 
     void runVisual(sf::RenderWindow& window) {
@@ -22,6 +23,12 @@ public:
         {
             processEvents(window);
             render(window);
+
+            if (isRunning == false)
+            {
+                isRunning = true;
+                return;
+            }
         }
     }
 
@@ -31,6 +38,7 @@ private:
     sf::Font& mFont;
     sf::RectangleShape background;
     GraphicBST<T> bst;
+    bool isRunning;
 
     void processEvents(sf::RenderWindow& window) {
         sf::Event event;
@@ -38,6 +46,7 @@ private:
             if (event.type == sf::Event::KeyPressed) {
                 handleKeyPress(event.key.code, window);
             }
+
         }
     }
 
@@ -64,8 +73,7 @@ private:
                 break;
             case sf::Keyboard::Escape:
                 std::cout << "Returning to menu..." << std::endl;
-                window.close();
-                
+                isRunning = false;
                 break;
             default:
                 break;
