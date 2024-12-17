@@ -124,26 +124,27 @@ protected:
         target.draw(text, states);
     }
 
+    void centerBoxPos()
+    {
+        // set start position to middle of screen for box and height based on string height (experimental)
+        // position is center of screen - half the box size to truely center
+        // NOTE: set constant box width
+        box.setSize(sf::Vector2f(boxWidth, text.getLocalBounds().height + 20));
+        box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
+
+        // set the text inside the box relative to size and position (experimental)
+        text.setPosition(
+            box.getPosition().x + (box.getSize().x - text.getLocalBounds().width) / 2,
+            box.getPosition().y - 10/*experimental offset for y*/ + (box.getSize().y - text.getLocalBounds().height) / 2
+            );
+
+    }
 
 private:
 
 std::function<void()> onClick;
 
-void centerBoxPos()
-{
-    // set start position to middle of screen for box and height based on string height (experimental)
-    // position is center of screen - half the box size to truely center
-    // NOTE: set constant box width
-    box.setSize(sf::Vector2f(boxWidth, text.getLocalBounds().height + 20));
-    box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
 
-    // set the text inside the box relative to size and position (experimental)
-    text.setPosition(
-        box.getPosition().x + (box.getSize().x - text.getLocalBounds().width) / 2,
-        box.getPosition().y - 10/*experimental offset for y*/ + (box.getSize().y - text.getLocalBounds().height) / 2
-        );
-
-}
 
 sf::RectangleShape box;
 sf::Vector2f positionVector;

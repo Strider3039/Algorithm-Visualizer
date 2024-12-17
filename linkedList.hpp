@@ -2,34 +2,40 @@
 #define LINKEDLIST_HPP 
 #include "Header.hpp"
 #include "Button.hpp"
+#include <SFML/Graphics/Drawable.hpp>
 
 template <typename T>
 class LinkedList
 {
+    
 public:
-    LinkedList() : pFront(nullptr), pBack(nullptr){}
+    LinkedList() : pFront(nullptr), pBack(nullptr) {}
 
-    ~LinkedList()
-    {
+    ~LinkedList() {
         removeAll(pFront);
     }
 
-    // insert at front
-    void insertFront(T elementToInsert){
+    /*get front*/
+    T getFront() {
+        return pFront->element;
+    }
 
-        if (pFront == nullptr)  // list is empty
+    // insert at front
+    void insertFront(T elementToInsert) {
+
+        if (pFront == nullptr) // list is empty
         {
             node* newNode = new node{elementToInsert, nullptr};
 
             pFront = newNode;   
             pBack = newNode;
                 
-            std:: cout << "inserting " << elementToInsert << std::endl;
+            // std:: cout << "inserting " << elementToInsert << std::endl;
 
         }
-        else
+        else 
         {
-            std:: cout << "inserting " << elementToInsert << std::endl;
+           // std:: cout << "inserting " << elementToInsert << std::endl;
             node* newNode = new node{elementToInsert, pFront};
             pFront = newNode;
         }
@@ -37,7 +43,7 @@ public:
     } 
 
     // insert at back -- for queue implementation
-    void insertBack(T elementToInsert){
+    void insertBack(T elementToInsert) {
 
         if (pBack == nullptr)  // list is empty
         {
@@ -48,7 +54,7 @@ public:
                     
             std:: cout << "inserting " << elementToInsert << std::endl;
         }
-        else
+        else 
         {
             std:: cout << "inserting " << elementToInsert << std::endl;
             node* newNode = new node{elementToInsert, nullptr};
@@ -62,24 +68,20 @@ public:
 
     // remove selected
     void removeSelected(T elementToRemove) {
-        if (pFront == nullptr)
-        {
+        if (pFront == nullptr) {
             std::cout << "empty" << std::endl;
             return;
         }
 
         node* pCur = pFront;
         
-        if (pCur->element == elementToRemove)
-        {
+        if (pCur->element == elementToRemove) {
             pFront = pCur->pNext;
             std::cout << "deleting " << elementToRemove << std::endl;
             return delete pCur;
         }
-        while (pCur->pNext != nullptr)
-        {
-            if (pCur->pNext->element == elementToRemove)
-            {
+        while (pCur->pNext != nullptr) {
+            if (pCur->pNext->element == elementToRemove) {
                 node* pTemp = pCur->pNext;
                 pCur = pTemp->pNext;
                 std::cout << "deleting " << elementToRemove << std::endl;
@@ -90,9 +92,23 @@ public:
         return;
     }
 
-    bool isEmpty()
-    {
+    bool isEmpty() {
         return pFront == nullptr;
+    }
+
+    void draw(sf::RenderWindow& target) {
+        auto pTemp = pFront; 
+        while (pTemp != nullptr)
+        {
+            target.draw(pTemp->element);
+            pTemp = pTemp->pNext;
+        }
+    }
+
+    void clear() {
+        removeAll(pFront);
+        pFront = nullptr;
+        pBack = nullptr;
     }
 
 protected:
@@ -109,21 +125,19 @@ protected:
     node* pFront; 
     node* pBack;
 
-    virtual void removeAll(node*& pCur){
-        if (pCur == nullptr)
-        {
+    virtual void removeAll(node*& pCur) {
+        if (pCur == nullptr) {
             return;
         }
         removeAll(pCur->pNext);
         delete pCur;
     }
 
-    bool search(T targetElement)
-    {
+    bool search(T targetElement) {
         node* pCur = pFront;
         while (pCur != nullptr)
         {
-            if (pCur->element == targetElement)
+            if (pCur->element == targetElement) 
             {
                 return true;
             }
@@ -133,8 +147,7 @@ protected:
     }
 
     // remove from front -- used for queue implementation
-    T removeFront()
-    {
+    T removeFront() {
         if (pFront == nullptr)
         {
             std::cout << "list empty" << std::endl;
@@ -148,4 +161,7 @@ protected:
     }
  
 };
+
+
+
 #endif
