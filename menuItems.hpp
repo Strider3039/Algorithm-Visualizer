@@ -1,6 +1,7 @@
 #pragma once
 #include "Button.hpp"
 #include "textBox.hpp"
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/System/Vector2.hpp>
 
 
@@ -73,4 +74,9 @@ inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, d
 
     
     
+}
+
+inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight)
+{
+    Button back("Back", font, sf::Vector2f(screenWidth * .055, screenHeight * .2), 250);
 }
