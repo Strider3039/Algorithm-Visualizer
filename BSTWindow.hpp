@@ -59,18 +59,6 @@ private:
                 bst.insert(28, mFont);
                 bst.insert(18, mFont);
                 break;
-            case sf::Keyboard::Num2:
-                bst.insert(5, mFont);
-                break;
-            case sf::Keyboard::Num3:
-                bst.insert(7, mFont);
-                break;
-            case sf::Keyboard::Num4:
-                bst.insert(13, mFont);
-                break;
-            case sf::Keyboard::Num5:
-                
-                break;
             case sf::Keyboard::R:
                 bst = GraphicBST<T>(windowWidth, windowHeight); // Reset the BST
                 break;
