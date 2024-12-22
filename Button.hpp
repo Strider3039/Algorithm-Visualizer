@@ -1,4 +1,7 @@
 #pragma once
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/String.hpp>
 #include <SFML/Window/Window.hpp>
 #include "Header.hpp"
 #include <SFML/System/Vector2.hpp>
@@ -10,7 +13,17 @@ public:
 /*
 default constructor
 */
-Button() {}
+Button() 
+{
+    text.setCharacterSize(30);
+    text.setFillColor(sf::Color::White);
+
+    box.setFillColor(sf::Color::Black);
+    box.setOutlineColor(sf::Color::White);
+    box.setOutlineThickness(5);
+    boxWidth = 150;
+    box.setSize(sf::Vector2f(100, 150));
+}
 // custom constructor for text and font input
 Button(std::string _text, sf::Font& _font, sf::Vector2f position, double width)
 {
@@ -64,6 +77,27 @@ bool scrollAndClick(sf::Event event, sf::Window& window)
     return false;
 }
 
+bool cursorIntersect(sf::Window& window)
+{
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    return box.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+}
+
+bool cursorInteraction(sf::Event event, sf::Window& window)
+{
+    return (cursorIntersect(window) && (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left));
+}
+
+void _setFont(sf::Font &font)
+{
+    text.setFont(font);
+}
+
+void _setText(sf::String str)
+{
+    text.setString(str);
+}
+
 
 /*
 return the global bounds of the button
@@ -84,7 +118,7 @@ void _setPosititon(sf::Vector2f position)
 
 sf::Vector2f _getPosition()
 {
-    
+    return positionVector;
 }
 
 /*
@@ -101,6 +135,10 @@ std::string _getText()
     return text.getString();
 }
 
+sf::RectangleShape getBox()
+{
+    return box;
+}
 
 /*
 sets std callback function
@@ -129,6 +167,7 @@ protected:
         // set start position to middle of screen for box and height based on string height (experimental)
         // position is center of screen - half the box size to truely center
         // NOTE: set constant box width
+        //cout << text.getLocalBounds().width << endl;
         box.setSize(sf::Vector2f(boxWidth, text.getLocalBounds().height + 20));
         box.setPosition(positionVector.x - box.getSize().x / 2, positionVector.y - box.getSize().y / 2);
 
@@ -137,7 +176,6 @@ protected:
             box.getPosition().x + (box.getSize().x - text.getLocalBounds().width) / 2,
             box.getPosition().y - 10/*experimental offset for y*/ + (box.getSize().y - text.getLocalBounds().height) / 2
             );
-
     }
 
 private:

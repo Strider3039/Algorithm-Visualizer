@@ -3,6 +3,8 @@
 #include "menuItems.hpp"
 #include "listWindow.hpp"
 #include "BSTWindow.hpp"
+#include "GraphicList.hpp"
+#include <SFML/System/Vector2.hpp>
 
 int main(void)
 {  
@@ -36,7 +38,7 @@ int main(void)
     /*
     graphic linked list object.
     */
-    GraphicLinkedList graphicListObj(screenWidth, screenHeight);
+    GraphicList graphicListObj(sf::Vector2i(screenWidth, screenHeight));
     BSTWindow<int> bst(screenWidth, screenHeight, font);
 
     mainMenuScreen(background, backgroundTexture, title, font, window);

@@ -2,9 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <math.h>
 #include <iostream>
+#include "Button.hpp"
 
  
 /*
@@ -30,6 +33,7 @@ public:
  
     void render(sf::RenderWindow& window)
     {
+        s.setPosition(pos);
         window.draw(s);
     }
  
@@ -54,6 +58,16 @@ public:
         this->strength = strength;
     }
 
+    void setColor(sf::Color color)
+    {
+        this->s.setFillColor(color);
+    }
+
+    void setRadius(float num)
+    {
+        s.setRadius(num);
+    }
+
 private:
 
     sf::Vector2f pos;
@@ -68,7 +82,7 @@ class Particle
 public:
 
     Particle() {}
-    Particle(float pos_x, float pos_y, float vel_x, float vel_y)
+    Particle(float pos_x, float pos_y, float vel_x, float vel_y, Button &shape)
     {
         pos.x = pos_x;
         pos.y = pos_y;
@@ -76,25 +90,24 @@ public:
         vel.x = vel_x;
         vel.y = vel_y;
 
-        s.setPosition(pos);
-        s.setFillColor(sf::Color::Magenta);
-        s.setRadius(8);
+        this->shape = shape;
+        shape._setPosititon(pos);
+    }
+
+    void setShape(Button &shape)
+    {
+        this->shape = shape;
+    }
+
+    bool interaction(sf::Event &event, sf::Window &window)
+    {
+        return shape.cursorInteraction(event, window);
     }
 
     void setPos(sf::Vector2f pos)
     {
         this->pos = pos;
-        s.setPosition(pos);
-    }
-
-    void setColor(sf::Color color)
-    {
-        s.setFillColor(color);
-    }
-
-    void setRadius(int num)
-    {
-        s.setRadius(num);
+        shape._setPosititon(pos);
     }
 
     void setVel(sf::Vector2f vel)
@@ -104,40 +117,87 @@ public:
  
     void render(sf::RenderWindow& window)
     {
-        s.setPosition(pos);
-        window.draw(s);
+        shape._setPosititon(pos);
+        window.draw(shape);
     }
 
- 
-    void update_physics(GravitySource& s)
+    std::string getText()
     {
-        float distance_x = s.get_pos().x - pos.x;
-        float distance_y = s.get_pos().y - pos.y;
- 
-        float distance = sqrt(distance_x * distance_x + distance_y * distance_y);
- 
-        float inverse_distance = 1.f / distance;
- 
-        float normalized_x = inverse_distance * distance_x;
-        float normalized_y = inverse_distance * distance_y;
- 
-        float inverse_square_dropoff = inverse_distance * inverse_distance;
- 
-        float acceleration_x = normalized_x * s.get_strength() * inverse_square_dropoff;
-        float acceleration_y = normalized_y * s.get_strength() * inverse_square_dropoff;
- 
-        vel.x += acceleration_x;
-        vel.y += acceleration_y;
- 
+        return shape._getText();
+    }
+
+    sf::Vector2f getPos()
+    {
+        return pos;
+    }
+
+    sf::Vector2f getVel()
+    {
+        return vel;
+    }
+
+    Button getShape()
+    {
+        return shape;
+    }
+
+
+    void acceleratePos()
+    {
+        float deceleration = 0.95f; /* lower value means stronger deceleration */
+
+        if (std::abs(vel.x) < 0.1f && std::abs(vel.y) < 0.1f) {
+            vel.x = 0.0f;
+            vel.y = 0.0f;
+            return;
+        }
+
+        vel.x *= deceleration;
+        vel.y *= deceleration;
+
+        vel.x = std::abs(vel.x) * direction.x;
+        vel.y = std::abs(vel.y) * direction.y; 
+
+
         pos.x += vel.x;
         pos.y += vel.y;
 
-        std::cout << pos.x << ", " << pos.y << std::endl;
+    }
+
+    void handleCollisions()
+    {
+
+    }
+
+    void setDirection(sf::Vector2i direction)
+    {
+        this->direction = direction;
+    }
+
+    void setDirection_x(int n)
+    {
+        this->direction.x = n;
+    }
+
+    void setDirection_y(int n)
+    {
+        this->direction.y = n;
+    }
+
+    void setVel_x(int n)
+    {
+        this->vel.x = n;
+    }
+
+      void setVel_y(int n)
+    {
+        this->vel.y = n;
     }
 
 private:
 
+    sf::Vector2i direction;
     sf::Vector2f pos;
     sf::Vector2f vel;
-    sf::CircleShape s;
+    Button shape;
 };

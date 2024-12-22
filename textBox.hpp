@@ -51,13 +51,9 @@ void write(unsigned int unicode, sf::Window& window)
         outputStr.setString(inputStr);
     }
     else if (unicode == 27) /*problems with escape key*/
-    {
-        return;
-    }
+        return; 
     else if (unicode == 13) /*enter key*/
-    {
         return;
-    }
     else if (inputStr.getSize() != 6) /*limit character count to 6*/
     {               
         inputStr += unicode;

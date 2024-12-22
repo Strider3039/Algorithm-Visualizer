@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Window.hpp>
 #include <atomic>
 #include "nodeGraphic.hpp"
@@ -38,20 +39,20 @@ public:
         numItems = 0;
     }
 
-    // GravitySource source(800, 500, 7000);
-
     void loadGravSource()
     {
         source.setPos(sf::Vector2f (800, 500));
         source.setStrength(7000);
+        source.setColor(sf::Color::Green);
+        source.setRadius(8);
     }
  
     void loadParticle()
     {
-        particle.setPos(sf::Vector2f(600, 700));
-        particle.setVel(sf::Vector2f(4, 0));
-        particle.setColor(sf::Color::Magenta);
-        particle.setRadius(8);
+        // particle.setPos(sf::Vector2f(700, 500));
+        // particle.setVel(sf::Vector2f(4, 0));
+        // particle.setColor(sf::Color::Magenta);
+        // particle.setRadius(8);
     }
 
     void runVisual(sf::RenderWindow& window) {
@@ -64,8 +65,6 @@ public:
         while (window.isOpen()) {
 
             window.clear();  
-
-            //window.draw(background);
 
             while (window.pollEvent(event)) {
 
@@ -96,8 +95,6 @@ public:
                             numItems++;
                         }
                     }
-
-
                     if (itr.second.scrollAndClick(event, window)) {
 
                         event = emptyEvent;
@@ -108,6 +105,12 @@ public:
                             window.pollEvent(event);
 
                             if (event.type == sf::Event::TextEntered) {
+
+                                if (event.text.unicode == 27 || event.text.unicode == 13)
+                                {
+                                    break;
+                                }
+
                                 itr.second.write(event.text.unicode, window);
 
                                 /*reset event type*/
@@ -120,13 +123,17 @@ public:
                                 window.draw(itr.second);
                             }
 
-                            //window.draw(background);
                             list.draw(window);
-                            particle.update_physics(source);
+                            //particle.update_physics(sf::Mouse::getPosition());
                             source.render(window);
-                            particle.render(window);
+                            //particle.render(window);
                             window.display();
                         }
+
+
+                        /*
+                        
+                        */
                     }
                 }         
             }
@@ -137,9 +144,9 @@ public:
                 window.draw(itr.second);
             }
 
-            particle.update_physics(source);
+            //particle.update_physics(sf::Mouse::getPosition());
             source.render(window);
-            particle.render(window);
+            //particle.render(window);
 
             list.draw(window);
             window.display();
@@ -147,6 +154,11 @@ public:
     }
 
 private:
+
+    void updatePhysics()
+    {
+
+    }
 
     double screenWidth;
     double screenHeight;
@@ -160,5 +172,5 @@ private:
     int numItems;
 
     GravitySource source;
-    Particle particle;
+    //Particle particle;
 };
