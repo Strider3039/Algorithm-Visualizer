@@ -45,7 +45,7 @@ public:
 
     void insert(T data, sf::Font& font)
     {
-        insert(data, root, windowWidth / 2, 50,  windowHeight / 2, font);
+        insert(data, root, windowWidth / 2, 200,  windowHeight / 2, font);
     }
 
     void draw(sf::RenderWindow& window)
@@ -169,11 +169,11 @@ private:
 
         if (data < pNode->data)
         {
-            insert(data, pNode->pLeft, xPos - offset, yPos + 100, offset / 2, font);
+            insert(data, pNode->pLeft, xPos - offset, yPos + 75, offset / 2, font);
         }
         else if (data > pNode->data)
         {
-            insert(data, pNode->pRight, xPos + offset, yPos + 100, offset / 2, font);
+            insert(data, pNode->pRight, xPos + offset, yPos + 75, offset / 2, font);
         }
     }
 

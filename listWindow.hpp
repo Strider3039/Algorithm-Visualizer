@@ -86,7 +86,7 @@ public:
 
 
                             /*functionality of insert button*/
-                            cout << "inesrting: " << itr.second._getText() << endl;
+                            cout << "inserting: " << itr.second._getText() << endl;
                             list.insertFront
                             (
                                 Button(itr.second._getText(), font, 
