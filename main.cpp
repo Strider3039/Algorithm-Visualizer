@@ -5,51 +5,88 @@
 #include "BSTWindow.hpp"
 #include "GraphicList.hpp"
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/WindowStyle.hpp>
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <X11/extensions/Xinerama.h>
+#include <vector>
 
 int main(void)
 {  
-// hehe
     Display* display = XOpenDisplay(nullptr);
     if (display == nullptr) {
         std::cerr << "Cannot open display!" << std::endl;
         return -1;
     }
-    
-    Screen* screen = DefaultScreenOfDisplay(display);
-    double screenWidth = screen->width;
-    double screenHeight = screen->height;
 
-    std::cout << "Screen width: " << screenWidth << std::endl;
-    std::cout << "Screen screenHeight: " << screenHeight << std::endl;
+    if (!XineramaIsActive(display)) {
+        std::cerr << "Xinerama is not active!" << std::endl;
+        XCloseDisplay(display);
+        return -1;
+    }
 
-    sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Algorithm Visualizer", sf::Style::Fullscreen);
+    int screenCount;
+    XineramaScreenInfo* screens = XineramaQueryScreens(display, &screenCount);
 
+    if (screens == nullptr) {
+        std::cerr << "Failed to query screens!" << std::endl;
+        XCloseDisplay(display);
+        return -1;
+    }
+
+    std::cout << "Number of physical screens: " << screenCount << std::endl;
+
+    std::vector<double> screenWidths;
+    std::vector<double> screenHeights;
+    std::vector<int> screenXOffsets;
+    std::vector<int> screenYOffsets;
+
+    for (int i = 0; i < screenCount; ++i) {
+        screenWidths.push_back(screens[i].width);
+        screenHeights.push_back(screens[i].height);
+        screenXOffsets.push_back(screens[i].x_org);
+        screenYOffsets.push_back(screens[i].y_org);
+
+        std::cout << "Screen " << i << ": "
+                    << "Width = " << screens[i].width
+                    << ", Height = " << screens[i].height
+                    << ", X Offset = " << screens[i].x_org
+                    << ", Y Offset = " << screens[i].y_org
+                    << std::endl;
+    }
+
+
+    const int internalDisplay = 0;
+
+    sf::RenderWindow window(sf::VideoMode(screenWidths[internalDisplay] , screenHeights[internalDisplay]), "Algorithm Visualizer", sf::Style::Default);
+    window.setPosition(sf::Vector2i(screenXOffsets[internalDisplay], screenYOffsets[internalDisplay]));
 
     sf::Font font;
     if (!font.loadFromFile("arial.ttf"))
     {
         std::cout << "Failed to load font" << std::endl;
     }
-
     sf::Sprite background;
     sf::Texture backgroundTexture;
     sf::Text title;
 
-    /*
-    graphic linked list object.
-    */
-    GraphicList graphicListObj(sf::Vector2i(screenWidth, screenHeight));
-    BSTWindow<int> bst(screenWidth, screenHeight, font);
+    GraphicList graphicListObj(sf::Vector2i(screenWidths[internalDisplay], screenHeights[internalDisplay]));
+    BSTWindow<int> bst(screenWidths[internalDisplay], screenHeights[internalDisplay], font);
 
     mainMenuScreen(background, backgroundTexture, title, font, window);
     
     vector<Button> buttons;
-    mainMenuItems(buttons, font, screenWidth, screenHeight);
+    mainMenuItems(buttons, font, screenWidths[internalDisplay], screenHeights[internalDisplay]);
 
     
 
     while (window.isOpen()) 
     {
+        if (screenCount > 1)
+        {
+            reSizeWindow(screenCount, screenWidths, screenHeights, screenXOffsets, window);
+        }
+
         sf::Event event;
         while (window.pollEvent(event)) 
         {
@@ -104,5 +141,6 @@ int main(void)
 
     }
 
+    
     return 0;
 }

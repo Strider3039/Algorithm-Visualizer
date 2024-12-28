@@ -49,7 +49,21 @@ inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width,
     buttons.push_back(stack_button);
     buttons.push_back(bst_button);
     buttons.push_back(avl_button);
+}
 
+inline void reSizeWindow(int &screenCount, std::vector<double> &screenWidths, std::vector<double> &screenHeights, std::vector<int> &screenXOffsets, sf::RenderWindow &window)
+{
+    for (int i = 0; i < screenCount; i++) 
+    {
+      if (window.getPosition().x <= screenXOffsets[i] - 50 && window.getSize().x == screenWidths[i]) 
+      {
+        window.setSize(sf::Vector2u(screenWidths[i + 1], screenHeights[i + 1]));
+      }
+      if (window.getPosition().x >= screenXOffsets[i] - 50 && window.getSize().x == screenWidths[i + 1]) 
+      {
+        window.setSize(sf::Vector2u(screenWidths[i], screenHeights[i]));
+      }
+    }
 }
 
 inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight)
@@ -71,9 +85,6 @@ inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, d
     UI.push_back(UIBack);
     UI.push_back(UIInsert);
     UI.push_back(UIRemove);
-
-    
-    
 }
 
 inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight)
@@ -88,5 +99,4 @@ inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, do
 
     Button remove("Remove", font, sf::Vector2f(screenWidth * .59, screenHeight * .02), 250);
     TextBox removeField("type here", font, sf::Vector2f(screenWidth * .5, screenHeight * .02));
-
 }

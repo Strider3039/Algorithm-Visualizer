@@ -84,7 +84,6 @@ private:
             }
         }
 
-
         if (itr.getPos().x + widthOffset >= screenDimensions.x)
         {
             itr.setVel_x(6);
@@ -173,6 +172,7 @@ private:
                     itr.second.write(event.text.unicode, window);
                     resetEvent(event);
                 }
+                updatePhysics(window);
                 render(window);
             }
         }
