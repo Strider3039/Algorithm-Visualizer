@@ -41,7 +41,6 @@ Button(std::string _text, sf::Font& _font, sf::Vector2f position, double width)
     
 }
 
-
 /*
 added bool return value. returns true when button is clicked
 */
@@ -130,9 +129,14 @@ void _setColor(sf::Color color)
     text.setFillColor(color);
 }
 
-std::string _getText()
+std::string _getStr()
 {
     return text.getString();
+}
+
+sf::Text _getText()
+{
+    return text;
 }
 
 sf::RectangleShape getBox()

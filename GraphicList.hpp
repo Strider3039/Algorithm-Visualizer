@@ -21,8 +21,7 @@ class GraphicList
 {
 public:
     GraphicList() {}
-    GraphicList(sf::Vector2i screenDimensions)
-        : screenDimensions(screenDimensions)
+    GraphicList(sf::Vector2i screenDimensions) : screenDimensions(screenDimensions)
     {
         if (!font.loadFromFile("arial.ttf"))
         {
@@ -182,9 +181,9 @@ private:
     {
         if (itr.first.scrollAndClick(event, window))
         {
-            if (itr.first._getText() == "Insert")
+            if (itr.first._getStr() == "Insert")
                insert(itr);
-            if (itr.first._getText() == "Remove")
+            if (itr.first._getStr() == "Remove")
                 remove(itr);
         }
     }

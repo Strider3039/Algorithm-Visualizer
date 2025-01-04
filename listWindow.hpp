@@ -89,10 +89,10 @@ public:
                 for (auto& itr : UI) {
                     if (itr.first.scrollAndClick(event, window)) {
 
-                        if (itr.first._getText() == "back") {
+                        if (itr.first._getStr() == "back") {
                             return;
                         }
-                        if (itr.first._getText() == "Insert") {
+                        if (itr.first._getStr() == "Insert") {
 
 
                             /*functionality of insert button*/

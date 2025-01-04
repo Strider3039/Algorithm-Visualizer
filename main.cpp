@@ -41,25 +41,25 @@ int main(void)
     std::vector<int> screenXOffsets;
     std::vector<int> screenYOffsets;
 
-    for (int i = 0; i < screenCount; ++i) {
-        screenWidths.push_back(screens[i].width);
-        screenHeights.push_back(screens[i].height);
-        screenXOffsets.push_back(screens[i].x_org);
-        screenYOffsets.push_back(screens[i].y_org);
+    // for (int i = 0; i < screenCount; ++i) {
+    //     screenWidths.push_back(screens[i].width);
+    //     screenHeights.push_back(screens[i].height);
+    //     screenXOffsets.push_back(screens[i].x_org);
+    //     screenYOffsets.push_back(screens[i].y_org);
 
-        std::cout << "Screen " << i << ": "
-                    << "Width = " << screens[i].width
-                    << ", Height = " << screens[i].height
-                    << ", X Offset = " << screens[i].x_org
-                    << ", Y Offset = " << screens[i].y_org
-                    << std::endl;
-    }
+    //     std::cout << "Screen " << i << ": "
+    //                 << "Width = " << screens[i].width
+    //                 << ", Height = " << screens[i].height
+    //                 << ", X Offset = " << screens[i].x_org
+    //                 << ", Y Offset = " << screens[i].y_org
+    //                 << std::endl;
+    // }
 
 
     const int internalDisplay = 0;
 
-    sf::RenderWindow window(sf::VideoMode(screenWidths[internalDisplay] , screenHeights[internalDisplay]), "Algorithm Visualizer", sf::Style::Default);
-    window.setPosition(sf::Vector2i(screenXOffsets[internalDisplay], screenYOffsets[internalDisplay]));
+    sf::RenderWindow window(sf::VideoMode(screens[internalDisplay].width , screens[internalDisplay].height), "Algorithm Visualizer", sf::Style::Fullscreen);
+    window.setPosition(sf::Vector2i(screens[internalDisplay].x_org, screens[internalDisplay].y_org));
 
     sf::Font font;
     if (!font.loadFromFile("arial.ttf"))
@@ -70,22 +70,22 @@ int main(void)
     sf::Texture backgroundTexture;
     sf::Text title;
 
-    GraphicList graphicListObj(sf::Vector2i(screenWidths[internalDisplay], screenHeights[internalDisplay]));
-    BSTWindow<int> bst(screenWidths[internalDisplay], screenHeights[internalDisplay], font);
+    GraphicList graphicListObj(sf::Vector2i(screens[internalDisplay].width, screens[internalDisplay].height));
+    BSTWindow<int> bst(screens[internalDisplay].width, screens[internalDisplay].height, font);
 
     mainMenuScreen(background, backgroundTexture, title, font, window);
     
     vector<Button> buttons;
-    mainMenuItems(buttons, font, screenWidths[internalDisplay], screenHeights[internalDisplay]);
+    mainMenuItems(buttons, font, screens[internalDisplay].width, screens[internalDisplay].height);
 
     
 
     while (window.isOpen()) 
     {
-        if (screenCount > 1)
-        {
-            reSizeWindow(screenCount, screenWidths, screenHeights, screenXOffsets, window);
-        }
+        // if (screenCount > 1)
+        // {
+        //     reSizeWindow(screenCount, &*screens, window, buttons);
+        // }
 
         sf::Event event;
         while (window.pollEvent(event)) 
@@ -107,18 +107,18 @@ int main(void)
                 */
                 if (buttonItr.scrollAndClick(event, window))
                 {
-                    cout << buttonItr._getText() << " button pressed" << endl;
+                    cout << buttonItr._getStr() << " button pressed" << endl;
 
                     /*
                     linked list button pressed
                     */
-                    if (buttonItr._getText() == "Linked List")
+                    if (buttonItr._getStr() == "Linked List")
                     {
                         graphicListObj.runVisual(window);
                         graphicListObj.clearData();
                     }
 
-                    if (buttonItr._getText() == "Binary Tree")
+                    if (buttonItr._getStr() == "Binary Tree")
                     {
                         bst.runVisual(window);
                         

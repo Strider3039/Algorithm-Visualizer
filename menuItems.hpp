@@ -2,8 +2,9 @@
 #include "Button.hpp"
 #include "textBox.hpp"
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
-
+#include <X11/extensions/Xinerama.h>
 
 inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window)
 {
@@ -51,20 +52,38 @@ inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width,
     buttons.push_back(avl_button);
 }
 
-inline void reSizeWindow(int &screenCount, std::vector<double> &screenWidths, std::vector<double> &screenHeights, std::vector<int> &screenXOffsets, sf::RenderWindow &window)
+inline void centerButtons(vector<Button>& buttons, sf::RenderWindow& window)
 {
-    for (int i = 0; i < screenCount; i++) 
+    int i = 7;
+    for (auto& itr : buttons)
     {
-      if (window.getPosition().x <= screenXOffsets[i] - 50 && window.getSize().x == screenWidths[i]) 
+        itr.getBox().setPosition(itr._getPosition());
+       // itr._setPosititon(sf::Vector2f((window.getSize().x / 2), i*window.getSize().y / 15));
+        cout << "button pos: " << itr._getPosition().x << endl;
+        cout << "box pos: " << itr.getBox().getPosition().x << endl;
+        cout << "text pos " << itr._getText().getPosition().x << endl;
+        i++;
+    }
+}
+
+ inline void reSizeWindow(const int screenCount, XineramaScreenInfo* screens, sf::RenderWindow &window, vector<Button>& buttons)
+{
+    for (int i = 0; i < screenCount - 1; i++) 
+    { 
+      if (window.getPosition().x <= screens[i].x_org - 50 && window.getSize().x == screens[i].width) 
       {
-        window.setSize(sf::Vector2u(screenWidths[i + 1], screenHeights[i + 1]));
+        window.setSize(sf::Vector2u(screens[i + 1].width, screens[i + 1].height));
+        //centerButtons(buttons, window);
       }
-      if (window.getPosition().x >= screenXOffsets[i] - 50 && window.getSize().x == screenWidths[i + 1]) 
+      if (window.getPosition().x >= screens[i].x_org - 50 && window.getSize().x == screens[i + 1].width) 
       {
-        window.setSize(sf::Vector2u(screenWidths[i], screenHeights[i]));
+        window.setSize(sf::Vector2u(screens[i].width, screens[i].height));
+        //centerButtons(buttons, window);
       }
     }
 }
+
+
 
 inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight)
 {

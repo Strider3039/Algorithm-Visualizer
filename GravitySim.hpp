@@ -123,7 +123,7 @@ public:
 
     std::string getText()
     {
-        return shape._getText();
+        return shape._getStr();
     }
 
     sf::Vector2f getPos()
