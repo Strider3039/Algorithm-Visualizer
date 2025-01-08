@@ -26,6 +26,7 @@ int main(void)
     }
 
     int screenCount;
+    int currentScreen;
     XineramaScreenInfo* screens = XineramaQueryScreens(display, &screenCount);
 
     if (screens == nullptr) {
@@ -34,31 +35,20 @@ int main(void)
         return -1;
     }
 
-    std::cout << "Number of physical screens: " << screenCount << std::endl;
-
-    std::vector<double> screenWidths;
-    std::vector<double> screenHeights;
-    std::vector<int> screenXOffsets;
-    std::vector<int> screenYOffsets;
-
-    // for (int i = 0; i < screenCount; ++i) {
-    //     screenWidths.push_back(screens[i].width);
-    //     screenHeights.push_back(screens[i].height);
-    //     screenXOffsets.push_back(screens[i].x_org);
-    //     screenYOffsets.push_back(screens[i].y_org);
-
-    //     std::cout << "Screen " << i << ": "
-    //                 << "Width = " << screens[i].width
-    //                 << ", Height = " << screens[i].height
-    //                 << ", X Offset = " << screens[i].x_org
-    //                 << ", Y Offset = " << screens[i].y_org
-    //                 << std::endl;
-    // }
+    cout << "Number of physical screens: " << screenCount << endl;
+    for (int i = 0; i < screenCount; ++i) {
+        cout << "Screen " << i << ": "
+        << "Width = " << screens[i].width
+        << ", Height = " << screens[i].height
+        << ", X Offset = " << screens[i].x_org
+        << ", Y Offset = " << screens[i].y_org
+        << endl;
+    }
 
 
     const int internalDisplay = 0;
 
-    sf::RenderWindow window(sf::VideoMode(screens[internalDisplay].width , screens[internalDisplay].height), "Algorithm Visualizer", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(screens[internalDisplay].width , screens[internalDisplay].height), "Algorithm Visualizer", sf::Style::Resize);
     window.setPosition(sf::Vector2i(screens[internalDisplay].x_org, screens[internalDisplay].y_org));
 
     sf::Font font;
@@ -77,14 +67,15 @@ int main(void)
     
     vector<Button> buttons;
     mainMenuItems(buttons, font, screens[internalDisplay].width, screens[internalDisplay].height);
-
     
 
     while (window.isOpen()) 
     {
+        //officialy giving up on this im sick of it
         // if (screenCount > 1)
         // {
-        //     reSizeWindow(screenCount, &*screens, window, buttons);
+        //     currentScreen = reSizeWindow(screenCount, &*screens, window, buttons);
+        //     //centerButtons(buttons, window);
         // }
 
         sf::Event event;
@@ -112,6 +103,10 @@ int main(void)
                     /*
                     linked list button pressed
                     */
+                    if (buttonItr._getStr() == "Exit")
+                    {
+                        return 0;
+                    }
                     if (buttonItr._getStr() == "Linked List")
                     {
                         graphicListObj.runVisual(window);

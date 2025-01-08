@@ -144,6 +144,15 @@ sf::RectangleShape getBox()
     return box;
 }
 
+void setBoxWidth(int width)
+{
+    boxWidth = width;
+}
+int getTrueBoxWidth()
+{
+    return box.getSize().x;
+}
+
 /*
 sets std callback function
 */

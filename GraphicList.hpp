@@ -2,8 +2,10 @@
 #include "GravitySim.hpp"
 #include "Header.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Vertex.hpp>
+#include <SFML/System/String.hpp>
 #include <SFML/System/Thread.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
@@ -27,6 +29,14 @@ public:
         {
             std::cout << "Failed to load font" << std::endl;
         }
+        loadColors();
+    }
+
+    void loadColors()
+    {
+        backgroundElementsColor.r = 233;
+        backgroundElementsColor.g = 236;
+        backgroundElementsColor.b = 239;
     }
 
     void clearData()
@@ -138,7 +148,7 @@ private:
             {
                 while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    sf::Vector2i currentMousePos = sf::Mouse::getPosition();
+                    sf::Vector2i currentMousePos = sf::Mouse::getPosition(window);
                     if (currentMousePos != previousMousePos)
                     {
                         itr.setPos(sf::Vector2f(currentMousePos.x, currentMousePos.y));
@@ -162,7 +172,7 @@ private:
             resetEvent(event);
             while (event.type != sf::Event::MouseButtonPressed)
             {
-                window.clear();
+                window.clear(backgroundElementsColor);
                 if (window.pollEvent(event) && event.type == sf::Event::TextEntered)
                 {
                     if (event.text.unicode == 27 || event.text.unicode == 13) /* Escape or Enter */
@@ -231,7 +241,7 @@ private:
 
     void render(sf::RenderWindow& window)
     {
-        window.clear();
+        window.clear(backgroundElementsColor);
         drawNodes(window);
         drawUI(window);
         window.display();
@@ -245,6 +255,7 @@ private:
             window.draw(itr.second);
         }
     }
+
 
     void drawNodes(sf::RenderWindow& window)
     {
@@ -302,6 +313,8 @@ private:
         }
 
     }
+
+    sf::Color backgroundElementsColor;    
 
     sf::Vector2i screenDimensions;
     sf::Font font;

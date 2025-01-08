@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <X11/extensions/Xinerama.h>
 
 inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window)
@@ -39,26 +40,36 @@ inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& background
 
 inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width, double height)
 {
+    buttons.clear();
+
     Button list_button("Linked List", font, sf::Vector2f(width / 2, 7*height / 15), 250);
     Button queue_button("Queue", font, sf::Vector2f(width / 2, 8*height / 15), 250);
     Button stack_button("Stack", font, sf::Vector2f(width / 2, 9*height / 15), 250);
     Button bst_button("Binary Tree", font, sf::Vector2f(width / 2, 10*height / 15), 250);
     Button avl_button("AVL Tree", font, sf::Vector2f(width / 2, 11*height / 15), 250);
+    Button exit_button("Exit", font, sf::Vector2f(width / 2, 12*height / 15), 250);
+
 
     buttons.push_back(list_button);
     buttons.push_back(queue_button);
     buttons.push_back(stack_button);
     buttons.push_back(bst_button);
     buttons.push_back(avl_button);
+    buttons.push_back(exit_button);
 }
+
+
 
 inline void centerButtons(vector<Button>& buttons, sf::RenderWindow& window)
 {
     int i = 7;
     for (auto& itr : buttons)
     {
-        itr.getBox().setPosition(itr._getPosition());
-       // itr._setPosititon(sf::Vector2f((window.getSize().x / 2), i*window.getSize().y / 15));
+        /*TODO: test these with additional display*/
+       // itr.setBoxWidth(itr.getTrueBoxWidth()); /*need to update internal boxWidth member. SFML auto scales rectangle shapes*/
+        itr._setPosititon(sf::Vector2f((window.getSize().x / 2), i*window.getSize().y / 15));
+
+        cout << sf::Mouse::getPosition(window).x;
         cout << "button pos: " << itr._getPosition().x << endl;
         cout << "box pos: " << itr.getBox().getPosition().x << endl;
         cout << "text pos " << itr._getText().getPosition().x << endl;
@@ -66,21 +77,24 @@ inline void centerButtons(vector<Button>& buttons, sf::RenderWindow& window)
     }
 }
 
- inline void reSizeWindow(const int screenCount, XineramaScreenInfo* screens, sf::RenderWindow &window, vector<Button>& buttons)
+ inline int reSizeWindow(const int screenCount, XineramaScreenInfo* screens, sf::RenderWindow &window, vector<Button>& buttons)
 {
     for (int i = 0; i < screenCount - 1; i++) 
     { 
-      if (window.getPosition().x <= screens[i].x_org - 50 && window.getSize().x == screens[i].width) 
+      if (window.getPosition().x <= screens[i].x_org - 50 && window.getSize().x == screens[i].width) /*window is in next screen*/
       {
         window.setSize(sf::Vector2u(screens[i + 1].width, screens[i + 1].height));
+        return i + 1;
         //centerButtons(buttons, window);
       }
-      if (window.getPosition().x >= screens[i].x_org - 50 && window.getSize().x == screens[i + 1].width) 
+      if (window.getPosition().x >= screens[i].x_org - 50 && window.getSize().x == screens[i + 1].width) /*window is in prev screen*/
       {
         window.setSize(sf::Vector2u(screens[i].width, screens[i].height));
+        return i;
         //centerButtons(buttons, window);
       }
     }
+    return 0;
 }
 
 
