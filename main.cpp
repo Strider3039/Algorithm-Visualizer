@@ -45,10 +45,15 @@ int main(void)
         << endl;
     }
 
-
+/*
+-use this const to choose which display you want to open the program in. 0 is default (internal display). 
+-ex: 1 would be the second display if it exists
+-using window style Default to achieve this
+-if you can figure out how the hell to get shit to properly resize then be my guest lol
+*/
     const int internalDisplay = 0;
 
-    sf::RenderWindow window(sf::VideoMode(screens[internalDisplay].width , screens[internalDisplay].height), "Algorithm Visualizer", sf::Style::Resize);
+    sf::RenderWindow window(sf::VideoMode(screens[internalDisplay].width , screens[internalDisplay].height), "Algorithm Visualizer", sf::Style::Default);
     window.setPosition(sf::Vector2i(screens[internalDisplay].x_org, screens[internalDisplay].y_org));
 
     sf::Font font;
