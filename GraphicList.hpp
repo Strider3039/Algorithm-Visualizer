@@ -15,7 +15,7 @@
 #include <cstdint>
 #include <vector>
 #include "Button.hpp"
-#include "TextBox.hpp"
+#include "textBox.hpp"
 #include "menuItems.hpp"
 #include <algorithm>
 
