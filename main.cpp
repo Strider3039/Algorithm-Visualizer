@@ -71,7 +71,7 @@ int main(void)
     mainMenuScreen(background, backgroundTexture, title, font, window);
     
     vector<Button> buttons;
-    mainMenuItems(buttons, font, screens[internalDisplay].width, screens[internalDisplay].height);
+    mainMenuItems(buttons, font, window.getSize().x, window.getSize().y);
     
 
     while (window.isOpen()) 

@@ -306,8 +306,8 @@ private:
         for (int i = 0; (i + nodes.begin()) != nodes.end() - 1; i++)
         {
             sf::Vertex line[] = {
-                 sf::Vertex(nodes[i].getPos(), sf::Color::White),
-                 sf::Vertex(nodes[i + 1].getPos(), sf::Color::White),
+                 sf::Vertex(nodes[i].getPos(), sf::Color::Black),
+                 sf::Vertex(nodes[i + 1].getPos(), sf::Color::Black),
             };
             window.draw(line, 2, sf::Lines);
         }
