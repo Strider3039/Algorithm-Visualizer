@@ -53,7 +53,6 @@ public:
         while (window.isOpen())
         {
             if (handleEvents(window, event)) {return;}
-            updatePhysics(window);
             render(window);
         }
     }
@@ -170,18 +169,19 @@ private:
         if (itr.second.scrollAndClick(event, window))
         {
             resetEvent(event);
+            // while were still in the text box
             while (event.type != sf::Event::MouseButtonPressed)
             {
-                window.clear(backgroundElementsColor);
                 if (window.pollEvent(event) && event.type == sf::Event::TextEntered)
                 {
-                    if (event.text.unicode == 27 || event.text.unicode == 13) /* Escape or Enter */
+                     if (event.text.unicode == 27 /*|| event.text.unicode == 13*/) /* Escape or Enter */
                         break;
+                    if (event.text.unicode == 13)
+                        return;
 
                     itr.second.write(event.text.unicode, window);
                     resetEvent(event);
                 }
-                updatePhysics(window);
                 render(window);
             }
         }
@@ -191,8 +191,10 @@ private:
     {
         if (itr.first.scrollAndClick(event, window))
         {
+            // did the insert button get clicked?
             if (itr.first._getStr() == "Insert")
                insert(itr);
+            // did the remove button get clicked?
             if (itr.first._getStr() == "Remove")
                 remove(itr);
         }
@@ -244,6 +246,7 @@ private:
         window.clear(backgroundElementsColor);
         drawNodes(window);
         drawUI(window);
+        updatePhysics(window);
         window.display();
     }
 

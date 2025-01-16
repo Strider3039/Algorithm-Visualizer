@@ -76,7 +76,7 @@ int main(void)
 
     while (window.isOpen()) 
     {
-        //officialy giving up on this im sick of it
+       // officialy giving up on this im sick of it
         // if (screenCount > 1)
         // {
         //     currentScreen = reSizeWindow(screenCount, &*screens, window, buttons);
