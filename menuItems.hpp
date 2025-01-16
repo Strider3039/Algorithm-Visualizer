@@ -41,7 +41,6 @@ inline void loadColors(Colors &colorsStruct)
     colorsStruct.backgroundElementsColor.b = 239;
 }
 
-
 inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window)
 {
     
