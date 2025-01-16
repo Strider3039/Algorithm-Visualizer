@@ -7,6 +7,41 @@
 #include <SFML/Window/Mouse.hpp>
 #include <X11/extensions/Xinerama.h>
 
+
+
+struct Colors
+{
+    sf::Color UIelementsColor;  // Primary Blue	#007BFF
+    sf::Color greenAccent;  // Secondary Green	#28A745
+    sf::Color redAccent;    // Accent Red	#DC3545
+    sf::Color primaryText;  // Neutral Dark Gray	#343A40
+    sf::Color backgroundElementsColor;  // Neutral Light Gray	#E9ECEF
+};
+
+inline void loadColors(Colors colorsStruct)
+{
+    colorsStruct.UIelementsColor.r = 0;
+    colorsStruct.UIelementsColor.g = 123;
+    colorsStruct.UIelementsColor.b = 255;
+
+    colorsStruct.greenAccent.r = 40;
+    colorsStruct.greenAccent.g = 167;
+    colorsStruct.greenAccent.b = 69;
+
+    colorsStruct.redAccent.r = 220;
+    colorsStruct.redAccent.g = 53;
+    colorsStruct.redAccent.b = 69;
+
+    colorsStruct.primaryText.r = 52;
+    colorsStruct.primaryText.g = 58;
+    colorsStruct.primaryText.b = 64;
+
+    colorsStruct.backgroundElementsColor.r = 233;
+    colorsStruct.backgroundElementsColor.g = 236;
+    colorsStruct.backgroundElementsColor.b = 239;
+}
+
+
 inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window)
 {
     
