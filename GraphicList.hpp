@@ -29,14 +29,7 @@ public:
         {
             std::cout << "Failed to load font" << std::endl;
         }
-        loadColors();
-    }
-
-    void loadColors()
-    {
-        backgroundElementsColor.r = 233;
-        backgroundElementsColor.g = 236;
-        backgroundElementsColor.b = 239;
+        loadColors(colors);
     }
 
     void clearData()
@@ -47,7 +40,7 @@ public:
 
     void runVisual(sf::RenderWindow& window)
     {
-        loadListUI(UI, font, screenDimensions.x, screenDimensions.y);
+        loadListUI(UI, font, screenDimensions.x, screenDimensions.y, colors);
         sf::Event event;
 
         while (window.isOpen())
@@ -243,7 +236,7 @@ private:
 
     void render(sf::RenderWindow& window)
     {
-        window.clear(backgroundElementsColor);
+        window.clear(colors.backgroundElementsColor);
         drawNodes(window);
         drawUI(window);
         updatePhysics(window);
@@ -317,7 +310,7 @@ private:
 
     }
 
-    sf::Color backgroundElementsColor;    
+    Colors colors;
 
     sf::Vector2i screenDimensions;
     sf::Font font;

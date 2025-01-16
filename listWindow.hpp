@@ -67,7 +67,7 @@ public:
 
     void runVisual(sf::RenderWindow& window) {
 
-        loadListUI(UI, font, screenWidth, screenHeight);
+       // loadListUI(UI, font, screenWidth, screenHeight);
         loadGravSource();
         loadParticle();
 
