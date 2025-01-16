@@ -122,7 +122,7 @@ private:
             // did the remove button get clicked?
             if (buttonStr == "Remove")
             {
-                // bst.remove(stoi(itr.second._getText()), mFont);
+                bst.remove(stoi(inputStr));
             }
                 
         }

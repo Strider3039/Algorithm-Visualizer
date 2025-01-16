@@ -48,9 +48,9 @@ public:
         insert(data, root, windowWidth / 2, 300,  windowHeight / 2, font);
     }
 
-    void remove(T data, sf::Font& font) 
+    void remove(T data) 
     {
-        remove(data, root, font);
+        remove(data, root);
     }
 
 
@@ -183,7 +183,7 @@ private:
         }
     }
 
-    void remove(T data, TreeNode*& pNode, sf::Font& font)
+    void remove(T data, TreeNode*& pNode)
     {
         if (pNode == nullptr)
         {
@@ -192,7 +192,7 @@ private:
 
         if (data < pNode->data)
         {
-            remove(data, pNode->pLeft, font);
+            remove(data, pNode->pLeft);
         }
         else if (data > pNode->data)
         {
@@ -204,17 +204,35 @@ private:
 
             if (pNode->pLeft != nullptr && pNode->pRight != nullptr)
             {
-                // No children
+                // Two children
 
-                TreeNode* found = findMin(pNode);
+                pNode->data = findMin(pNode->pRight)->data;
+                remove(pNode->data, pNode->pRight);
+            }
+            else 
+            {
+                TreeNode* oldNode = pNode;
+                pNode = (pNode->pLeft != nullptr) ? pNode->pLeft : pNode->pRight;
+                delete oldNode;
             }
         }
 
     }
 
-    void findmin(TreeNode* pNode)
+    TreeNode* findMin(TreeNode* pNode)
     {
-
+        if (pNode == nullptr)
+        {
+            return nullptr;
+        }
+        else if (pNode->pLeft == nullptr)
+        {
+            return pNode;
+        }
+        else 
+        {
+            return findMin(pNode->pLeft);
+        }
     }
 
 
