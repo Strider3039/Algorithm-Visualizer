@@ -18,7 +18,7 @@ struct Colors
     sf::Color backgroundElementsColor;  // Neutral Light Gray	#E9ECEF
 };
 
-inline void loadColors(Colors colorsStruct)
+inline void loadColors(Colors& colorsStruct)
 {
     colorsStruct.UIelementsColor.r = 0;
     colorsStruct.UIelementsColor.g = 123;

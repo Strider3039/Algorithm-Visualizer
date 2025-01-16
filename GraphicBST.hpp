@@ -48,6 +48,12 @@ public:
         insert(data, root, windowWidth / 2, 300,  windowHeight / 2, font);
     }
 
+    void remove(T data, sf::Font& font) 
+    {
+        remove(data, root, font);
+    }
+
+
     void draw(sf::RenderWindow& window)
     {
         draw(window, root);
@@ -176,6 +182,42 @@ private:
             insert(data, pNode->pRight, xPos + offset, yPos + 150, offset / 2, font);
         }
     }
+
+    void remove(T data, TreeNode*& pNode, sf::Font& font)
+    {
+        if (pNode == nullptr)
+        {
+            return;
+        }
+
+        if (data < pNode->data)
+        {
+            remove(data, pNode->pLeft, font);
+        }
+        else if (data > pNode->data)
+        {
+            remove(data, pNode->pRight);
+        }
+        else 
+        {
+            // Node is found
+
+            if (pNode->pLeft != nullptr && pNode->pRight != nullptr)
+            {
+                // No children
+
+                TreeNode* found = findMin(pNode);
+            }
+        }
+
+    }
+
+    void findmin(TreeNode* pNode)
+    {
+
+    }
+
+
 
     void draw(sf::RenderWindow& window, TreeNode* pNode)
     {

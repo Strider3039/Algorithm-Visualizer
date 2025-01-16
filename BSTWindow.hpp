@@ -5,6 +5,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Window/Window.hpp>
+#include <algorithm>
+#include <cctype>
 #include <iostream>
 #include "menuItems.hpp"
 #include "textBox.hpp"
@@ -49,6 +51,7 @@ private:
     GraphicBST<T> bst;
     bool isRunning;
     vector<std::pair<Button, TextBox>> UI;
+    sf::Event emptyEvent;
 
     void processEvents(sf::RenderWindow& window) {
         sf::Event event;
@@ -57,9 +60,75 @@ private:
                 handleKeyPress(event.key.code, window);
             }
 
+            if (UI[0].first.scrollAndClick(event, window))
+            {
+                isRunning = false;
+            }
+
+            for (auto& itr : UI)
+            {
+                for (auto& itr : UI)
+            {
+                handleTextInput(window, event, itr);
+                handleButtons(window, event, itr);
+            }
+            }
+
         }
     }
 
+    void handleTextInput(sf::RenderWindow& window, sf::Event& event, std::pair<Button, TextBox>& itr)
+    {
+        if (itr.second.scrollAndClick(event, window))
+        {
+            resetEvent(event);
+            // while were still in the text box
+            while (event.type != sf::Event::MouseButtonPressed)
+            {
+                if (window.pollEvent(event) && event.type == sf::Event::TextEntered)
+                {
+                     if (event.text.unicode == 27 /*|| event.text.unicode == 13*/) /* Escape or Enter */
+                        break;
+                    if (event.text.unicode == 13)
+                        return;
+
+                    itr.second.write(event.text.unicode, window);
+                    resetEvent(event);
+                }
+                render(window);
+            }
+        }
+    }
+
+    void resetEvent(sf::Event& event)
+    {
+        event = emptyEvent;
+    }
+
+    void handleButtons(sf::RenderWindow& window, sf::Event& event, std::pair<Button, TextBox>& itr)
+    {
+        string buttonStr = itr.first._getStr();
+        string inputStr = itr.second._getText();
+
+        if (itr.first.scrollAndClick(event, window))
+        {
+            // make sure string is valid for stoi
+            if (std::all_of(inputStr.begin(), inputStr.end(), ::isdigit))
+
+            // did the insert button get clicked?
+            if (buttonStr == "Insert")
+               bst.insert(stoi(inputStr), mFont);
+
+            // did the remove button get clicked?
+            if (buttonStr == "Remove")
+            {
+                // bst.remove(stoi(itr.second._getText()), mFont);
+            }
+                
+        }
+    }
+
+    
     void handleKeyPress(sf::Keyboard::Key key, sf::RenderWindow& window) {
         switch (key) {
             case sf::Keyboard::Num1:
