@@ -17,12 +17,9 @@ public:
     BSTWindow(float width, float height, sf::Font& font)
         : windowWidth(width), windowHeight(height), mFont(font) {
         bst = GraphicBST<T>(windowWidth, windowHeight); // Initialize the BST
-        backgroundColor.r = 233;
-        backgroundColor.g = 236;
-        backgroundColor.b = 239;
-        background.setFillColor(backgroundColor);
-        background.setSize(sf::Vector2f(windowWidth, windowHeight));
         isRunning = true;
+
+        loadColors(colors);
     }
 
     void runVisual(sf::RenderWindow& window) {
@@ -52,6 +49,8 @@ private:
     bool isRunning;
     vector<std::pair<Button, TextBox>> UI;
     sf::Event emptyEvent;
+    Colors colors;
+    
 
     void processEvents(sf::RenderWindow& window) {
         sf::Event event;
@@ -167,8 +166,7 @@ private:
     }
 
     void render(sf::RenderWindow& window) {
-        window.clear();
-        window.draw(background);
+        window.clear(colors.backgroundElementsColor);
         bst.draw(window);
         drawUI(window);
         window.display();
