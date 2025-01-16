@@ -65,14 +65,13 @@ private:
                 isRunning = false;
             }
 
+           
             for (auto& itr : UI)
-            {
-                for (auto& itr : UI)
             {
                 handleTextInput(window, event, itr);
                 handleButtons(window, event, itr);
             }
-            }
+            
 
         }
     }
@@ -87,7 +86,7 @@ private:
             {
                 if (window.pollEvent(event) && event.type == sf::Event::TextEntered)
                 {
-                     if (event.text.unicode == 27 /*|| event.text.unicode == 13*/) /* Escape or Enter */
+                    if (event.text.unicode == 27 /*|| event.text.unicode == 13*/) /* Escape or Enter */
                         break;
                     if (event.text.unicode == 13)
                         return;
@@ -113,17 +112,25 @@ private:
         if (itr.first.scrollAndClick(event, window))
         {
             // make sure string is valid for stoi
-            if (std::all_of(inputStr.begin(), inputStr.end(), ::isdigit))
-
-            // did the insert button get clicked?
-            if (buttonStr == "Insert")
-               bst.insert(stoi(inputStr), mFont);
-
-            // did the remove button get clicked?
-            if (buttonStr == "Remove")
+            if (!inputStr.empty() && std::all_of(inputStr.begin(), inputStr.end(), ::isdigit))
             {
-                bst.remove(stoi(inputStr));
+                // did the insert button get clicked?
+                if (buttonStr == "Insert")
+                {
+                    bst.insert(stoi(inputStr), mFont);
+                    itr.second.clear();
+                }
+                    
+
+                // did the remove button get clicked?
+                if (buttonStr == "Remove")
+                {
+                    bst.remove(stoi(inputStr));
+                    itr.second.clear();
+                }
+                
             }
+            
                 
         }
     }
@@ -148,7 +155,7 @@ private:
                 bst.insert(18, mFont);
                 break;
             case sf::Keyboard::R:
-                bst = GraphicBST<T>(windowWidth, windowHeight); // Reset the BST
+                bst.reset(); // Reset the BST
                 break;
             case sf::Keyboard::Escape:
                 std::cout << "Returning to menu..." << std::endl;

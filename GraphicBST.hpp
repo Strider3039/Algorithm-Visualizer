@@ -62,7 +62,7 @@ public:
     // Function to reset the tree
     void reset()
     {
-        root = nullptr;
+        resetHelper(root);
     }
 
 private:
@@ -235,6 +235,18 @@ private:
         }
     }
 
+    void resetHelper(TreeNode*& pNode)
+    {
+        if (pNode == nullptr)
+        {
+            return;
+        }
+
+        resetHelper(pNode->pLeft);
+        resetHelper(pNode->pRight);
+
+        delete pNode;
+    }
 
 
     void draw(sf::RenderWindow& window, TreeNode* pNode)
