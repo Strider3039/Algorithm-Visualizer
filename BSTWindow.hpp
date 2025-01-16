@@ -1,10 +1,13 @@
 #pragma once
 #include "GraphicBST.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Window/Window.hpp>
 #include <iostream>
+#include "menuItems.hpp"
+#include "textBox.hpp"
 
 template <class T>
 class BSTWindow {
@@ -12,13 +15,18 @@ public:
     BSTWindow(float width, float height, sf::Font& font)
         : windowWidth(width), windowHeight(height), mFont(font) {
         bst = GraphicBST<T>(windowWidth, windowHeight); // Initialize the BST
-        background.setFillColor(sf::Color::Black);
+        backgroundColor.r = 233;
+        backgroundColor.g = 236;
+        backgroundColor.b = 239;
+        background.setFillColor(backgroundColor);
         background.setSize(sf::Vector2f(windowWidth, windowHeight));
         isRunning = true;
     }
 
     void runVisual(sf::RenderWindow& window) {
         
+        loadBstUI(UI, mFont, windowWidth, windowHeight);
+
         while (window.isOpen())
         {
             processEvents(window);
@@ -33,12 +41,14 @@ public:
     }
 
 private:
-    float windowWidth;
-    float windowHeight;
-    sf::Font& mFont;
+    double windowWidth;
+    double windowHeight;
+    sf::Font mFont;
     sf::RectangleShape background;
+    sf::Color backgroundColor;
     GraphicBST<T> bst;
     bool isRunning;
+    vector<std::pair<Button, TextBox>> UI;
 
     void processEvents(sf::RenderWindow& window) {
         sf::Event event;
@@ -84,6 +94,16 @@ private:
         window.clear();
         window.draw(background);
         bst.draw(window);
+        drawUI(window);
         window.display();
+    }
+
+    void drawUI(sf::RenderWindow& window)
+    {
+        for (auto& itr : UI)
+        {
+            window.draw(itr.first);
+            window.draw(itr.second);
+        }
     }
 };

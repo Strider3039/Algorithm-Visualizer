@@ -45,7 +45,7 @@ public:
 
     void insert(T data, sf::Font& font)
     {
-        insert(data, root, windowWidth / 2, 200,  windowHeight / 2, font);
+        insert(data, root, windowWidth / 2, 300,  windowHeight / 2, font);
     }
 
     void draw(sf::RenderWindow& window)
@@ -169,11 +169,11 @@ private:
 
         if (data < pNode->data)
         {
-            insert(data, pNode->pLeft, xPos - offset, yPos + 75, offset / 2, font);
+            insert(data, pNode->pLeft, xPos - offset, yPos + 150, offset / 2, font);
         }
         else if (data > pNode->data)
         {
-            insert(data, pNode->pRight, xPos + offset, yPos + 75, offset / 2, font);
+            insert(data, pNode->pRight, xPos + offset, yPos + 150, offset / 2, font);
         }
     }
 
@@ -199,8 +199,8 @@ private:
     void drawEdge(sf::RenderWindow& window, sf::Vector2f parentPos, sf::Vector2f childPos)
     {
         sf::Vertex line[] = {
-            sf::Vertex(parentPos + sf::Vector2f(20, 20), sf::Color::White),
-            sf::Vertex(childPos + sf::Vector2f(20, 20), sf::Color::White)
+            sf::Vertex(parentPos + sf::Vector2f(20, 20), sf::Color::Black),
+            sf::Vertex(childPos + sf::Vector2f(20, 20), sf::Color::Black)
         };
 
         window.draw(line, 2, sf::Lines);
