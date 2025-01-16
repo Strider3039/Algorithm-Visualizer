@@ -13,6 +13,9 @@
 
 int main(void)
 {  
+    Colors colors;
+    loadColors(colors);
+
     Display* display = XOpenDisplay(nullptr);
     if (display == nullptr) {
         std::cerr << "Cannot open display!" << std::endl;
@@ -71,7 +74,7 @@ int main(void)
     mainMenuScreen(background, backgroundTexture, title, font, window);
     
     vector<Button> buttons;
-    mainMenuItems(buttons, font, window.getSize().x, window.getSize().y);
+    mainMenuItems(buttons, font, window.getSize().x, window.getSize().y, colors);
     
 
     while (window.isOpen()) 

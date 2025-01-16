@@ -4,7 +4,9 @@
 #include <SFML/System/String.hpp>
 #include <SFML/Window/Window.hpp>
 #include "Header.hpp"
+//#include "menuItems.hpp"
 #include <SFML/System/Vector2.hpp>
+
 
 class Button : public sf::Drawable
 {
@@ -38,7 +40,6 @@ Button(std::string _text, sf::Font& _font, sf::Vector2f position, double width)
     boxWidth = width;
 
     this->centerBoxPos();
-    
 }
 
 /*
@@ -55,13 +56,13 @@ bool scrollAndClick(sf::Event event, sf::Window& window)
     if (box.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
         
-        box.setOutlineColor(sf::Color::Cyan);
-        box.setOutlineThickness(7);
+        box.setOutlineColor(sf::Color::Black);
+        box.setOutlineThickness(2);
 
         // check for mouse left click while within box global bounds
         if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
         {
-            box.setOutlineColor(sf::Color::Green);
+            box.setOutlineColor(sf::Color::Cyan);
             return true;
         }
     }
@@ -69,8 +70,8 @@ bool scrollAndClick(sf::Event event, sf::Window& window)
     // reset box colors after scrolling away
     if (!box.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
-        box.setOutlineColor(sf::Color::White);
-        box.setOutlineThickness(5);
+        box.setOutlineColor(baseOutlineColor);
+        box.setOutlineThickness(baseOutlineThickness);
     }
 
     return false;
@@ -123,10 +124,22 @@ sf::Vector2f _getPosition()
 /*
 set color of button/text.
 */
-void _setColor(sf::Color color)
+void _setFillColor(sf::Color color)
+{
+    box.setFillColor(color);
+    baseFillColor = color;
+}
+
+void _setOutlineColor(sf::Color color)
 {
     box.setOutlineColor(color);
-    text.setFillColor(color);
+    baseOutlineColor = color;
+}
+
+void _setOutlineThickness(float n)
+{
+    box.setOutlineThickness(n);
+    baseOutlineThickness = 0;
 }
 
 std::string _getStr()
@@ -153,18 +166,6 @@ int getTrueBoxWidth()
     return box.getSize().x;
 }
 
-/*
-sets std callback function
-*/
-void setCallback(std::function<void()> callback)
-{
-    onClick = callback;
-}
-
-void triggerCallback() 
-{
-    if (onClick) { onClick(); }
-}
 
 // overwrite the draw function to to draw properly
 protected:
@@ -193,15 +194,14 @@ protected:
 
 private:
 
-std::function<void()> onClick;
-
-
-
 sf::RectangleShape box;
 sf::Vector2f positionVector;
 double boxWidth;
 sf::Text text;
 
+sf::Color baseOutlineColor;
+sf::Color baseFillColor;
+float baseOutlineThickness;
 
 };
 
