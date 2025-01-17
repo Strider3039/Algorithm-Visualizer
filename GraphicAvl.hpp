@@ -31,11 +31,24 @@ private:
 
     float windowWidth, windowHeight;
 
-    void insert(T data, typename GraphicBST<T>::TreeNode*& pNode, float xPos, float yPos, float offset, sf::Font& font)
-    {
-        GraphicBST<T>::insert(data, pNode, xPos, yPos, offset, font);
-        balance(pNode);
+
+    void insert(T data, typename GraphicBST<T>::TreeNode*& pNode, float xPos, float yPos, float offset, sf::Font& font) {
+    if (pNode == nullptr) {
+        pNode = new typename GraphicBST<T>::TreeNode(data, font, xPos, yPos);
+        return;
     }
+
+    if (data < pNode->data) 
+    {
+        insert(data, pNode->pLeft, xPos - offset, yPos + 150, offset / 2, font);
+    } 
+    else if (data > pNode->data) 
+    {
+        insert(data, pNode->pRight, xPos + offset, yPos + 150, offset / 2, font);
+    }
+
+    balance(pNode); // Recheck balance after recursive insertion
+}
 
     inline void remove(T data, typename GraphicBST<T>::TreeNode*& pNode)
     {

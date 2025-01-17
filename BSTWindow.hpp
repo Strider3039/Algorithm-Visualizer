@@ -103,7 +103,7 @@ protected:
         event = emptyEvent;
     }
 
-    void handleButtons(sf::RenderWindow& window, sf::Event& event, std::pair<Button, TextBox>& itr)
+    virtual void handleButtons(sf::RenderWindow& window, sf::Event& event, std::pair<Button, TextBox>& itr)
     {
         string buttonStr = itr.first._getStr();
         string inputStr = itr.second._getText();
@@ -135,7 +135,7 @@ protected:
     }
 
     
-    void handleKeyPress(sf::Keyboard::Key key, sf::RenderWindow& window) {
+    virtual void handleKeyPress(sf::Keyboard::Key key, sf::RenderWindow& window) {
         switch (key) {
             case sf::Keyboard::Num1:
                 bst.insert(20, mFont);
@@ -165,7 +165,7 @@ protected:
         }
     }
 
-    void render(sf::RenderWindow& window) {
+    virtual void render(sf::RenderWindow& window) {
         window.clear(colors.backgroundElementsColor);
         bst.draw(window);
         drawUI(window);
