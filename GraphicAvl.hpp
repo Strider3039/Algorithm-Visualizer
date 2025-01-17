@@ -1,7 +1,7 @@
-#include "BST.hpp"
+#include "GraphicBST.hpp"
 
 template <class T>
-class AVL : public BST<T>
+class GraphicAVL : public GraphicBST<T>
 {
 public:
 
@@ -24,19 +24,19 @@ public:
 
 private:
 
-    inline void insert(T insertData, typename BST<T>::treeNode*& pNode)
+    inline void insert(T insertData, typename GraphicBST<T>::treeNode*& pNode)
     {
-        BST<T>::insert(insertData, pNode);
+        GraphicBST<T>::insert(insertData, pNode);
         balance(pNode);
     }
 
-    inline void remove(T removeData, typename BST<T>::treeNode*& pNode)
+    inline void remove(T removeData, typename GraphicBST<T>::treeNode*& pNode)
     {
-        BST<T>::remove(removeData, pNode);
+        GraphicBST<T>::remove(removeData, pNode);
         balance(pNode);
     }
 
-    void balance(typename BST<T>::treeNode*& pNode)
+    void balance(typename GraphicBST<T>::treeNode*& pNode)
     {
         if( pNode == nullptr ) {
             return;
@@ -60,7 +60,7 @@ private:
         }
     }
 
-    void rotateWithLeftChild(typename BST<T>::treeNode*& k2)
+    void rotateWithLeftChild(typename GraphicBST<T>::treeNode*& k2)
     {
     /*
     Case 1:
@@ -73,13 +73,13 @@ private:
 
     */
 
-        typename BST<T>::treeNode* k1 = k2->pLeft;
+        typename GraphicBST<T>::treeNode* k1 = k2->pLeft;
         k2->pLeft = k1->pRight;
         k1->pRight = k2;
         k2 = k1;
     }
 
-    void rotateWithRightChild(typename BST<T>::treeNode*& k2)
+    void rotateWithRightChild(typename GraphicBST<T>::treeNode*& k2)
     {
 
     /*
@@ -93,14 +93,14 @@ private:
     
     */
 
-        typename BST<T>::treeNode* k1 = k2->pRight;
+        typename GraphicBST<T>::treeNode* k1 = k2->pRight;
         k2->pRight = k1->pLeft;
         k1->pLeft = k2;
         k2 = k1;
         
     }
 
-    void doubleWithLeftChild(typename BST<T>::treeNode*& k3)
+    void doubleWithLeftChild(typename GraphicBST<T>::treeNode*& k3)
     {
     /*
     Case 3:
@@ -117,7 +117,7 @@ private:
     rotateWithLeftChild(k3);
     } 
 
-    void doubleWithRightChild(typename BST<T>::treeNode*& k3)
+    void doubleWithRightChild(typename GraphicBST<T>::treeNode*& k3)
     {
     /*
     Case 4:
@@ -134,7 +134,7 @@ private:
     rotateWithRightChild(k3);
     }
 
-    bool isBalanced(typename BST<T>::treeNode* pNode)
+    bool isBalanced(typename GraphicBST<T>::treeNode* pNode)
     {
         if (abs(this->treeHeight(this->root->pLeft) - this->treeHeight(this->root->pRight)) <= ALLOWED_IMBALANCE) 
         {

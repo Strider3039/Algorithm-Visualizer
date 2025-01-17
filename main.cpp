@@ -1,4 +1,4 @@
-#include "Avl.hpp"
+#include "GraphicAvl.hpp"
 #include "Stack.hpp"
 #include "menuItems.hpp"
 #include "listWindow.hpp"
