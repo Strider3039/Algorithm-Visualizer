@@ -45,7 +45,7 @@ public:
 
     void insert(T data, sf::Font& font)
     {
-        insert(data, root, windowWidth / 2, 200,  windowHeight / 2, font);
+        insert(data, root, windowWidth / 2, 170,  windowHeight / 2, font);
     }
 
     void remove(T data) 
