@@ -147,10 +147,8 @@ private:
                         updateNodeVectoring(currentMousePos);
                         previousMousePos = currentMousePos;
                     }
-
                     render(window);
                 }
-
                 itr.setVel(mouseVelocity);
                 itr.setDirection(mouseDirVec);
             }
@@ -190,7 +188,15 @@ private:
             // did the remove button get clicked?
             if (itr.first._getStr() == "Remove")
                 remove(itr);
+            if (itr.first._getStr() == "Clear")
+                clear(itr);
         }
+    }
+
+    void clear(std::pair<Button, TextBox>& itr)
+    {
+        cout << "Clearing" << endl;
+        nodes.clear();
     }
 
     void remove(std::pair<Button, TextBox>& itr)
@@ -221,6 +227,8 @@ private:
 
         std::cout << "Inserting: " << itr.second._getText() << std::endl;
         Button newNode(itr.second._getText(), font, sf::Vector2f(500, 500), 100);
+        newNode._setFillColor(colors.primaryText);
+        newNode._setOutlineThickness(0);
         Particle newParticle(newNode._getPosition().x, newNode._getPosition().y, 5, 5, newNode);
         newParticle.setDirection(sf::Vector2i(1, 1));
         nodes.push_back(newParticle);
@@ -252,10 +260,10 @@ private:
         }
     }
 
-
     void drawNodes(sf::RenderWindow& window)
     {
         drawEdges(window);
+        updateHeadColor();
 
         for (auto& itr : nodes)
         {
@@ -288,6 +296,31 @@ private:
         }
     }
 
+    void updateHeadColor()
+    {
+        if (!nodes.empty())
+        {
+            if (nodes.size() == 1)
+            {
+                nodes[0].getShape()._setOutlineColor(colors.orangeAccent);
+                nodes[0].getShape()._setOutlineThickness(3);
+            }
+            else
+            {
+                nodes[0].getShape()._setOutlineColor(colors.greenAccent);
+                nodes[0].getShape()._setOutlineThickness(3);
+
+                nodes[nodes.size() - 1].getShape()._setOutlineColor(colors.redAccent);
+                nodes[nodes.size() - 1].getShape()._setOutlineThickness(2);
+
+                if (nodes.size() > 2)
+                {
+                    nodes[nodes.size() - 2].getShape()._setOutlineThickness(0);
+                }
+            }
+        }
+    }
+
     void resetEvent(sf::Event& event)
     {
         event = emptyEvent;
@@ -307,7 +340,6 @@ private:
             };
             window.draw(line, 2, sf::Lines);
         }
-
     }
 
     Colors colors;

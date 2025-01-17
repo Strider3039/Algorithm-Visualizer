@@ -16,6 +16,7 @@ struct Colors
     sf::Color redAccent;    // Accent Red	#DC3545
     sf::Color primaryText;  // Neutral Dark Gray	#343A40
     sf::Color backgroundElementsColor;  // Neutral Light Gray	#E9ECEF
+    sf::Color orangeAccent;     // Accent Orange  #D28A58.
 };
 
 inline void loadColors(Colors &colorsStruct)
@@ -39,6 +40,10 @@ inline void loadColors(Colors &colorsStruct)
     colorsStruct.backgroundElementsColor.r = 233;
     colorsStruct.backgroundElementsColor.g = 236;
     colorsStruct.backgroundElementsColor.b = 239;
+
+    colorsStruct.orangeAccent.r = 210;
+    colorsStruct.orangeAccent.g = 138;
+    colorsStruct.orangeAccent.b = 88;
 }
 
 inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window)
@@ -74,8 +79,6 @@ inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& background
 
 inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width, double height, Colors colors)
 {
-    buttons.clear();
-
     Button list_button("Linked List", font, sf::Vector2f(width / 2, 7*height / 15), 250);
     list_button._setFillColor(colors.UIelementsColor);
     list_button._setOutlineColor(colors.primaryText);
@@ -101,7 +104,6 @@ inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width,
     exit_button._setOutlineColor(colors.primaryText);
     exit_button._setOutlineThickness(1);
 
-
     buttons.push_back(list_button);
     buttons.push_back(queue_button);
     buttons.push_back(stack_button);
@@ -110,15 +112,11 @@ inline void mainMenuItems(vector<Button>& buttons, sf::Font& font, double width,
     buttons.push_back(exit_button);
 }
 
-
-
 inline void centerButtons(vector<Button>& buttons, sf::RenderWindow& window)
 {
     int i = 7;
     for (auto& itr : buttons)
     {
-        /*TODO: test these with additional display*/
-       // itr.setBoxWidth(itr.getTrueBoxWidth()); /*need to update internal boxWidth member. SFML auto scales rectangle shapes*/
         itr._setPosititon(sf::Vector2f((window.getSize().x / 2), i*window.getSize().y / 15));
 
         cout << sf::Mouse::getPosition(window).x;
@@ -149,8 +147,6 @@ inline void centerButtons(vector<Button>& buttons, sf::RenderWindow& window)
     return 0;
 }
 
-
-
 inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight, Colors colors)
 {
     Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
@@ -171,36 +167,48 @@ inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, d
     remove._setOutlineColor(colors.primaryText);
     remove._setOutlineThickness(1);
 
+    Button clear("Clear", font, sf::Vector2f(screenWidth * .8, screenHeight * .02), 250);
+    TextBox clearField;
+    clear._setFillColor(colors.UIelementsColor);
+    clear._setOutlineColor(colors.primaryText);
+    clear._setOutlineThickness(1);
 
     std::pair<Button, TextBox> UIBack(back, backField);
     std::pair<Button, TextBox> UIInsert(insert, insertField);
     std::pair<Button, TextBox> UIRemove(remove, removeField);
-
+    std::pair<Button, TextBox> UIClear(clear, clearField);
 
     UI.push_back(UIBack);
     UI.push_back(UIInsert);
     UI.push_back(UIRemove);
+    UI.push_back(UIClear);
 }
 
-inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight)
+inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight, Colors colors)
 {
     Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
     TextBox backField;
+    back._setFillColor(colors.UIelementsColor);
+    back._setOutlineColor(colors.primaryText);
+    back._setOutlineThickness(1);
 
     Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02), 250);
     TextBox insertField("type here", font, sf::Vector2f(screenWidth * .29, screenHeight * .02));
-    
+    insert._setFillColor(colors.UIelementsColor);
+    insert._setOutlineColor(colors.primaryText);
+    insert._setOutlineThickness(1);
+
     Button remove("Remove", font, sf::Vector2f(screenWidth * .5, screenHeight * .02), 250);
     TextBox removeField("type here", font, sf::Vector2f(screenWidth * .59, screenHeight * .02));
+    remove._setFillColor(colors.UIelementsColor);
+    remove._setOutlineColor(colors.primaryText);
+    remove._setOutlineThickness(1);
 
     std::pair<Button, TextBox> UIBack(back, backField);
     std::pair<Button, TextBox> UIInsert(insert, insertField);
     std::pair<Button, TextBox> UIRemove(remove, removeField);
 
-
     UI.push_back(UIBack);
     UI.push_back(UIInsert);
     UI.push_back(UIRemove);
-
-
 }

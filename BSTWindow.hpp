@@ -17,17 +17,14 @@ public:
     BSTWindow(float width, float height, sf::Font& font)
         : windowWidth(width), windowHeight(height), mFont(font) {
         bst = GraphicBST<T>(windowWidth, windowHeight); // Initialize the BST
-        backgroundColor.r = 233;
-        backgroundColor.g = 236;
-        backgroundColor.b = 239;
-        background.setFillColor(backgroundColor);
-        background.setSize(sf::Vector2f(windowWidth, windowHeight));
         isRunning = true;
+
+        loadColors(colors);
     }
 
     void runVisual(sf::RenderWindow& window) {
         
-        loadBstUI(UI, mFont, windowWidth, windowHeight);
+        loadBstUI(UI, mFont, windowWidth, windowHeight, colors);
 
         while (window.isOpen())
         {
@@ -52,6 +49,8 @@ private:
     bool isRunning;
     vector<std::pair<Button, TextBox>> UI;
     sf::Event emptyEvent;
+    Colors colors;
+    
 
     void processEvents(sf::RenderWindow& window) {
         sf::Event event;
@@ -65,14 +64,13 @@ private:
                 isRunning = false;
             }
 
+           
             for (auto& itr : UI)
-            {
-                for (auto& itr : UI)
             {
                 handleTextInput(window, event, itr);
                 handleButtons(window, event, itr);
             }
-            }
+            
 
         }
     }
@@ -87,7 +85,7 @@ private:
             {
                 if (window.pollEvent(event) && event.type == sf::Event::TextEntered)
                 {
-                     if (event.text.unicode == 27 /*|| event.text.unicode == 13*/) /* Escape or Enter */
+                    if (event.text.unicode == 27 /*|| event.text.unicode == 13*/) /* Escape or Enter */
                         break;
                     if (event.text.unicode == 13)
                         return;
@@ -113,17 +111,25 @@ private:
         if (itr.first.scrollAndClick(event, window))
         {
             // make sure string is valid for stoi
-            if (std::all_of(inputStr.begin(), inputStr.end(), ::isdigit))
-
-            // did the insert button get clicked?
-            if (buttonStr == "Insert")
-               bst.insert(stoi(inputStr), mFont);
-
-            // did the remove button get clicked?
-            if (buttonStr == "Remove")
+            if (!inputStr.empty() && std::all_of(inputStr.begin(), inputStr.end(), ::isdigit))
             {
-                bst.remove(stoi(inputStr));
+                // did the insert button get clicked?
+                if (buttonStr == "Insert")
+                {
+                    bst.insert(stoi(inputStr), mFont);
+                    
+                }
+                    
+
+                // did the remove button get clicked?
+                if (buttonStr == "Remove")
+                {
+                    bst.remove(stoi(inputStr));
+                    
+                }
+                
             }
+            
                 
         }
     }
@@ -148,7 +154,7 @@ private:
                 bst.insert(18, mFont);
                 break;
             case sf::Keyboard::R:
-                bst = GraphicBST<T>(windowWidth, windowHeight); // Reset the BST
+                bst.reset(); // Reset the BST
                 break;
             case sf::Keyboard::Escape:
                 std::cout << "Returning to menu..." << std::endl;
@@ -160,8 +166,7 @@ private:
     }
 
     void render(sf::RenderWindow& window) {
-        window.clear();
-        window.draw(background);
+        window.clear(colors.backgroundElementsColor);
         bst.draw(window);
         drawUI(window);
         window.display();

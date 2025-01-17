@@ -136,7 +136,7 @@ public:
         return vel;
     }
 
-    Button getShape()
+    Button& getShape()
     {
         return shape;
     }
