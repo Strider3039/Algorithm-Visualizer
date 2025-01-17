@@ -53,7 +53,7 @@ public:
         resetHelper(root);
     }
 
-private:
+protected:
 
     /*
         DATA
@@ -233,6 +233,22 @@ private:
             return findMin(pNode->pLeft);
         }
     }
+
+    int treeHeight(TreeNode* pNode)
+{
+    if (pNode == nullptr)
+    {
+        return -1; // Base case: Height of an empty tree is -1
+    }
+
+    // Recursively calculate the height of the left and right subtrees
+    int leftHeight = treeHeight(pNode->pLeft);
+    int rightHeight = treeHeight(pNode->pRight);
+
+    // Return the maximum height of the two subtrees plus one for the current node
+    return std::max(leftHeight, rightHeight) + 1;
+}
+
 
     void resetHelper(TreeNode*& pNode)
     {

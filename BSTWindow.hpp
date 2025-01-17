@@ -39,7 +39,7 @@ public:
         }
     }
 
-private:
+protected:
     double windowWidth;
     double windowHeight;
     sf::Font mFont;
