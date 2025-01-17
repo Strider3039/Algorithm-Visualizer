@@ -171,15 +171,23 @@ inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, d
     remove._setOutlineColor(colors.primaryText);
     remove._setOutlineThickness(1);
 
+    Button clear("Clear", font, sf::Vector2f(screenWidth * .8, screenHeight * .02), 250);
+    TextBox clearField;
+    clear._setFillColor(colors.UIelementsColor);
+    clear._setOutlineColor(colors.primaryText);
+    clear._setOutlineThickness(1);
+
 
     std::pair<Button, TextBox> UIBack(back, backField);
     std::pair<Button, TextBox> UIInsert(insert, insertField);
     std::pair<Button, TextBox> UIRemove(remove, removeField);
+    std::pair<Button, TextBox> UIClear(clear, clearField);
 
 
     UI.push_back(UIBack);
     UI.push_back(UIInsert);
     UI.push_back(UIRemove);
+    UI.push_back(UIClear);
 }
 
 inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight, Colors colors)

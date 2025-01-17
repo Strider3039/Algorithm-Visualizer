@@ -190,7 +190,15 @@ private:
             // did the remove button get clicked?
             if (itr.first._getStr() == "Remove")
                 remove(itr);
+            if (itr.first._getStr() == "Clear")
+                clear(itr);
         }
+    }
+
+    void clear(std::pair<Button, TextBox>& itr)
+    {
+        cout << "Clearing" << endl;
+        nodes.clear();
     }
 
     void remove(std::pair<Button, TextBox>& itr)
