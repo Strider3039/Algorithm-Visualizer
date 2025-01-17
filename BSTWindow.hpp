@@ -24,7 +24,7 @@ public:
 
     void runVisual(sf::RenderWindow& window) {
         
-        loadBstUI(UI, mFont, windowWidth, windowHeight);
+        loadBstUI(UI, mFont, windowWidth, windowHeight, colors);
 
         while (window.isOpen())
         {
@@ -117,7 +117,7 @@ private:
                 if (buttonStr == "Insert")
                 {
                     bst.insert(stoi(inputStr), mFont);
-                    itr.second.clear();
+                    
                 }
                     
 
@@ -125,7 +125,7 @@ private:
                 if (buttonStr == "Remove")
                 {
                     bst.remove(stoi(inputStr));
-                    itr.second.clear();
+                    
                 }
                 
             }

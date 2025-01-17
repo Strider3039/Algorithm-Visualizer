@@ -45,7 +45,7 @@ public:
 
     void insert(T data, sf::Font& font)
     {
-        insert(data, root, windowWidth / 2, 300,  windowHeight / 2, font);
+        insert(data, root, windowWidth / 2, 170,  windowHeight / 2, font);
     }
 
     void remove(T data) 
@@ -183,41 +183,96 @@ private:
         }
     }
 
+    // void remove(T data, TreeNode*& pNode)
+    // {
+    //     if (pNode == nullptr)
+    //     {
+    //         return;
+    //     }
+
+    //     if (data < pNode->data)
+    //     {
+    //         remove(data, pNode->pLeft);
+    //     }
+    //     else if (data > pNode->data)
+    //     {
+    //         remove(data, pNode->pRight);
+    //     }
+    //     else 
+    //     {
+    //         // Node is found
+
+    //         if (pNode->pLeft != nullptr && pNode->pRight != nullptr)
+    //         {
+    //             // Two children
+
+    //             pNode->data = findMin(pNode->pRight)->data;
+    //             remove(pNode->data, pNode->pRight);
+    //         }
+    //         else 
+    //         {
+    //             TreeNode* oldNode = pNode;
+    //             if (pNode->pLeft != nullptr)
+    //             {
+    //                 pNode->pLeft->position = pNode->position;
+    //                 pNode = pNode->pLeft;
+    //             }
+    //             else if (pNode->pRight != nullptr)
+    //             {
+    //                 pNode->pRight->position = pNode->position;
+    //                 pNode = pNode->pRight;
+    //             }
+    //             delete oldNode;
+    //         }
+    //     }
+
+    // }
+
     void remove(T data, TreeNode*& pNode)
     {
         if (pNode == nullptr)
         {
-            return;
+            return; // Node not found
         }
 
         if (data < pNode->data)
         {
-            remove(data, pNode->pLeft);
+            remove(data, pNode->pLeft); // Search left subtree
         }
         else if (data > pNode->data)
         {
-            remove(data, pNode->pRight);
+            remove(data, pNode->pRight); // Search right subtree
         }
-        else 
+        else
         {
-            // Node is found
-
+            // Node found
             if (pNode->pLeft != nullptr && pNode->pRight != nullptr)
             {
-                // Two children
-
-                pNode->data = findMin(pNode->pRight)->data;
-                remove(pNode->data, pNode->pRight);
+                // Case: Two children
+                TreeNode* successor = findMin(pNode->pRight);
+                pNode->data = successor->data; // Replace with successor data
+                pNode->text.setString(std::to_string(successor->data)); // Update the displayed text
+                remove(successor->data, pNode->pRight); // Remove the successor
             }
-            else 
+            else
             {
+                // Case: One or no child
                 TreeNode* oldNode = pNode;
                 pNode = (pNode->pLeft != nullptr) ? pNode->pLeft : pNode->pRight;
-                delete oldNode;
+                if (pNode != nullptr)
+                {
+                    // Update graphical position of the replacement node
+                    pNode->position = oldNode->position;
+                    pNode->shape.setPosition(oldNode->position);
+                    auto bounds = pNode->text.getLocalBounds();
+                    pNode->text.setPosition(oldNode->position.x + pNode->shape.getRadius() - bounds.width / 2,
+                                            oldNode->position.y + pNode->shape.getRadius() - bounds.height);
+                }
+                delete oldNode; // Free memory
             }
         }
-
     }
+
 
     TreeNode* findMin(TreeNode* pNode)
     {
@@ -246,6 +301,7 @@ private:
         resetHelper(pNode->pRight);
 
         delete pNode;
+        pNode = nullptr;
     }
 
 

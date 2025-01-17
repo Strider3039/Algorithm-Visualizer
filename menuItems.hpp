@@ -182,16 +182,25 @@ inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, d
     UI.push_back(UIRemove);
 }
 
-inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight)
+inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight, Colors colors)
 {
     Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
     TextBox backField;
+    back._setFillColor(colors.UIelementsColor);
+    back._setOutlineColor(colors.primaryText);
+    back._setOutlineThickness(1);
 
     Button insert("Insert", font, sf::Vector2f(screenWidth * .2, screenHeight * .02), 250);
     TextBox insertField("type here", font, sf::Vector2f(screenWidth * .29, screenHeight * .02));
-    
+    insert._setFillColor(colors.UIelementsColor);
+    insert._setOutlineColor(colors.primaryText);
+    insert._setOutlineThickness(1);
+
     Button remove("Remove", font, sf::Vector2f(screenWidth * .5, screenHeight * .02), 250);
     TextBox removeField("type here", font, sf::Vector2f(screenWidth * .59, screenHeight * .02));
+    remove._setFillColor(colors.UIelementsColor);
+    remove._setOutlineColor(colors.primaryText);
+    remove._setOutlineThickness(1);
 
     std::pair<Button, TextBox> UIBack(back, backField);
     std::pair<Button, TextBox> UIInsert(insert, insertField);
