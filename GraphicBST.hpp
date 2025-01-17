@@ -26,18 +26,6 @@ class GraphicBST
 {
 public:
 
-    /*
-        Functions:
-
-        Constructor (root, window width, window height) {}
-
-        Insert (data, &font)
-            Call private insert 
-
-        Draw (&window)
-            call private draw
-    */
-
 
     GraphicBST() : root(nullptr), windowWidth(800), windowHeight(600) {}
 
@@ -183,50 +171,6 @@ private:
         }
     }
 
-    // void remove(T data, TreeNode*& pNode)
-    // {
-    //     if (pNode == nullptr)
-    //     {
-    //         return;
-    //     }
-
-    //     if (data < pNode->data)
-    //     {
-    //         remove(data, pNode->pLeft);
-    //     }
-    //     else if (data > pNode->data)
-    //     {
-    //         remove(data, pNode->pRight);
-    //     }
-    //     else 
-    //     {
-    //         // Node is found
-
-    //         if (pNode->pLeft != nullptr && pNode->pRight != nullptr)
-    //         {
-    //             // Two children
-
-    //             pNode->data = findMin(pNode->pRight)->data;
-    //             remove(pNode->data, pNode->pRight);
-    //         }
-    //         else 
-    //         {
-    //             TreeNode* oldNode = pNode;
-    //             if (pNode->pLeft != nullptr)
-    //             {
-    //                 pNode->pLeft->position = pNode->position;
-    //                 pNode = pNode->pLeft;
-    //             }
-    //             else if (pNode->pRight != nullptr)
-    //             {
-    //                 pNode->pRight->position = pNode->position;
-    //                 pNode = pNode->pRight;
-    //             }
-    //             delete oldNode;
-    //         }
-    //     }
-
-    // }
 
     void remove(T data, TreeNode*& pNode)
     {
@@ -266,7 +210,7 @@ private:
                     pNode->shape.setPosition(oldNode->position);
                     auto bounds = pNode->text.getLocalBounds();
                     pNode->text.setPosition(oldNode->position.x + pNode->shape.getRadius() - bounds.width / 2,
-                                            oldNode->position.y + pNode->shape.getRadius() - bounds.height);
+                    oldNode->position.y + pNode->shape.getRadius() - bounds.height);
                 }
                 delete oldNode; // Free memory
             }

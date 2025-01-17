@@ -5,14 +5,14 @@ class GraphicAVL : public GraphicBST<T>
 {
 public:
 
-    inline void insert(T insertData)
+    inline void insert(T data, sf::Font font)
     {
-        insert(insertData, this->root);
+        insert(data, this->root, this->windowWidth / 2, 170, this->windowHeight / 2, font);
     }
 
-    inline void remove(T removeData)
+    inline void remove(T data)
     {
-        remove(removeData, this->root);
+        remove(data, this->root);
     }
 
     inline bool isBalanced()
@@ -24,15 +24,15 @@ public:
 
 private:
 
-    inline void insert(T insertData, typename GraphicBST<T>::treeNode*& pNode)
+    void insert(T data, typename GraphicBST<T>::TreeNode*& pNode, float xPos, float yPos, float offset, sf::Font& font)
     {
-        GraphicBST<T>::insert(insertData, pNode);
+        GraphicBST<T>::insert(data, pNode, xPos, yPos, offset, font);
         balance(pNode);
     }
 
-    inline void remove(T removeData, typename GraphicBST<T>::treeNode*& pNode)
+    inline void remove(T data, typename GraphicBST<T>::treeNode*& pNode)
     {
-        GraphicBST<T>::remove(removeData, pNode);
+        GraphicBST<T>::remove(data, pNode);
         balance(pNode);
     }
 
@@ -42,16 +42,21 @@ private:
             return;
         }
 
-        if( this->treeHeight( pNode->pLeft ) - this->treeHeight( pNode->pRight ) > ALLOWED_IMBALANCE ) {
-            if( this->treeHeight( pNode->pLeft->pLeft ) >= this->treeHeight( pNode->pLeft->pRight ) ) {
+        if( this->treeHeight( pNode->pLeft ) - this->treeHeight( pNode->pRight ) > ALLOWED_IMBALANCE ) 
+        {
+            if ( this->treeHeight( pNode->pLeft->pLeft ) >= this->treeHeight( pNode->pLeft->pRight ) ) 
+            {
                 rotateWithLeftChild( pNode);
             }
-            else {
+            else 
+            {
                 doubleWithLeftChild( pNode );
             }
         }
-        else if( this->treeHeight( pNode->pRight ) - this->treeHeight( pNode->pLeft ) > ALLOWED_IMBALANCE ) {
-            if( this->treeHeight( pNode->pRight->pRight ) >= this->treeHeight( pNode->pRight->pLeft ) ) {
+        else if( this->treeHeight( pNode->pRight ) - this->treeHeight( pNode->pLeft ) > ALLOWED_IMBALANCE ) 
+        {
+            if ( this->treeHeight( pNode->pRight->pRight ) >= this->treeHeight( pNode->pRight->pLeft ) ) 
+            {
                 rotateWithRightChild( pNode );
             }
             else {
