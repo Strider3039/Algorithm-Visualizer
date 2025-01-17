@@ -147,10 +147,8 @@ private:
                         updateNodeVectoring(currentMousePos);
                         previousMousePos = currentMousePos;
                     }
-
                     render(window);
                 }
-
                 itr.setVel(mouseVelocity);
                 itr.setDirection(mouseDirVec);
             }
@@ -262,10 +260,10 @@ private:
         }
     }
 
-
     void drawNodes(sf::RenderWindow& window)
     {
         drawEdges(window);
+        updateHeadColor();
 
         for (auto& itr : nodes)
         {
@@ -298,6 +296,31 @@ private:
         }
     }
 
+    void updateHeadColor()
+    {
+        if (!nodes.empty())
+        {
+            if (nodes.size() == 1)
+            {
+                nodes[0].getShape()._setOutlineColor(colors.orangeAccent);
+                nodes[0].getShape()._setOutlineThickness(3);
+            }
+            else
+            {
+                nodes[0].getShape()._setOutlineColor(colors.greenAccent);
+                nodes[0].getShape()._setOutlineThickness(3);
+
+                nodes[nodes.size() - 1].getShape()._setOutlineColor(colors.redAccent);
+                nodes[nodes.size() - 1].getShape()._setOutlineThickness(2);
+
+                if (nodes.size() > 2)
+                {
+                    nodes[nodes.size() - 2].getShape()._setOutlineThickness(0);
+                }
+            }
+        }
+    }
+
     void resetEvent(sf::Event& event)
     {
         event = emptyEvent;
@@ -317,7 +340,6 @@ private:
             };
             window.draw(line, 2, sf::Lines);
         }
-
     }
 
     Colors colors;
