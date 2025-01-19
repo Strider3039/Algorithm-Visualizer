@@ -229,7 +229,7 @@ private:
         Button newNode(itr.second._getText(), font, sf::Vector2f(500, 500), 100);
         newNode._setFillColor(colors.primaryText);
         newNode._setOutlineThickness(0);
-        Particle newParticle(newNode._getPosition().x, newNode._getPosition().y, 5, 5, newNode);
+        Particle newParticle(newNode._getPosition().x, newNode._getPosition().y, 12, 1.5, newNode);
         newParticle.setDirection(sf::Vector2i(1, 1));
         nodes.push_back(newParticle);
     }
@@ -341,6 +341,7 @@ private:
             window.draw(line, 2, sf::Lines);
         }
     }
+
 
     Colors colors;
 
