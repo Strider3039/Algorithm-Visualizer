@@ -2,13 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "menuItems.hpp"
-#include "textBox.hpp"
 
 // trying a completely new design for the trees. Stuff is not working properly
+// line 195 is TreeWindow base class
 
 template <class T>
 class GraphicTree {
 public:
+
 
     struct TreeNode
     {
@@ -18,8 +19,6 @@ public:
         sf::CircleShape shape;
         sf::Text text;
         sf::Vector2f position;
-
-        
 
         TreeNode(T data, sf::Font& font, float xPos, float yPos)
         : data(data), pLeft(nullptr), pRight(nullptr)
@@ -43,6 +42,10 @@ public:
 
     };
 
+    TreeNode* root;
+    double windowWidth;
+    double windowHeight;
+    sf::Font mFont;
 
     virtual void insert(T data, TreeNode*& pNode, float xPos, float yPos, float offset, sf::Font& font)
     {
@@ -60,11 +63,137 @@ public:
         {
             insert(data, pNode->pRight, xPos + offset, yPos + 150, offset / 2, font);
         }
-    };
-    virtual void remove(const T& value) = 0;
-    virtual void reset() = 0;
-    virtual void draw(sf::RenderWindow& window) = 0;
+    }
+
+    virtual void remove(T data, TreeNode*& pNode)
+    {
+        if (pNode == nullptr)
+        {
+            return; // Node not found
+        }
+
+        if (data < pNode->data)
+        {
+            remove(data, pNode->pLeft); // Search left subtree
+        }
+        else if (data > pNode->data)
+        {
+            remove(data, pNode->pRight); // Search right subtree
+        }
+        else
+        {
+            // Node found
+            if (pNode->pLeft != nullptr && pNode->pRight != nullptr)
+            {
+                // Case: Two children
+                TreeNode* successor = findMin(pNode->pRight);
+                pNode->data = successor->data; // Replace with successor data
+                pNode->text.setString(std::to_string(successor->data)); // Update the displayed text
+                remove(successor->data, pNode->pRight); // Remove the successor
+            }
+            else
+            {
+                // Case: One or no child
+                TreeNode* oldNode = pNode;
+                pNode = (pNode->pLeft != nullptr) ? pNode->pLeft : pNode->pRight;
+
+                if (pNode != nullptr)
+                {
+                    // Update graphical position of the replacement node
+                    pNode->position = oldNode->position;
+                    pNode->shape.setPosition(oldNode->position);
+                    auto bounds = pNode->text.getLocalBounds();
+                    pNode->text.setPosition(oldNode->position.x + pNode->shape.getRadius() - bounds.width / 2,
+                    oldNode->position.y + pNode->shape.getRadius() - bounds.height);
+                }
+                delete oldNode; // Free memory
+            }
+        }
+    }
+
+    virtual void resetHelper(TreeNode*& pNode)
+    {
+        if (pNode == nullptr)
+        {
+            return;
+        }
+
+        resetHelper(pNode->pLeft);
+        resetHelper(pNode->pRight);
+
+        delete pNode;
+        pNode = nullptr;
+    }
+
+    TreeNode* findMin(TreeNode* pNode)
+    {
+        if (pNode == nullptr)
+        {
+            return nullptr;
+        }
+        else if (pNode->pLeft == nullptr)
+        {
+            return pNode;
+        }
+        else 
+        {
+            return findMin(pNode->pLeft);
+        }
+    }
+
+    int treeHeight(TreeNode* pNode)
+    {
+        if (pNode == nullptr)
+        {
+            return -1; // Base case: Height of an empty tree is -1
+        }
+
+        // Recursively calculate the height of the left and right subtrees
+        int leftHeight = treeHeight(pNode->pLeft);
+        int rightHeight = treeHeight(pNode->pRight);
+
+        // Return the maximum height of the two subtrees plus one for the current node
+        return std::max(leftHeight, rightHeight) + 1;
+    }
+
+    virtual void draw(sf::RenderWindow& window, TreeNode* pNode)
+    {
+        if (pNode == nullptr) return;
+
+        if (pNode->pLeft != nullptr)
+        {
+            drawEdge(window, pNode->position, pNode->pLeft->position);
+            draw(window, pNode->pLeft);
+        }
+        if (pNode->pRight != nullptr)
+        {
+            drawEdge(window, pNode->position, pNode->pRight->position);
+            draw(window, pNode->pRight);
+        }
+
+        if (pNode != nullptr)
+        {
+            window.draw(pNode->shape);
+            window.draw(pNode->text);
+        }
+
+        
+    }
+
+    void drawEdge(sf::RenderWindow& window, sf::Vector2f parentPos, sf::Vector2f childPos)
+    {
+        sf::Vertex line[] = {
+            sf::Vertex(parentPos + sf::Vector2f(20, 20), sf::Color::Black),
+            sf::Vertex(childPos + sf::Vector2f(20, 20), sf::Color::Black)
+        };
+
+        window.draw(line, 2, sf::Lines);
+    }
 };
+
+
+// ===========================================================================================================================
+// ===========================================================================================================================
 
 
 template <class T>
@@ -120,17 +249,18 @@ protected:
                 isRunning = false;
             }
 
-            for (auto& itr : UI) 
+            // first is button, second it textbox
+            for (auto& UI_Element : UI) 
             {
-                handleTextInput(window, event, itr);
-                handleButtons(window, event, itr);
+                handleTextInput(window, event, UI_Element);
+                handleButtons(window, event, UI_Element);
             }
         }
     }
 
-    void handleTextInput(sf::RenderWindow& window, sf::Event& event, std::pair<Button, TextBox>& itr) 
+    void handleTextInput(sf::RenderWindow& window, sf::Event& event, std::pair<Button, TextBox>& UI_Element) 
     {
-        if (itr.second.scrollAndClick(event, window)) 
+        if (UI_Element.second.scrollAndClick(event, window)) 
         {
             resetEvent(event);
             while (event.type != sf::Event::MouseButtonPressed) 
@@ -140,7 +270,7 @@ protected:
                     if (event.text.unicode == 27 /* Escape */ || event.text.unicode == 13 /* Enter */)
                         break;
 
-                    itr.second.write(event.text.unicode, window);
+                    UI_Element.second.write(event.text.unicode, window);
                     resetEvent(event);
                 }
                 render(window);
@@ -148,16 +278,17 @@ protected:
         }
     }
 
-    void resetEvent(sf::Event& event) {
+    void resetEvent(sf::Event& event) 
+    {
         event = emptyEvent;
     }
 
-    void handleButtons(sf::RenderWindow& window, sf::Event& event, std::pair<Button, TextBox>& itr) 
+    void handleButtons(sf::RenderWindow& window, sf::Event& event, std::pair<Button, TextBox>& UI_Element) 
     {
-        std::string buttonStr = itr.first._getStr();
-        std::string inputStr = itr.second._getText();
+        std::string buttonStr = UI_Element.first._getStr();
+        std::string inputStr = UI_Element.second._getText();
 
-        if (itr.first.scrollAndClick(event, window)) 
+        if (UI_Element.first.scrollAndClick(event, window)) 
         {
             if (!inputStr.empty() && std::all_of(inputStr.begin(), inputStr.end(), ::isdigit)) 
             {
@@ -186,10 +317,10 @@ protected:
 
     void drawUI(sf::RenderWindow& window) 
     {
-        for (auto& itr : UI) 
+        for (auto& UI_Element : UI) 
         {
-            window.draw(itr.first);
-            window.draw(itr.second);
+            window.draw(UI_Element.first);
+            window.draw(UI_Element.second);
         }
     }
 };
