@@ -128,6 +128,8 @@ protected:
         sf::Text text;
         sf::Vector2f position;
 
+        
+
         TreeNode(T data, sf::Font& font, float xPos, float yPos)
         : data(data), pLeft(nullptr), pRight(nullptr)
         {
@@ -280,8 +282,13 @@ protected:
             draw(window, pNode->pRight);
         }
 
-        window.draw(pNode->shape);
-        window.draw(pNode->text);
+        if (pNode != nullptr)
+        {
+            window.draw(pNode->shape);
+            window.draw(pNode->text);
+        }
+
+        
     }
 
     void drawEdge(sf::RenderWindow& window, sf::Vector2f parentPos, sf::Vector2f childPos)

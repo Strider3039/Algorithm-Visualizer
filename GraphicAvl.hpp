@@ -1,5 +1,6 @@
 #pragma once
 #include "GraphicBST.hpp"
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
 template <class T>
@@ -7,6 +8,7 @@ class GraphicAVL : public GraphicBST<T>
 {
 public:
 
+    GraphicAVL() : root(nullptr), windowWidth(800), windowHeight(600) {}
     GraphicAVL(float wWidth, float wHeight) : windowWidth(wWidth), windowHeight(wHeight) {};
 
 
@@ -27,10 +29,28 @@ public:
 
     static const int ALLOWED_IMBALANCE = 1;
 
+    typename GraphicBST<T>::TreeNode* getRoot()
+    {
+        return this->root;
+    }
+
+    void printNodeData()
+    {
+        cout << "*******Node Data Start*******" << endl;
+        printNodeData(this->root);
+        cout << "\n*******Node Data End*******" << endl;
+        system("read -p 'Press Enter to continue...' var");
+
+    }
+
+    
+
 private:
 
     float windowWidth, windowHeight;
+    typename GraphicBST<T>::TreeNode* root;
 
+    
 
     void insert(T data, typename GraphicBST<T>::TreeNode*& pNode, float xPos, float yPos, float offset, sf::Font& font) {
     if (pNode == nullptr) {
@@ -204,6 +224,18 @@ private:
         }
 
         return false;
+    }
+
+    void printNodeData(typename GraphicBST<T>::TreeNode* pNode)
+    {
+        if (pNode == nullptr)
+        {
+            return;
+        }
+
+        printNodeData(pNode->pLeft);
+        cout << pNode->data << " " << pNode->text.getString().toAnsiString() << " " <<  endl;
+        printNodeData(pNode->pRight);
     }
     
 };

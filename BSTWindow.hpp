@@ -24,7 +24,7 @@ public:
 
     void runVisual(sf::RenderWindow& window) {
         
-        loadBstUI(UI, mFont, windowWidth, windowHeight, colors);
+        loadButtonUI(UI, mFont, windowWidth, windowHeight, colors);
 
         while (window.isOpen())
         {

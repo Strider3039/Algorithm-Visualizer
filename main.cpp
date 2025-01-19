@@ -129,7 +129,7 @@ int main(void)
 
                     if (buttonItr._getStr() == "AVL Tree")
                     {
-                        avl.runvisual(window);
+                        avl.runVisual(window);
                     }
                 }
             }
