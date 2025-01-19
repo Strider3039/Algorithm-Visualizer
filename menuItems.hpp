@@ -184,7 +184,7 @@ inline void loadListUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, d
     UI.push_back(UIClear);
 }
 
-inline void loadBstUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight, Colors colors)
+inline void loadButtonUI(vector<std::pair<Button, TextBox>>& UI, sf::Font& font, double screenWidth, double screenHeight, Colors colors)
 {
     Button back("back", font, sf::Vector2f(screenWidth * .055, screenHeight * .02), 250);
     TextBox backField;
