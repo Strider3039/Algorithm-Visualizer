@@ -46,13 +46,13 @@ inline void loadColors(Colors &colorsStruct)
     colorsStruct.orangeAccent.b = 88;
 }
 
-inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window)
+inline void mainMenuScreen(sf::Sprite& backgroundSprite, sf::Texture& backgroundTexture, sf::Text& title, sf::Font& font, sf::Window& window, Colors colors)
 {
     
     // Create Menu Title
     title = sf::Text("Algorithm Visualizer", font, 70);
     title.setStyle(sf::Text::Underlined | sf::Text::Bold);
-    title.setFillColor(sf::Color::White);
+    title.setFillColor(colors.primaryText);
 
     // Center the title
     sf::Vector2u windowSize = window.getSize();

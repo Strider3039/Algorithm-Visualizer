@@ -71,7 +71,7 @@ int main(void)
     BSTWindow<int> bst(screens[internalDisplay].width, screens[internalDisplay].height, font);
     //AVLWindow<int> avl(screens[internalDisplay].width, screens[internalDisplay].height, font);
 
-    mainMenuScreen(background, backgroundTexture, title, font, window);
+    mainMenuScreen(background, backgroundTexture, title, font, window, colors);
     
     vector<Button> buttons;
     mainMenuItems(buttons, font, window.getSize().x, window.getSize().y, colors);
@@ -135,8 +135,8 @@ int main(void)
             }
         }
 
-        window.draw(background);
-        window.draw(background);
+        // window.draw(background);
+        // window.draw(background);
         window.draw(title);
 
         for (auto& buttonItr : buttons)
@@ -145,7 +145,7 @@ int main(void)
         }
 
         window.display();
-        window.clear();
+        window.clear(colors.backgroundElementsColor);
 
     }
 
