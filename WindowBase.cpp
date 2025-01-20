@@ -22,18 +22,37 @@
 template <class T>
 class WindowBase
 {
-    WindowBase() {}
-    WindowBase(sf::Vector2i screenDimensions, sf::Font font)
-    {
-        this->screenDimensions = screenDimensions;
-        this->font = font;
-        loadColors(colors);
-    }
-
 public:
 
-    virtual void render(sf::RenderWindow& window);
-    virtual void drawNodes(sf::RenderWindow& window);
+    WindowBase() {}
+    WindowBase(sf::Vector2i screenDimensions)
+    {
+        this->screenDimensions = screenDimensions;
+        loadColors(colors);
+        if (!font.loadFromFile("arial.ttf"))
+        {
+            std::cout << "Failed to load font" << std::endl;
+        }
+    }
+
+    virtual void render(sf::RenderWindow& window)
+    {
+        window.clear(colors.backgroundElementsColor);
+        drawNodes(window);
+        drawUI(window);
+        // updatePhysics(window); List implementation
+        window.display();
+    }
+    virtual void drawNodes(sf::RenderWindow& window)
+    {
+        drawEdges(window);
+       // updateHeadColor(); for list implementation
+
+        for (auto& itr : nodes)
+        {
+            itr.render(window);
+        }
+    }
 
     /*returns true if window must be closed, false otherwise*/
     virtual bool handleEvents(sf::RenderWindow& window, sf::Event& event)
@@ -55,7 +74,7 @@ public:
                 handleButtons(window, event, itr);
             }
 
-            // handleNodeInteractions(window, event); For list implementation
+            // handleNodeInteractions(window, event); //For list implementation
         }
         return false;
     }
@@ -98,7 +117,7 @@ public:
         }
     }
 
-    virtual void insert(std::pair<Button, TextBox>& itr)
+    virtual void insert(std::pair<Button, TextBox>& itr) // this is the linked list version
     {
         if (checkInput(itr))
         {
@@ -110,10 +129,16 @@ public:
         Button newNode(itr.second._getText(), font, sf::Vector2f(500, 500), 100);
         newNode._setFillColor(colors.primaryText);
         newNode._setOutlineThickness(0);
-        // Particle newParticle(newNode._getPosition().x, newNode._getPosition().y, 12, 1.5, newNode); From list implementation
-        // newParticle.setDirection(sf::Vector2i(1, 1));
-        //nodes.push_back(newParticle);
-        nodes.push_back(newNode);
+        Particle newParticle(newNode._getPosition().x, newNode._getPosition().y, 12, 1.5, newNode);
+        newParticle.setDirection(sf::Vector2i(1, 1));
+        nodes.push_back(newParticle);
+        //nodes.push_back(newNode);
+    }
+
+    void clearData()
+    {
+        nodes.clear();
+        UI.clear();
     }
 
     void remove(std::pair<Button, TextBox>& itr)
@@ -185,10 +210,10 @@ public:
         Virtual functions are very slightly different but are here for organization
 
         1. virtual render function ---
-        2. handle Events ---
+        2. virtual handle Events ---
         3. handle text input ---
         4. handle buttons ---
-        5. insert ---
+        5. virtual insert ---
         6. remove ---
         7. check input ---
         8. draw UI ---
