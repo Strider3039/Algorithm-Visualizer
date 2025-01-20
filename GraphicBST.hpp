@@ -18,7 +18,8 @@ class GraphicBST : public GraphicTree<T>
 {
 public:
     GraphicBST(float wWidth, float wHeight, sf::Font& font)
-    : GraphicTree<T>(wWidth, wHeight), mFont(font) {}
+    : GraphicTree<T>(wWidth, wHeight), mFont(font) 
+{}
 
     void remove(T data)
     {

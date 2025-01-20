@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <string>
@@ -18,7 +19,6 @@ public:
     {
         root = nullptr;
     }
-
 
     virtual ~GraphicTree() 
     {
@@ -50,10 +50,17 @@ public:
         TreeNode(T data, sf::Font& font, float xPos, float yPos)
         : data(data), pLeft(nullptr), pRight(nullptr)
         {
+            //custom colors
+            sf::Color primaryText;
+            primaryText.r = 52;
+            primaryText.g = 58;
+            primaryText.b = 64;
+
+
             // node visuals
             shape.setRadius(20);
-            shape.setFillColor(sf::Color::Black);
-            shape.setOutlineColor(sf::Color::White);
+            shape.setFillColor(primaryText);
+            shape.setOutlineColor(primaryText);
             shape.setOutlineThickness(5);
             position = {xPos, yPos};
             shape.setPosition(xPos, yPos);
@@ -66,7 +73,6 @@ public:
             auto bounds = text.getLocalBounds();
             text.setPosition(xPos + shape.getRadius() - bounds.width / 2, yPos + shape.getRadius() - bounds.height);
 
-            
         }
 
     };
@@ -101,7 +107,6 @@ public:
             insert(data, pNode->pRight, xPos + offset, yPos + 150, offset / 2, font);
         }
     }
-
 
     virtual void remove(T data, TreeNode*& pNode)
     {
@@ -234,7 +239,6 @@ public:
             window.draw(pNode->text);
         }
 
-        
     }
 
     void drawEdge(sf::RenderWindow& window, sf::Vector2f parentPos, sf::Vector2f childPos)

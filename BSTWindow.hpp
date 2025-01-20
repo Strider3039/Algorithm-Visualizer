@@ -20,6 +20,7 @@ private:
     // use if needed
     void initializeTree() override 
     {
+        
     }
 
     void handleKeyPress(sf::Keyboard::Key key, sf::RenderWindow& window) override
