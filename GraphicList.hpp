@@ -230,7 +230,7 @@ private:
         newNode._setFillColor(colors.primaryText);
         newNode._setOutlineThickness(0);
         Particle newParticle(newNode._getPosition().x, newNode._getPosition().y, 12, 1.5, newNode);
-        newParticle.setDirection(sf::Vector2i(1, 1));
+       // newParticle.setDirection(sf::Vector2i(1, 1));
         nodes.push_back(newParticle);
     }
 
