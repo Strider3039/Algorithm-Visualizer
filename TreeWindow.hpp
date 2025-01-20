@@ -1,15 +1,40 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <string>
 #include <vector>
 #include "menuItems.hpp"
 
 // trying a completely new design for the trees. Stuff is not working properly
-// line 195 is TreeWindow base class
+// line 275 is TreeWindow base class
 
 template <class T>
 class GraphicTree {
 public:
 
+    GraphicTree() 
+    {
+        root = nullptr;
+    }
+
+
+    virtual ~GraphicTree() 
+    {
+        resetHelper(root);
+        updateNodePositions(root, windowWidth / 2, 170, windowWidth / 4);
+    }
+
+    void insert(T data)
+    {
+        insert(data, root, windowWidth / 2, 170, windowWidth / 4, mFont);
+        updateNodePositions(root, windowWidth / 2, 170, windowWidth / 4);
+
+    }
+
+    void draw(sf::RenderWindow& window)
+    {
+        draw(window, root);
+    }
 
     struct TreeNode
     {
@@ -33,11 +58,21 @@ public:
 
             // text visuals
             text.setFont(font);
-            text.setString(std::to_string(data));
+            // text.setString(std::to_string(data));
             text.setCharacterSize(16);
             text.setFillColor(sf::Color::White);
             auto bounds = text.getLocalBounds();
-            text.setPosition(xPos + shape.getRadius() - bounds.width / 2, yPos + shape.getRadius() - bounds.height);
+            text.setPosition(xPos + shape.getRadius() - bounds.width / 2, yPos + shape.getRadius() - bounds.height / 2);
+
+            // Debugging: Check if font is valid
+            if (!text.getFont()) 
+            {
+                std::cerr << "[ERROR] Font was lost in TreeNode constructor for node: " << data << std::endl;
+            } 
+            else 
+            {
+                std::cout << "[INFO] Font successfully assigned to node: " << data << std::endl;
+            }
         }
 
     };
@@ -47,11 +82,27 @@ public:
     double windowHeight;
     sf::Font mFont;
 
+    void printNodeData(TreeNode* pNode)
+    {
+        if (pNode == nullptr) return;
+
+        printNodeData(pNode->pLeft);
+        cout << pNode->data << " " << pNode->position.x << " " << pNode->position.y << " " << pNode->text.getString().toAnsiString() << endl ;
+        printNodeData(pNode->pRight);
+    }
+
     virtual void insert(T data, TreeNode*& pNode, float xPos, float yPos, float offset, sf::Font& font)
     {
+        if (!font.getInfo().family.empty()) {
+            std::cout << "[INFO] Font is still valid inside insert(): " << font.getInfo().family << std::endl;
+        } else {
+            std::cerr << "[ERROR] Font is lost inside insert() before node creation!" << std::endl;
+        }
+
         if (pNode == nullptr)
         {
-            pNode = new TreeNode(data, font, xPos, yPos);  // Link the new node
+            std::cout << "[DEBUG] Inserting node with value: " << data << std::endl;
+            pNode = new TreeNode(data, font, xPos, yPos);
             return;
         }
 
@@ -64,6 +115,7 @@ public:
             insert(data, pNode->pRight, xPos + offset, yPos + 150, offset / 2, font);
         }
     }
+
 
     virtual void remove(T data, TreeNode*& pNode)
     {
@@ -156,6 +208,25 @@ public:
         return std::max(leftHeight, rightHeight) + 1;
     }
 
+    void updateNodePositions(typename GraphicTree<T>::TreeNode* pNode, float xPos, float yPos, float offset)
+    {
+        if (pNode == nullptr) return;
+
+        pNode->position = {xPos, yPos};
+        pNode->shape.setPosition(xPos, yPos);
+        auto bounds = pNode->text.getLocalBounds();
+        pNode->text.setPosition(xPos + pNode->shape.getRadius() - bounds.width / 2, yPos + pNode->shape.getRadius() - bounds.height);
+
+        if (pNode->pLeft != nullptr)
+        {
+            updateNodePositions(pNode->pLeft, xPos - offset, yPos + 150, offset / 2);
+        }
+        if (pNode->pRight != nullptr)
+        {
+            updateNodePositions(pNode->pRight, xPos + offset, yPos + 150, offset / 2);
+        }
+    }
+
     virtual void draw(sf::RenderWindow& window, TreeNode* pNode)
     {
         if (pNode == nullptr) return;
@@ -200,18 +271,24 @@ template <class T>
 class TreeWindow {
 public:
     TreeWindow(float width, float height, sf::Font& font)
-        : windowWidth(width), windowHeight(height), mFont(font), isRunning(true) {
+        : windowWidth(width), windowHeight(height), mFont(font), isRunning(true) 
+    {
         loadColors(colors);
+
+        std::cout << "[INFO] TreeWindow received valid font: " << mFont.getInfo().family << std::endl;
     }
 
-    void runVisual(sf::RenderWindow& window) {
+    void runVisual(sf::RenderWindow& window) 
+    {
         loadButtonUI(UI, mFont, windowWidth, windowHeight, colors);
 
-        while (window.isOpen()) {
+        while (window.isOpen()) 
+        {
             processEvents(window);
             render(window);
 
-            if (!isRunning) {
+            if (!isRunning) 
+            {
                 isRunning = true;
                 return;
             }
@@ -221,7 +298,7 @@ public:
 protected:
     double windowWidth;
     double windowHeight;
-    sf::Font mFont;
+    sf::Font mFont;  // Copying the font instead of referencing
     sf::RectangleShape background;
     sf::Color backgroundColor;
     bool isRunning;
@@ -249,7 +326,6 @@ protected:
                 isRunning = false;
             }
 
-            // first is button, second it textbox
             for (auto& UI_Element : UI) 
             {
                 handleTextInput(window, event, UI_Element);
@@ -294,12 +370,12 @@ protected:
             {
                 if (buttonStr == "Insert") 
                 {
-                    tree->insert(std::stoi(inputStr), mFont);
+                    tree->insert(std::stoi(inputStr));
                 }
 
                 if (buttonStr == "Remove") 
                 {
-                    tree->remove(std::stoi(inputStr));
+                    tree->remove(std::stoi(inputStr), tree->root);
                 }
             }
         }
@@ -310,7 +386,16 @@ protected:
     virtual void render(sf::RenderWindow& window) 
     {
         window.clear(colors.backgroundElementsColor);
-        tree->draw(window);
+
+        if (tree->root != nullptr)
+        {
+            tree->printNodeData(tree->root);
+            std::cout << std::endl << windowWidth << " " << windowHeight << std::endl;
+            pause();  // Pause for user input
+
+            tree->draw(window);
+        }
+        
         drawUI(window);
         window.display();
     }

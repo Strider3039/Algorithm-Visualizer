@@ -26,3 +26,11 @@ using std::string;
 using std::vector;
 using std::pair;
 
+inline void pause() {
+#ifdef _WIN32
+    system("pause");
+#else
+    std::cout << "Press Enter to continue...";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+#endif
+}

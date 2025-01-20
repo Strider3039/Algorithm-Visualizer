@@ -69,7 +69,7 @@ int main(void)
 
     GraphicList graphicListObj(sf::Vector2i(screens[internalDisplay].width, screens[internalDisplay].height));
     BSTWindow<int> bst(screens[internalDisplay].width, screens[internalDisplay].height, font);
-    AVLWindow<int> avl(screens[internalDisplay].width, screens[internalDisplay].height, font);
+    //AVLWindow<int> avl(screens[internalDisplay].width, screens[internalDisplay].height, font);
 
     mainMenuScreen(background, backgroundTexture, title, font, window);
     
@@ -129,7 +129,7 @@ int main(void)
 
                     if (buttonItr._getStr() == "AVL Tree")
                     {
-                        avl.runVisual(window);
+                        //avl.runVisual(window);
                     }
                 }
             }
