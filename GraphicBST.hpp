@@ -18,11 +18,7 @@ class GraphicBST : public GraphicTree<T>
 {
 public:
     GraphicBST(float wWidth, float wHeight, sf::Font& font)
-    : GraphicTree<T>(wWidth, wHeight), mFont(font)
-    {
-        root = nullptr;
-
-    }
+    : GraphicTree<T>(wWidth, wHeight), mFont(font) {}
 
     void remove(T data)
     {
@@ -35,9 +31,6 @@ public:
     }
 
 protected:
-    float windowWidth;
-    float windowHeight;
     sf::Font mFont;  // Storing a copy of the font instead of a reference
-    typename GraphicTree<T>::TreeNode* root;
 
 };

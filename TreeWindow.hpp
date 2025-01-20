@@ -84,7 +84,7 @@ public:
         printNodeData(pNode->pRight);
     }
 
-    void insert(T data, TreeNode*& pNode, float xPos, float yPos, float offset, sf::Font& font)
+    virtual void insert(T data, TreeNode*& pNode, float xPos, float yPos, float offset, sf::Font& font)
     {
         if (pNode == nullptr)
         {
@@ -205,11 +205,11 @@ public:
 
         if (pNode->pLeft != nullptr)
         {
-            updateNodePositions(pNode->pLeft, xPos - offset, yPos + 150, offset / 2);
+            this->updateNodePositions(pNode->pLeft, xPos - offset, yPos + 150, offset / 2);
         }
         if (pNode->pRight != nullptr)
         {
-            updateNodePositions(pNode->pRight, xPos + offset, yPos + 150, offset / 2);
+            this->updateNodePositions(pNode->pRight, xPos + offset, yPos + 150, offset / 2);
         }
     }
 

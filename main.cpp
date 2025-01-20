@@ -1,6 +1,7 @@
 #include "Stack.hpp"
 #include "menuItems.hpp"
 #include "listWindow.hpp"
+#include "BSTWindow.hpp"
 #include "AVLWindow.hpp"
 #include "GraphicList.hpp"
 #include <SFML/System/Vector2.hpp>
@@ -69,7 +70,7 @@ int main(void)
 
     GraphicList graphicListObj(sf::Vector2i(screens[internalDisplay].width, screens[internalDisplay].height));
     BSTWindow<int> bst(screens[internalDisplay].width, screens[internalDisplay].height, font);
-    //AVLWindow<int> avl(screens[internalDisplay].width, screens[internalDisplay].height, font);
+    AVLWindow<int> avl(screens[internalDisplay].width, screens[internalDisplay].height, font);
 
     mainMenuScreen(background, backgroundTexture, title, font, window, colors);
     
@@ -129,7 +130,7 @@ int main(void)
 
                     if (buttonItr._getStr() == "AVL Tree")
                     {
-                        //avl.runVisual(window);
+                        avl.runVisual(window);
                     }
                 }
             }

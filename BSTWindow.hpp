@@ -1,5 +1,6 @@
 #include "GraphicBST.hpp"
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 template <class T>
 class BSTWindow : public TreeWindow<T> {
@@ -23,6 +24,7 @@ private:
 
     void handleKeyPress(sf::Keyboard::Key key, sf::RenderWindow& window) override 
     {
+
         if (key == sf::Keyboard::R) 
         {
             this->tree->resetHelper(this->tree->root);
