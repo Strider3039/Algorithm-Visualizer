@@ -92,6 +92,7 @@ public:
 
         this->shape = shape;
         shape._setPosititon(pos);
+        setDirection(sf::Vector2i(1, 1));
     }
 
     void setShape(Button &shape)
