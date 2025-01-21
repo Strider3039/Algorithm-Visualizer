@@ -19,7 +19,7 @@
 #include "menuItems.hpp"
 #include <algorithm>
 
-template <class T>
+template <class nodeType>
 class WindowBase
 {
 public:
@@ -130,9 +130,9 @@ public:
         newNode._setFillColor(colors.primaryText);
         newNode._setOutlineThickness(0);
         Particle newParticle(newNode._getPosition().x, newNode._getPosition().y, 12, 1.5, newNode);
-        newParticle.setDirection(sf::Vector2i(1, 1));
         nodes.push_back(newParticle);
         //nodes.push_back(newNode);
+        count++;
     }
 
     void clearData()
@@ -141,7 +141,7 @@ public:
         UI.clear();
     }
 
-    void remove(std::pair<Button, TextBox>& itr)
+    virtual void remove(std::pair<Button, TextBox>& itr)
     {
         std::string str = itr.second._getText();
         cout << "Removing: " << str << endl;
@@ -157,6 +157,7 @@ public:
                 --i;
             }
         }
+        count--;
     }
 
     bool checkInput(std::pair<Button, TextBox>& itr)
@@ -202,6 +203,17 @@ public:
         cout << "Clearing" << endl;
         nodes.clear();
     }
+    
+    void runVisual(sf::RenderWindow& window)
+    {
+        sf::Event event;
+
+        while (window.isOpen())
+        {
+            if (handleEvents(window, event)) {return;}
+            render(window);
+        }
+    }
 
     /*
         *if it involves Particle, use <T>*
@@ -214,13 +226,14 @@ public:
         3. handle text input ---
         4. handle buttons ---
         5. virtual insert ---
-        6. remove ---
+        6.  virtual remove ---
         7. check input ---
         8. draw UI ---
         9. virtual draw nodes // virtual becasue we update colors for list ---
         10. reset event ---
         11. draw edges ---
         12. clear ---
+        13. run visual ---
 
         Members:
 
@@ -238,7 +251,8 @@ protected:
     sf::Vector2i screenDimensions;
     sf::Font font;
     std::vector<std::pair<Button, TextBox>> UI;
-    std::vector<T> nodes;   // T = Particle for linked lsit
+    std::vector<nodeType> nodes;   // T = Particle for linked lsit
     sf::Event emptyEvent;
     Colors colors;
+    int count;
 };

@@ -26,20 +26,9 @@ public:
     GraphicList() : WindowBase<Particle>() {}
     GraphicList(sf::Vector2i screenDimensions) : WindowBase<Particle>(screenDimensions)
     {
+        loadListUI(UI, font, screenDimensions.x, screenDimensions.y, colors);
         loadColors(colors);
         this->screenDimensions = screenDimensions;
-    }
-
-    void runVisual(sf::RenderWindow& window)
-    {
-        loadListUI(UI, font, screenDimensions.x, screenDimensions.y, colors);
-        sf::Event event;
-
-        while (window.isOpen())
-        {
-            if (handleEvents(window, event)) {return;}
-            render(window);
-        }
     }
 
 private:
@@ -147,23 +136,6 @@ private:
             }
         }
     }
-
-    // void insert(std::pair<Button, TextBox>& itr) override
-    // {
-    //     if (checkInput(itr))
-    //     {
-    //         cout << "ERROR: Invalid Input" << endl;
-    //         return;
-    //     }
-
-    //     std::cout << "Inserting: " << itr.second._getText() << std::endl;
-    //     Button newNode(itr.second._getText(), font, sf::Vector2f(500, 500), 100);
-    //     newNode._setFillColor(colors.primaryText);
-    //     newNode._setOutlineThickness(0);
-    //     Particle newParticle(newNode._getPosition().x, newNode._getPosition().y, 12, 1.5, newNode); 
-    //     newParticle.setDirection(sf::Vector2i(1, 1));
-    //     nodes.push_back(newParticle);
-    // }
 
     void render(sf::RenderWindow& window) override 
     {

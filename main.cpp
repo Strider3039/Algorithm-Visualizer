@@ -1,9 +1,9 @@
 #include "Stack.hpp"
 #include "menuItems.hpp"
-#include "listWindow.hpp"
 #include "BSTWindow.hpp"
 #include "AVLWindow.hpp"
 #include "GraphicList.hpp"
+#include "GraphicStack.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include <X11/X.h>
@@ -69,6 +69,7 @@ int main(void)
     sf::Text title;
 
     GraphicList graphicListObj(sf::Vector2i(screens[internalDisplay].width, screens[internalDisplay].height));
+    GraphicStack graphicStackObj(sf::Vector2i(screens[internalDisplay].width, screens[internalDisplay].height));
     BSTWindow<int> bst(screens[internalDisplay].width, screens[internalDisplay].height, font);
     AVLWindow<int> avl(screens[internalDisplay].width, screens[internalDisplay].height, font);
 
@@ -120,6 +121,11 @@ int main(void)
                     {
                         graphicListObj.runVisual(window);
                         graphicListObj.clearData();
+                    }
+                    if (buttonItr._getStr() == "Stack")
+                    {
+                        graphicStackObj.runVisual(window);
+                        graphicStackObj.clearData();
                     }
 
                     if (buttonItr._getStr() == "Binary Tree")

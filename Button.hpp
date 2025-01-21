@@ -41,6 +41,20 @@ Button(std::string _text, sf::Font& _font, sf::Vector2f position, double width)
 
     this->centerBoxPos();
 }
+Button(std::string _text, sf::Font& _font, sf::Vector2f position, double width, int charSize)
+{
+
+    text = sf::Text(_text, _font, charSize);
+    text.setFillColor(sf::Color::White);
+
+    box.setFillColor(sf::Color::Black);
+    box.setOutlineColor(sf::Color::White);
+    box.setOutlineThickness(5);
+    positionVector = position;
+    boxWidth = width;
+
+    this->centerBoxPos();
+}
 
 /*
 added bool return value. returns true when button is clicked
@@ -140,6 +154,18 @@ void _setOutlineThickness(float n)
 {
     box.setOutlineThickness(n);
     baseOutlineThickness = 0;
+}
+
+void _setScale(double xScale, double yScale)
+{
+    box.setScale(xScale, yScale);
+    //text.setScale(xScale,yScale);
+
+    // text.setPosition(sf::Vector2f(box.getSize().x / 2.f - box.getLocalBounds().width,box.getSize().y / 2.f));
+    // // boxWidth *= xScale;
+      text.setCharacterSize(text.getCharacterSize() * yScale);
+      text.setPosition(text.getPosition().x + 5550, text.getPosition().y);
+    // //centerBoxPos();
 }
 
 std::string _getStr()
