@@ -31,9 +31,7 @@ public:
 
         loadStackUI(UI, font, screenDimensions.x, screenDimensions.y, colors);
     }
-
     
-
 private:
 
     void insert(std::pair<Button, TextBox>& itr) override

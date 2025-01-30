@@ -138,7 +138,6 @@ public:
     void clearData()
     {
         nodes.clear();
-        UI.clear();
     }
 
     virtual void remove(std::pair<Button, TextBox>& itr)

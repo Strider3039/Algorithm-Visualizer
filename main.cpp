@@ -4,6 +4,7 @@
 #include "AVLWindow.hpp"
 #include "GraphicList.hpp"
 #include "GraphicStack.hpp"
+#include "GraphicQueue.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include <X11/X.h>
@@ -70,6 +71,7 @@ int main(void)
 
     GraphicList graphicListObj(sf::Vector2i(screens[internalDisplay].width, screens[internalDisplay].height));
     GraphicStack graphicStackObj(sf::Vector2i(screens[internalDisplay].width, screens[internalDisplay].height));
+    GraphicQueue graphicQueueObj(sf::Vector2i(screens[internalDisplay].width, screens[internalDisplay].height));
     BSTWindow<int> bst(screens[internalDisplay].width, screens[internalDisplay].height, font);
     AVLWindow<int> avl(screens[internalDisplay].width, screens[internalDisplay].height, font);
 
@@ -127,7 +129,11 @@ int main(void)
                         graphicStackObj.runVisual(window);
                         graphicStackObj.clearData();
                     }
-
+                    if (buttonItr._getStr() == "Queue")
+                    {
+                        graphicQueueObj.runVisual(window);
+                        graphicQueueObj.clearData();
+                    }
                     if (buttonItr._getStr() == "Binary Tree")
                     {
                         bst.runVisual(window);

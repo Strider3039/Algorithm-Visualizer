@@ -24,14 +24,19 @@ class GraphicList : public WindowBase<Particle>
 {
 public:
     GraphicList() : WindowBase<Particle>() {}
+    GraphicList(sf::Vector2i screenDimensions, int n) : WindowBase<Particle>(screenDimensions) {}
     GraphicList(sf::Vector2i screenDimensions) : WindowBase<Particle>(screenDimensions)
     {
         loadListUI(UI, font, screenDimensions.x, screenDimensions.y, colors);
         loadColors(colors);
         this->screenDimensions = screenDimensions;
     }
+    ~GraphicList()
+    {
+        clearData();
+    }
 
-private:
+protected:
 
     /*returns true if window must be closed, false otherwise*/
     virtual bool handleEvents(sf::RenderWindow& window, sf::Event& event) override
@@ -191,7 +196,7 @@ private:
         }
     }
 
-    void updateHeadColor()
+    virtual void updateHeadColor()
     {
         if (!nodes.empty())
         {
